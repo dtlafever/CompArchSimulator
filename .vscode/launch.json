@@ -8,7 +8,7 @@
             "type": "java",
             "name": "Debug (Launch)",
             "request": "launch",
-            "mainClass": "Main",
+            "mainClass": "FrontPanel",
             "args": ""
         },
         {
