@@ -19,17 +19,17 @@ public class StartPanelController {
      * automatically executed by application after loading
      */
     @FXML
-    void initialize(){
+    void initialize() {
 
     }
 
     /**
      * act to clicks on startBtn
-     *
+     * <p>
      * switch scene to main scene
-     * */
+     */
     @FXML
-    void handleStartBtn(MouseEvent event){
+    void handleStartBtn(MouseEvent event) {
         System.out.println("Simulation Started");
         startBtn.setDisable(true);
         try {

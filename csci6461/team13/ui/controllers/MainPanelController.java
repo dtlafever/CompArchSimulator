@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 public class MainPanelController {
 
     @FXML
-    void initialize(){
+    void initialize() {
 
     }
 

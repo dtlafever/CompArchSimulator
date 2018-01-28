@@ -10,7 +10,7 @@ public class CoreOperations {
     // the fetch-decode-execute cycle in another class
 
     // Grab the instruction at the PC location
-    public static void fetch(Registers registers, MCU mcu){
+    public static void fetch(Registers registers, MCU mcu) {
         registers.setMAR(registers.getPC());
         registers.setMBR(mcu.getWord(registers.MAR));
         registers.incrementPC(); // we have a seperate adder for PC
@@ -18,11 +18,11 @@ public class CoreOperations {
     }
 
     // Decode the current instruction.
-    public static void decode(){
+    public static void decode() {
 
     }
 
-    public static void execute(){
+    public static void execute() {
 
     }
 

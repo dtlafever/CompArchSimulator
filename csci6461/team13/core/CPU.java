@@ -11,11 +11,11 @@ public class CPU {
     private MCU mcu;
 
     // initialize a new cpu
-    public CPU(){
+    public CPU() {
         // initialize the registers and memory control unit
         registers = new Registers();
         mcu = new MCU();
-        System.out.println("CPU "+CPU_ID+" started");
+        System.out.println("CPU " + CPU_ID + " started");
     }
 
     //----------------------
@@ -23,7 +23,7 @@ public class CPU {
     //----------------------
 
     // TODO: 1/27/18 [Zhiyuan Ling] I'm not sure about these setters, we'll get rid of them if you think they are certainly useless
-    
+
     public String getCPU_ID() {
         return CPU_ID;
     }
