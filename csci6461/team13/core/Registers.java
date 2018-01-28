@@ -1,3 +1,5 @@
+package csci6461.team13.core;
+
 // NOTE: we are using integers for each of the registers.
 //       This allows us to use signed if we need it, otherwise
 //       just act like it is unsigned since nothing in the registers
@@ -24,7 +26,7 @@ public class Registers{
     // EqualOrNot = 3
     int CC; 
 
-    // Machine Fault Register: contains the ID code if 
+    // CPU Fault Register: contains the ID code if
     // a machine fault after it occurs
     // Illegal Memory Address to Reserved Locations = 0
     // Illegal TRAP code                            = 1
@@ -45,7 +47,7 @@ public class Registers{
     // to be executed
     int IR;
 
-    // Machine Status Register: certain bits
+    // CPU Status Register: certain bits
     // record the status of the health of the machine
     int MSR;
 
@@ -93,7 +95,7 @@ public class Registers{
     }
 
     // Set all registers to 0
-    public resetRegisters(){
+    public void resetRegisters(){
         this.CC = 0;
         this.IR = 0;
         this.MAR = 0;

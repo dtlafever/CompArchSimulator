@@ -1,3 +1,5 @@
+package csci6461.team13.core;
+
 import java.util.ArrayList;
 
 // Memory Control Unit
@@ -6,7 +8,7 @@ import java.util.ArrayList;
 // 1 - Reserved for a machine fault
 // 2 - Store PC for Trap
 // 3 - Not Used
-// 4 - Store PC for Machine Fault
+// 4 - Store PC for CPU Fault
 // 5 - Not Used
 public class MCU{
     // 16 bit words, so be careful

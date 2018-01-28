@@ -1,4 +1,6 @@
-//NOTE: we might want this broken up into many 
+package csci6461.team13.core;
+
+//NOTE: we might want this broken up into many
 //      classes (1 for each instruction) but it 
 //      depends on how we want to do this
 
