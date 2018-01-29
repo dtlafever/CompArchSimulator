@@ -26,3 +26,11 @@ hs_err_pid*
 out/
 build/
 *.iml
+
+.gradle
+
+# VS Code files
+.project
+.settings
+.classpath
+bin/
