@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.csci6461.team13.simulator.ui.controllers.MainPanelController">
+    <children>
+        <AnchorPane>
+            <children>
+                <Label alignment="CENTER" layoutX="393.0" layoutY="83.0" style="-fx-background-color: steelblue;"
+                       text="Simulator X" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                       AnchorPane.topAnchor="0.0">
+                    <font>
+                        <Font name="Verdana Pro Bold" size="21.0"/>
+                    </font>
+                    <padding>
+                        <Insets bottom="30.0" top="30.0"/>
+                    </padding>
+                </Label>
+            </children>
+        </AnchorPane>
+        <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <items>
+                <VBox SplitPane.resizableWithParent="false">
+                    <children>
+                        <TitledPane animated="false" collapsible="false" text="Common Registers">
+                            <content>
+                                <VBox>
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT">
+                                            <children>
+                                                <Label prefWidth="40.0" text="PC">
+                                                    <HBox.margin>
+                                                        <Insets/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="176.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="IR">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="105.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="MAR">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="145.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="MBR">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="205.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="MSR">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT">
+                                            <children>
+                                                <Label prefWidth="40.0" text="CC">
+                                                    <HBox.margin>
+                                                        <Insets/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <Label alignment="CENTER" prefWidth="60.0" text="N/A"/>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT">
+                                            <children>
+                                                <Label prefWidth="40.0" text="MFR">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <Label alignment="CENTER" prefWidth="60.0" text="N/A"/>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </TitledPane>
+                        <TitledPane animated="false" collapsible="false" text="General Purpose Registers">
+                            <content>
+                                <VBox>
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="234.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="R0">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="263.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="R1">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="292.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="R2">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="321.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="R3">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </TitledPane>
+                        <TitledPane animated="false" collapsible="false" text="Index Registers">
+                            <content>
+                                <VBox>
+                                    <children>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="350.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="X1">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="379.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="X2">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="408.0">
+                                            <children>
+                                                <Label prefWidth="40.0" text="X3">
+                                                    <HBox.margin>
+                                                        <Insets top="5.0"/>
+                                                    </HBox.margin>
+                                                </Label>
+                                                <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                    <HBox.margin>
+                                                        <Insets left="5.0" right="5.0"/>
+                                                    </HBox.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0"/>
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0"/>
+                                            </VBox.margin>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </TitledPane>
+                        <ButtonBar>
+                            <buttons>
+                                <Button alignment="CENTER" mnemonicParsing="false" styleClass="success" text="SUBMIT">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND"/>
+                                    </cursor>
+                                </Button>
+                            </buttons>
+                            <VBox.margin>
+                                <Insets bottom="5.0" right="20.0" top="5.0"/>
+                            </VBox.margin>
+                        </ButtonBar>
+                    </children>
+                </VBox>
+                <TitledPane animated="false" collapsible="false" text="Overview">
+                    <content>
+                        <HBox prefHeight="100.0" prefWidth="300.0"/>
+                    </content>
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </TitledPane>
+            </items>
+        </SplitPane>
+    </children>
+</VBox>
