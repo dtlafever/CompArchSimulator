@@ -8,8 +8,7 @@ import java.net.URL;
 
 public class FxmlUtil {
 
-    public static final String UI_RESOURCE_PATH_PREFIX =
-            "/";
+    public static final String UI_RESOURCE_PATH_PREFIX = "/";
 
     /**
      * load node from fxml file

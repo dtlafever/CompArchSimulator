@@ -40,8 +40,8 @@ public class StartPanelController {
             // load the main scene, then current scene will dismiss
             Parent root = FxmlUtil.loadAsNode("main.fxml");
             FxmlUtil.addStylesheets(root, "bootstrap3.css");
-            primaryStage.setResizable(true);
             primaryStage.setScene(new Scene(root));
+            primaryStage.setResizable(true);
             primaryStage.setMaximized(true);
         } catch (IOException e) {
             e.printStackTrace();
