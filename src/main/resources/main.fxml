@@ -6,15 +6,18 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
-<VBox prefHeight="800.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csci6461.team13.simulator.ui.controllers.MainPanelController">
+<VBox prefHeight="920.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csci6461.team13.simulator.ui.controllers.MainPanelController">
     <children>
         <AnchorPane>
             <children>
@@ -28,11 +31,123 @@
                 </Label>
             </children>
         </AnchorPane>
-        <SplitPane dividerPositions="0.44419642857142855" VBox.vgrow="ALWAYS">
-            <items>
-            <ScrollPane fitToHeight="true" fitToWidth="true" prefWidth="129.0">
-               <content>
-                      <VBox>
+      <ButtonBar>
+         <buttons>
+            <Button fx:id="m_start" mnemonicParsing="false" styleClass="success" text="Start" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="m_step" mnemonicParsing="false" styleClass="primary" text="Step" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="m_ipl" mnemonicParsing="false" styleClass="warning" text="IPL" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="m_reset" mnemonicParsing="false" styleClass="danger" text="Reset" textAlignment="CENTER">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="m_load" mnemonicParsing="false" text="Load" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+         </buttons>
+         <VBox.margin>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+         </VBox.margin>
+      </ButtonBar>
+      <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+         <content>
+            <HBox>
+               <children>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                            <TitledPane animated="false" collapsible="false" text="Overview">
+                                <font>
+                                    <Font name="System Bold" size="14.0" />
+                                </font>
+                           <content>
+                              <HBox alignment="CENTER_LEFT">
+                                 <children>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Program">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <TextArea fx:id="m_prog" editable="false" prefHeight="300.0" prefWidth="300.0" promptText="N/A">
+                                             <font>
+                                                <Font name="Courier" size="13.0" />
+                                             </font>
+                                          </TextArea>
+                                          <HBox alignment="CENTER">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Executing">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Text>
+                                                <TextField fx:id="m_exec" editable="false" prefWidth="135.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets left="20.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="30.0" top="30.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" VBox.vgrow="NEVER">
+                                             <children>
+                                                <Button fx:id="m_next" mnemonicParsing="false" styleClass="danger" text="Next" textAlignment="CENTER" HBox.hgrow="NEVER">
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                </Button>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" top="20.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </content>
+                            </TitledPane>
+                        <TitledPane animated="false" collapsible="false" text="Memory Control">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <content>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                           </content>
+                        </TitledPane>
+                     </children>
+                  </VBox>
+                      <VBox HBox.hgrow="NEVER">
                           <children>
                               <TitledPane animated="false" collapsible="false" text="Common Registers">
                                   <content>
@@ -45,7 +160,7 @@
                                                               <Insets />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_pc" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -65,7 +180,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_ir" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -85,7 +200,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_mar" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -105,7 +220,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_mbr" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -125,7 +240,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_msr" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -145,7 +260,7 @@
                                                               <Insets />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" prefWidth="60.0" text="N/A" />
+                                                      <Label alignment="CENTER" prefWidth="60.0" text="N/A" HBox.hgrow="ALWAYS" />
                                                   </children>
                                                   <VBox.margin>
                                                       <Insets bottom="5.0" top="5.0" />
@@ -158,7 +273,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <Label alignment="CENTER" prefWidth="60.0" text="N/A" />
+                                                      <Label alignment="CENTER" prefWidth="60.0" text="N/A" HBox.hgrow="ALWAYS" />
                                                   </children>
                                                   <VBox.margin>
                                                       <Insets bottom="5.0" top="5.0" />
@@ -182,7 +297,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_r0" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -202,7 +317,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_r1" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -222,7 +337,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_r2" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -242,7 +357,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_r3" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -273,7 +388,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_x1" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -293,7 +408,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_x2" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -313,7 +428,7 @@
                                                               <Insets top="5.0" />
                                                           </HBox.margin>
                                                       </Label>
-                                                      <TextField alignment="CENTER" prefWidth="60.0" promptText="N/A">
+                                                      <TextField fx:id="m_x3" alignment="CENTER" editable="false" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                           <HBox.margin>
                                                               <Insets left="5.0" right="5.0" />
                                                           </HBox.margin>
@@ -335,29 +450,26 @@
                               </TitledPane>
                               <ButtonBar>
                                   <buttons>
-                                      <Button alignment="CENTER" mnemonicParsing="false" styleClass="success" text="SUBMIT">
+                                      <Button fx:id="m_save" alignment="CENTER" mnemonicParsing="false" styleClass="success" text="SAVE">
                                           <cursor>
                                               <Cursor fx:constant="HAND" />
                                           </cursor>
                                       </Button>
                                   </buttons>
                                   <VBox.margin>
-                                      <Insets bottom="5.0" right="20.0" top="5.0" />
+                                      <Insets bottom="5.0" right="10.0" top="5.0" />
                                   </VBox.margin>
                               </ButtonBar>
                           </children>
                       </VBox>
-               </content>
-            </ScrollPane>
-                <TitledPane animated="false" collapsible="false" text="Overview">
-                    <content>
-                        <HBox prefHeight="100.0" prefWidth="300.0" />
-                    </content>
-                    <font>
-                        <Font size="20.0" />
-                    </font>
-                </TitledPane>
-            </items>
-        </SplitPane>
+               </children>
+            </HBox>
+         </content>
+      </ScrollPane>
+      <TextFlow textAlignment="CENTER" VBox.vgrow="NEVER">
+         <children>
+            <Label text="Simulator X" />
+         </children>
+      </TextFlow>
     </children>
 </VBox>

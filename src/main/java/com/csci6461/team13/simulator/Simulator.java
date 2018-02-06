@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class Simulator extends Application {
 
-    CPU cpu;
+    private CPU cpu;
 
     // primaryStage is the root component of the UI module
     // it will be initialized in the start method
@@ -23,7 +23,6 @@ public class Simulator extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         // cpu settings
-        // TODO: 1/27/18 I'm thinking about running the cpu in a separate thread, so that UI and CPU will be communicating across the threads
         cpu = new CPU();
 
         // main csci6461.team13.ui settings
@@ -45,5 +44,9 @@ public class Simulator extends Application {
      */
     public static Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public CPU getCpu(){
+        return cpu;
     }
 }
