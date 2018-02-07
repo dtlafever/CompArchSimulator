@@ -1,13 +1,12 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.Simulator;
-import com.csci6461.team13.simulator.util.FxmlUtil;
+import com.csci6461.team13.simulator.util.FXMLLoadResult;
+import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -38,9 +37,9 @@ public class StartPanelController {
         startBtn.setDisable(true);
         try {
             // load the main scene, then current scene will dismiss
-            Parent root = FxmlUtil.loadAsNode("main.fxml");
-            FxmlUtil.addStylesheets(root, "bootstrap3.css");
-            primaryStage.setScene(new Scene(root));
+            FXMLLoadResult result = FXMLUtil.loadAsNode("main.fxml");
+            FXMLUtil.addStylesheets(result.getNode(), "bootstrap3.css");
+            primaryStage.setScene(new Scene(result.getNode()));
             primaryStage.setResizable(true);
             primaryStage.setMaximized(true);
         } catch (IOException e) {

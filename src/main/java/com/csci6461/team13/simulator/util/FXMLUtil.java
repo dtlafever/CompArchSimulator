@@ -5,19 +5,26 @@ import javafx.scene.Parent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class FxmlUtil {
+public class FXMLUtil {
 
     public static final String UI_RESOURCE_PATH_PREFIX = "/";
+    public static ArrayList controllers = new ArrayList();
 
     /**
      * load node from fxml file
      * the provided path is only the file name
      */
-    public static final Parent loadAsNode(String path) throws IOException {
+    public static <T> FXMLLoadResult loadAsNode(String path) throws
+            IOException {
         URL url = loadAsUrl(UI_RESOURCE_PATH_PREFIX + path);
-        Parent node = FXMLLoader.load(url);
-        return node;
+        FXMLLoader loader = new FXMLLoader(url);
+        Parent node = loader.load();
+        FXMLLoadResult<T> result = new FXMLLoadResult<>();
+        result.setNode(node);
+        result.setController(loader.getController());
+        return result;
     }
 
     /**
@@ -25,7 +32,7 @@ public class FxmlUtil {
      * the provided path is full path
      */
     public static final URL loadAsUrl(String path) {
-        URL url = FxmlUtil.class.getResource(path);
+        URL url = FXMLUtil.class.getResource(path);
         return url;
     }
 
@@ -36,5 +43,9 @@ public class FxmlUtil {
     public static final void addStylesheets(Parent node, String path) {
         URL url = loadAsUrl(UI_RESOURCE_PATH_PREFIX + path);
         node.getStylesheets().add(url.toExternalForm());
+    }
+
+    public static final ArrayList getControllers(){
+        return controllers;
     }
 }

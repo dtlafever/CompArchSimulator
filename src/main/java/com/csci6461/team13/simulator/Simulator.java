@@ -1,15 +1,15 @@
 package com.csci6461.team13.simulator;
 
 import com.csci6461.team13.simulator.core.CPU;
-import com.csci6461.team13.simulator.util.FxmlUtil;
+import com.csci6461.team13.simulator.util.FXMLLoadResult;
+import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Simulator extends Application {
 
-    private CPU cpu;
+    private static CPU cpu;
 
     // primaryStage is the root component of the UI module
     // it will be initialized in the start method
@@ -28,11 +28,11 @@ public class Simulator extends Application {
         // main csci6461.team13.ui settings
 
         // load start scene
-        Parent root = FxmlUtil.loadAsNode("start.fxml");
-        FxmlUtil.addStylesheets(root, "bootstrap3.css");
+        FXMLLoadResult result = FXMLUtil.loadAsNode("start.fxml");
+        FXMLUtil.addStylesheets(result.getNode(), "bootstrap3.css");
 
         primaryStage.setTitle("CSCI6461 TEAM 13");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(result.getNode()));
         primaryStage.setResizable(false);
         primaryStage.show();
 
@@ -46,7 +46,7 @@ public class Simulator extends Application {
         return primaryStage;
     }
 
-    public CPU getCpu(){
+    public static CPU getCpu(){
         return cpu;
     }
 }
