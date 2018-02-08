@@ -1,8 +1,6 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.ui.helpers.RegisterEditHelper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,7 +13,7 @@ import javafx.scene.layout.HBox;
 public class RegisterEditPanelController {
 
     // property used to temporary bind register textfield
-    StringProperty valueProperty = new SimpleStringProperty();
+    public String newVal = null;
 
     @FXML
     private TextField re_name;
@@ -38,7 +36,9 @@ public class RegisterEditPanelController {
         // add onChange listener to value TextField
         re_val.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                String valueToParse = newValue.isEmpty() ? "0" : newValue;
+                String valueToParse = (newValue == null || newValue.isEmpty()) ?
+                        "0" :
+                        newValue;
                 int value = Integer.parseInt(valueToParse);
                 refreshBits(value);
             } catch (Exception ex) {
@@ -71,14 +71,14 @@ public class RegisterEditPanelController {
      * reset register edit panel
      */
     public void reset(String name, String value) {
-        valueProperty.set(value);
+        newVal = value;
         re_name.setText(name);
         re_val.setText(value);
     }
 
     @FXML
     void saveHandler(MouseEvent event) {
-        valueProperty.set(re_val.getText());
+        newVal = re_val.getText();
         ((Node) event.getSource()).getScene().getWindow().hide();
     }
 

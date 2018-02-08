@@ -1,6 +1,7 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.Simulator;
+import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
@@ -15,11 +16,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainPanelController {
 
     private Stage registerEditor = null;
     private RegisterEditPanelController registerEditPanelController = null;
+    private MainPanelHelper helper = null;
 
     // signals - states of different parts of simulator
     private SimpleStringProperty modeText = new SimpleStringProperty("RUN");
@@ -42,6 +45,10 @@ public class MainPanelController {
 
         m_start.disableProperty().bind(loaded.not().or(started));
         m_next.disableProperty().bind(mode.or(started.not()));
+
+        helper = new MainPanelHelper();
+
+        initRegisterBindings();
     }
 
     @FXML
@@ -147,12 +154,16 @@ public class MainPanelController {
         mode.set(true);
         on.set(false);
         loaded.set(false);
+        started.set(false);
+
+        Simulator.initCPU();
+        refreshRegisters(Simulator.getCpu().getRegisters());
     }
 
     @FXML
     void nextHandler(MouseEvent event) {
         // execute one instruction under debug mode
-
+        helper.execute(Simulator.getCpu(), null);
         // reset started signal
         started.set(started.not().get());
     }
@@ -165,7 +176,11 @@ public class MainPanelController {
         // run program according to different modes
         if (mode.get()) {
             // run mode
-            MainPanelHelper.executeAll(null);
+            for(Object instruction: new ArrayList<>()){
+                helper.execute(Simulator.getCpu(), instruction);
+                // refresh register values on the stage
+                refreshRegisters(Simulator.getCpu().getRegisters());
+            }
             // reset started signal
             started.set(started.not().get());
         } else {
@@ -258,9 +273,60 @@ public class MainPanelController {
         }
 
         String originalValue = register.getText();
-        register.textProperty().bind(registerEditPanelController.valueProperty);
         registerEditPanelController.reset(name, originalValue);
         registerEditor.showAndWait();
-        register.textProperty().unbind();
+        register.setText(registerEditPanelController.newVal);
     }
+
+    private void initRegisterBindings() {
+
+        Registers regs = Simulator.getCpu().getRegisters();
+
+        m_pc.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setPC(Integer.valueOf(newValue)));
+        m_ir.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setIR(Integer.valueOf(newValue)));
+        m_mar.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setMAR(Integer.valueOf(newValue)));
+        m_mbr.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setMBR(Integer.valueOf(newValue)));
+        m_msr.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setMSR(Integer.valueOf(newValue)));
+//        m_cc.textProperty().addListener((observable, oldValue, newValue) ->
+//                regs.setCC(Integer.valueOf(newValue)));
+//        m_mfr.textProperty().addListener((observable, oldValue, newValue) ->
+//                regs.setMFR(Integer.valueOf(newValue)));
+        m_r0.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setR0(Integer.valueOf(newValue)));
+        m_r1.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setR1(Integer.valueOf(newValue)));
+        m_r2.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setR2(Integer.valueOf(newValue)));
+        m_r3.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setR3(Integer.valueOf(newValue)));
+        m_x1.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setX1(Integer.valueOf(newValue)));
+        m_x2.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setX2(Integer.valueOf(newValue)));
+        m_x3.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setX3(Integer.valueOf(newValue)));
+    }
+
+    private void refreshRegisters(Registers regs){
+        m_pc.setText(Integer.toString(regs.getPC()));
+        m_ir.setText(Integer.toString(regs.getIR()));
+        m_mar.setText(Integer.toString(regs.getMAR()));
+        m_mbr.setText(Integer.toString(regs.getMBR()));
+        m_msr.setText(Integer.toString(regs.getMSR()));
+        m_cc.setText(Integer.toString(regs.getCC()));
+        m_mfr.setText(Integer.toString(regs.getMFR()));
+        m_r0.setText(Integer.toString(regs.getR0()));
+        m_r1.setText(Integer.toString(regs.getR1()));
+        m_r2.setText(Integer.toString(regs.getR2()));
+        m_r3.setText(Integer.toString(regs.getR3()));
+        m_x1.setText(Integer.toString(regs.getX1()));
+        m_x2.setText(Integer.toString(regs.getX2()));
+        m_x3.setText(Integer.toString(regs.getX3()));
+    }
+
 }

@@ -23,7 +23,7 @@ public class Simulator extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         // cpu settings
-        cpu = new CPU();
+        initCPU();
 
         // main csci6461.team13.ui settings
 
@@ -48,5 +48,9 @@ public class Simulator extends Application {
 
     public static CPU getCpu(){
         return cpu;
+    }
+
+    public static void initCPU(){
+        cpu = new CPU();
     }
 }
