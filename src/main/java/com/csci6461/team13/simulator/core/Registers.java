@@ -268,6 +268,29 @@ public class Registers {
         this.R3 = r3;
     }
 
+    public void setR(int num, int r) {
+        if (num == 0)
+            this.R0 = r;
+        if (num == 1)
+            this.R1 = r;
+        if (num == 2)
+            this.R2 = r;
+        if (num == 3)
+            this.R3 = r;
+    }
+
+    public int getR(int num) {
+        if (num == 0)
+            return this.R0;
+        if (num == 1)
+            return this.R1;
+        if (num == 2)
+            return this.R2;
+        if (num == 3)
+            return this.R3;
+        return 0;
+    }
+
     public int getX1() {
         return this.X1;
     }
@@ -291,4 +314,23 @@ public class Registers {
     public void setX3(int x3) {
         this.X3 = x3;
     }
+
+    public int getX(int num) {
+		if (num == 1)
+			return this.X1;
+		if (num == 2)
+			return this.X2;
+		if (num == 3)
+			return this.X3;
+		return 0;
+	}
+
+	public void setX(int num, int x) {
+		if (num == 1)
+			this.X1 = x;
+		if (num == 2)
+			this.X2 = x;
+		if (num == 3)
+			this.X3 = x;
+	}
 }

@@ -25,6 +25,7 @@ public class Simulator extends Application {
         // cpu settings
         cpu = new CPU();
 
+
         // main csci6461.team13.ui settings
 
         // load start scene
