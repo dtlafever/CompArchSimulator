@@ -1,6 +1,7 @@
 package com.csci6461.team13.simulator;
 
 import com.csci6461.team13.simulator.core.CPU;
+import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.application.Application;
@@ -14,6 +15,7 @@ public class Simulator extends Application {
     // primaryStage is the root component of the UI module
     // it will be initialized in the start method
     private static Stage primaryStage;
+    private static Signals signals = null;
 
     public static void main(String[] args) {
         launch(args);
@@ -24,6 +26,8 @@ public class Simulator extends Application {
 
         // cpu settings
         initCPU();
+
+        getSignals();
 
         // main csci6461.team13.ui settings
 
@@ -52,5 +56,13 @@ public class Simulator extends Application {
 
     public static void initCPU(){
         cpu = new CPU();
+    }
+
+    public static Signals getSignals(){
+        if(signals == null){
+            signals = new Signals();
+        }
+
+        return signals;
     }
 }

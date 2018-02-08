@@ -1,6 +1,7 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.ui.helpers.RegisterEditHelper;
+import com.csci6461.team13.simulator.util.UIComponentUtil;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -32,39 +33,7 @@ public class RegisterEditPanelController {
 
     @FXML
     private void initialize() {
-
-        // add onChange listener to value TextField
-        re_val.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                String valueToParse = (newValue == null || newValue.isEmpty()) ?
-                        "0" :
-                        newValue;
-                int value = Integer.parseInt(valueToParse);
-                refreshBits(value);
-            } catch (Exception ex) {
-                // if the new value is invalid
-                // restore the old value
-                // if old value is empty
-                // set to 0
-                if (oldValue.isEmpty()) {
-                    re_val.setText("0");
-                } else {
-                    re_val.setText(oldValue);
-                }
-            }
-        });
-
-        // add onChange listener to all RadioButtons
-        ObservableList<Node> bits = re_bits.getChildren();
-        for (Node btn : bits) {
-            ((RadioButton) btn).selectedProperty().addListener((observable, oldValue, newValue) -> {
-                boolean[] booleans = new boolean[bits.size()];
-                for (int i = 0; i < booleans.length; i++) {
-                    booleans[i] = ((RadioButton) bits.get(i)).isSelected();
-                }
-                refreshValue(booleans);
-            });
-        }
+        UIComponentUtil.bindValueToBits(re_val, re_bits);
     }
 
     /**

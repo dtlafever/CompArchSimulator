@@ -2,12 +2,15 @@ package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.Simulator;
 import com.csci6461.team13.simulator.core.Registers;
+import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
+import com.csci6461.team13.simulator.ui.helpers.MemControlHelper;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -26,25 +29,35 @@ public class MainPanelController {
 
     // signals - states of different parts of simulator
     private SimpleStringProperty modeText = new SimpleStringProperty("RUN");
-    private SimpleBooleanProperty mode = new SimpleBooleanProperty(true);
-    private SimpleBooleanProperty on = new SimpleBooleanProperty(false);
-    private SimpleBooleanProperty loaded = new SimpleBooleanProperty(false);
-    private SimpleBooleanProperty started = new SimpleBooleanProperty(false);
+
+    Signals signals;
 
     @FXML
     void initialize() {
-        m_ipl.disableProperty().bind(on);
-        m_overview.disableProperty().bind(on.not());
-        m_regs.disableProperty().bind(on.not());
-        m_mem.disableProperty().bind(on.not());
+        this.signals = Simulator.getSignals();
+
+        try {
+            FXMLLoadResult result = FXMLUtil.loadAsNode("mem_control.fxml");
+            m_mem.setContent(result.getNode());
+            ((MemControlController)result.getController()).set(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        m_ipl.disableProperty().bind(signals.on);
+        m_overview.disableProperty().bind(signals.on.not());
+        m_regs.disableProperty().bind(signals.on.not());
+        m_mem.disableProperty().bind(signals.on.not());
 
         m_mode.textProperty().bind(modeText);
-        m_mode.disableProperty().bind(loaded.not().or(started));
-        m_load.disableProperty().bind(on.not().or(started));
-        m_reset.disableProperty().bind(on.not().or(started));
+        m_mode.disableProperty().bind(signals.loaded.not().or(signals.started));
+        m_load.disableProperty().bind(signals.on.not().or(signals.started));
+        m_reset.disableProperty().bind(signals.on.not().or(signals.started));
 
-        m_start.disableProperty().bind(loaded.not().or(started));
-        m_next.disableProperty().bind(mode.or(started.not()));
+        m_start.disableProperty().bind(signals.loaded.not().or(signals.started));
+        m_next.disableProperty().bind(signals.mode.or(signals.started.not()));
 
         helper = new MainPanelHelper();
 
@@ -131,7 +144,7 @@ public class MainPanelController {
         // todo run ipl code
 
         // power on
-        on.set(true);
+        signals.on.set(true);
     }
 
     @FXML
@@ -139,23 +152,23 @@ public class MainPanelController {
         // todo load program
 
         // program loaded
-        loaded.set(true);
+        signals.loaded.set(true);
     }
 
     @FXML
     void modeHandler(MouseEvent event) {
         // toggle
-        mode.set(!mode.get());
-        modeText.set(mode.get() ? "RUN" : "DEBUG");
+        signals.mode.set(!signals.mode.get());
+        modeText.set(signals.mode.get() ? "RUN" : "DEBUG");
     }
 
     @FXML
     void resetHandler(MouseEvent event) {
-        mode.set(true);
+        signals.mode.set(true);
         modeText.set("RUN");
-        on.set(false);
-        loaded.set(false);
-        started.set(false);
+        signals.on.set(false);
+        signals.loaded.set(false);
+        signals.started.set(false);
 
         Simulator.initCPU();
         refreshRegisters(Simulator.getCpu().getRegisters());
@@ -166,16 +179,16 @@ public class MainPanelController {
         // execute one instruction under debug mode
         helper.execute(Simulator.getCpu(), null);
         // reset started signal
-        started.set(started.not().get());
+        signals.started.set(signals.started.not().get());
     }
 
     @FXML
     void startHandler(MouseEvent event) {
         // set the program started
-        started.set(true);
+        signals.started.set(true);
 
         // run program according to different modes
-        if (mode.get()) {
+        if (signals.mode.get()) {
             // run mode
             for(Object instruction: new ArrayList<>()){
                 helper.execute(Simulator.getCpu(), instruction);
@@ -183,7 +196,7 @@ public class MainPanelController {
                 refreshRegisters(Simulator.getCpu().getRegisters());
             }
             // reset started signal
-            started.set(started.not().get());
+            signals.started.set(signals.started.not().get());
         } else {
             // debug mode
         }
@@ -313,7 +326,7 @@ public class MainPanelController {
                 regs.setX3(Integer.valueOf(newValue)));
     }
 
-    private void refreshRegisters(Registers regs){
+    public void refreshRegisters(Registers regs){
         m_pc.setText(Integer.toString(regs.getPC()));
         m_ir.setText(Integer.toString(regs.getIR()));
         m_mar.setText(Integer.toString(regs.getMAR()));
@@ -330,4 +343,7 @@ public class MainPanelController {
         m_x3.setText(Integer.toString(regs.getX3()));
     }
 
+    public void refreshEntirePanel(){
+
+    }
 }
