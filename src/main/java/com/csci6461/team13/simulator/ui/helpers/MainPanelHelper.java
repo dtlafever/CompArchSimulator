@@ -1,48 +1,30 @@
 package com.csci6461.team13.simulator.ui.helpers;
 
-import com.csci6461.team13.simulator.core.Registers;
-
+import com.csci6461.team13.simulator.core.CPU;
+import com.csci6461.team13.simulator.util.Program;
 import java.util.ArrayList;
 
 public class MainPanelHelper {
 
-    private MainPanelHelper() {
-
-    }
-
-    /**
-     * save new register values
-     * */
-    public static void saveRegisters(Registers oldValues, Registers newValues){
-
-
-
-    }
-
     /**
      * execute a single instruction
-     * */
-    public static void execute(){
-
+     */
+    public boolean execute(CPU cpu, Object instruction) {
+        // execution
+        return true;
     }
 
     /**
      * execute multiple instructions
-     * */
-    public static void executeAll(ArrayList instructions){
-
+     */
+    public boolean executeAll(CPU cpu, ArrayList<Object> instructions) {
+        for (Object instruction : instructions) {
+            execute(cpu, instruction);
+        }
+        return true;
     }
 
-    /**
-     * switch mode between Run and Debug
-     * */
-    public static void switchMode(){
-
+    public Program loadProgram() {
+        return null;
     }
-
-
-
-
-
-
 }

@@ -1,8 +1,7 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.ui.helpers.RegisterEditHelper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import com.csci6461.team13.simulator.util.UIComponentUtil;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,7 +14,7 @@ import javafx.scene.layout.HBox;
 public class RegisterEditPanelController {
 
     // property used to temporary bind register textfield
-    StringProperty valueProperty = new SimpleStringProperty();
+    public String newVal = null;
 
     @FXML
     private TextField re_name;
@@ -34,51 +33,21 @@ public class RegisterEditPanelController {
 
     @FXML
     private void initialize() {
-
-        // add onChange listener to value TextField
-        re_val.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                String valueToParse = newValue.isEmpty() ? "0" : newValue;
-                int value = Integer.parseInt(valueToParse);
-                refreshBits(value);
-            } catch (Exception ex) {
-                // if the new value is invalid
-                // restore the old value
-                // if old value is empty
-                // set to 0
-                if (oldValue.isEmpty()) {
-                    re_val.setText("0");
-                } else {
-                    re_val.setText(oldValue);
-                }
-            }
-        });
-
-        // add onChange listener to all RadioButtons
-        ObservableList<Node> bits = re_bits.getChildren();
-        for (Node btn : bits) {
-            ((RadioButton) btn).selectedProperty().addListener((observable, oldValue, newValue) -> {
-                boolean[] booleans = new boolean[bits.size()];
-                for (int i = 0; i < booleans.length; i++) {
-                    booleans[i] = ((RadioButton) bits.get(i)).isSelected();
-                }
-                refreshValue(booleans);
-            });
-        }
+        UIComponentUtil.bindValueToBits(re_val, re_bits);
     }
 
     /**
      * reset register edit panel
      */
     public void reset(String name, String value) {
-        valueProperty.set(value);
+        newVal = value;
         re_name.setText(name);
         re_val.setText(value);
     }
 
     @FXML
     void saveHandler(MouseEvent event) {
-        valueProperty.set(re_val.getText());
+        newVal = re_val.getText();
         ((Node) event.getSource()).getScene().getWindow().hide();
     }
 

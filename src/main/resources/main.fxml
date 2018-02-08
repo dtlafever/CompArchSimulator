@@ -10,7 +10,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -117,7 +116,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" VBox.vgrow="NEVER">
                                              <children>
-                                                <Button fx:id="m_start" disable="true" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#startHandler" styleClass="danger" text="Start" textAlignment="CENTER">
+                                                <Button fx:id="m_start" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#startHandler" styleClass="danger" text="Start" textAlignment="CENTER">
                                                    <cursor>
                                                       <Cursor fx:constant="HAND" />
                                                    </cursor>
@@ -128,7 +127,7 @@
                                                       <Insets right="20.0" />
                                                    </HBox.margin>
                                                 </Button>
-                                                <Button fx:id="m_next" disable="true" mnemonicParsing="false" onMouseClicked="#nextHandler" styleClass="danger" text="Next" textAlignment="CENTER" HBox.hgrow="NEVER">
+                                                <Button fx:id="m_next" mnemonicParsing="false" onMouseClicked="#nextHandler" styleClass="danger" text="Next" textAlignment="CENTER" HBox.hgrow="NEVER">
                                                    <cursor>
                                                       <Cursor fx:constant="HAND" />
                                                    </cursor>
@@ -159,9 +158,6 @@
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
-                           <content>
-                              <BorderPane prefHeight="200.0" prefWidth="200.0" />
-                           </content>
                         </TitledPane>
                      </children>
                   </VBox>

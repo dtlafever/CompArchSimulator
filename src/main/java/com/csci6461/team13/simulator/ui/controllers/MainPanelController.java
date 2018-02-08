@@ -1,12 +1,16 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.Simulator;
+import com.csci6461.team13.simulator.core.Registers;
+import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
+import com.csci6461.team13.simulator.ui.helpers.MemControlHelper;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -15,33 +19,49 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainPanelController {
 
     private Stage registerEditor = null;
     private RegisterEditPanelController registerEditPanelController = null;
+    private MainPanelHelper helper = null;
 
     // signals - states of different parts of simulator
     private SimpleStringProperty modeText = new SimpleStringProperty("RUN");
-    private SimpleBooleanProperty mode = new SimpleBooleanProperty(true);
-    private SimpleBooleanProperty on = new SimpleBooleanProperty(false);
-    private SimpleBooleanProperty loaded = new SimpleBooleanProperty(false);
-    private SimpleBooleanProperty started = new SimpleBooleanProperty(false);
+
+    Signals signals;
 
     @FXML
     void initialize() {
-        m_ipl.disableProperty().bind(on);
-        m_overview.disableProperty().bind(on.not());
-        m_regs.disableProperty().bind(on.not());
-        m_mem.disableProperty().bind(on.not());
+        this.signals = Simulator.getSignals();
+
+        try {
+            FXMLLoadResult result = FXMLUtil.loadAsNode("mem_control.fxml");
+            m_mem.setContent(result.getNode());
+            ((MemControlController)result.getController()).set(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        m_ipl.disableProperty().bind(signals.on);
+        m_overview.disableProperty().bind(signals.on.not());
+        m_regs.disableProperty().bind(signals.on.not());
+        m_mem.disableProperty().bind(signals.on.not());
 
         m_mode.textProperty().bind(modeText);
-        m_mode.disableProperty().bind(loaded.not().or(started));
-        m_load.disableProperty().bind(on.not().or(started));
-        m_reset.disableProperty().bind(on.not().or(started));
+        m_mode.disableProperty().bind(signals.loaded.not().or(signals.started));
+        m_load.disableProperty().bind(signals.on.not().or(signals.started));
+        m_reset.disableProperty().bind(signals.on.not().or(signals.started));
 
-        m_start.disableProperty().bind(loaded.not().or(started));
-        m_next.disableProperty().bind(mode.or(started.not()));
+        m_start.disableProperty().bind(signals.loaded.not().or(signals.started));
+        m_next.disableProperty().bind(signals.mode.or(signals.started.not()));
+
+        helper = new MainPanelHelper();
+
+        initRegisterBindings();
     }
 
     @FXML
@@ -124,7 +144,7 @@ public class MainPanelController {
         // todo run ipl code
 
         // power on
-        on.set(true);
+        signals.on.set(true);
     }
 
     @FXML
@@ -132,42 +152,51 @@ public class MainPanelController {
         // todo load program
 
         // program loaded
-        loaded.set(true);
+        signals.loaded.set(true);
     }
 
     @FXML
     void modeHandler(MouseEvent event) {
         // toggle
-        mode.set(!mode.get());
-        modeText.set(mode.get() ? "RUN" : "DEBUG");
+        signals.mode.set(!signals.mode.get());
+        modeText.set(signals.mode.get() ? "RUN" : "DEBUG");
     }
 
     @FXML
     void resetHandler(MouseEvent event) {
-        mode.set(true);
-        on.set(false);
-        loaded.set(false);
+        signals.mode.set(true);
+        modeText.set("RUN");
+        signals.on.set(false);
+        signals.loaded.set(false);
+        signals.started.set(false);
+
+        Simulator.initCPU();
+        refreshRegisters(Simulator.getCpu().getRegisters());
     }
 
     @FXML
     void nextHandler(MouseEvent event) {
         // execute one instruction under debug mode
-
+        helper.execute(Simulator.getCpu(), null);
         // reset started signal
-        started.set(started.not().get());
+        signals.started.set(signals.started.not().get());
     }
 
     @FXML
     void startHandler(MouseEvent event) {
         // set the program started
-        started.set(true);
+        signals.started.set(true);
 
         // run program according to different modes
-        if (mode.get()) {
+        if (signals.mode.get()) {
             // run mode
-            MainPanelHelper.executeAll(null);
+            for(Object instruction: new ArrayList<>()){
+                helper.execute(Simulator.getCpu(), instruction);
+                // refresh register values on the stage
+                refreshRegisters(Simulator.getCpu().getRegisters());
+            }
             // reset started signal
-            started.set(started.not().get());
+            signals.started.set(signals.started.not().get());
         } else {
             // debug mode
         }
@@ -258,9 +287,63 @@ public class MainPanelController {
         }
 
         String originalValue = register.getText();
-        register.textProperty().bind(registerEditPanelController.valueProperty);
         registerEditPanelController.reset(name, originalValue);
         registerEditor.showAndWait();
-        register.textProperty().unbind();
+        register.setText(registerEditPanelController.newVal);
+    }
+
+    private void initRegisterBindings() {
+
+        Registers regs = Simulator.getCpu().getRegisters();
+
+        m_pc.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setPC(Integer.valueOf(newValue)));
+        m_ir.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setIR(Integer.valueOf(newValue)));
+        m_mar.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setMAR(Integer.valueOf(newValue)));
+        m_mbr.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setMBR(Integer.valueOf(newValue)));
+        m_msr.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setMSR(Integer.valueOf(newValue)));
+//        m_cc.textProperty().addListener((observable, oldValue, newValue) ->
+//                regs.setCC(Integer.valueOf(newValue)));
+//        m_mfr.textProperty().addListener((observable, oldValue, newValue) ->
+//                regs.setMFR(Integer.valueOf(newValue)));
+        m_r0.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setR0(Integer.valueOf(newValue)));
+        m_r1.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setR1(Integer.valueOf(newValue)));
+        m_r2.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setR2(Integer.valueOf(newValue)));
+        m_r3.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setR3(Integer.valueOf(newValue)));
+        m_x1.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setX1(Integer.valueOf(newValue)));
+        m_x2.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setX2(Integer.valueOf(newValue)));
+        m_x3.textProperty().addListener((observable, oldValue, newValue) ->
+                regs.setX3(Integer.valueOf(newValue)));
+    }
+
+    public void refreshRegisters(Registers regs){
+        m_pc.setText(Integer.toString(regs.getPC()));
+        m_ir.setText(Integer.toString(regs.getIR()));
+        m_mar.setText(Integer.toString(regs.getMAR()));
+        m_mbr.setText(Integer.toString(regs.getMBR()));
+        m_msr.setText(Integer.toString(regs.getMSR()));
+        m_cc.setText(Integer.toString(regs.getCC()));
+        m_mfr.setText(Integer.toString(regs.getMFR()));
+        m_r0.setText(Integer.toString(regs.getR0()));
+        m_r1.setText(Integer.toString(regs.getR1()));
+        m_r2.setText(Integer.toString(regs.getR2()));
+        m_r3.setText(Integer.toString(regs.getR3()));
+        m_x1.setText(Integer.toString(regs.getX1()));
+        m_x2.setText(Integer.toString(regs.getX2()));
+        m_x3.setText(Integer.toString(regs.getX3()));
+    }
+
+    public void refreshEntirePanel(){
+
     }
 }

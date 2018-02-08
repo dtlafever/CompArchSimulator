@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csci6461.team13.simulator.ui.controllers.MemControlController">
+   <children>
+      <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Insert &amp; Search">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </Text>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="77.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Value">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextField fx:id="mc_nval" promptText="N/A" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="12.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox fx:id="mc_bits">
+               <children>
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+                  <RadioButton mnemonicParsing="false" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mem Addr">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Text>
+                  <TextField fx:id="mc_memaddr" promptText="N/A" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Curren Value">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="mc_cval" editable="false" promptText="N/A" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="12.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" VBox.vgrow="NEVER">
+               <children>
+                  <Button fx:id="mc_store" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#storeHandler" prefWidth="60.0" styleClass="danger" text="Store" textAlignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="mc_clear" mnemonicParsing="false" onMouseClicked="#clearHandler" prefWidth="60.0" styleClass="danger" text="Clear" textAlignment="CENTER" HBox.hgrow="NEVER">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="mc_settopc" layoutX="43.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#setToPCHandler" styleClass="danger" text="Set To PC" textAlignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox HBox.hgrow="ALWAYS">
+         <HBox.margin>
+            <Insets left="10.0" />
+         </HBox.margin>
+      </VBox>
+   </children>
+</HBox>
