@@ -152,6 +152,7 @@ public class MainPanelController {
     @FXML
     void resetHandler(MouseEvent event) {
         mode.set(true);
+        modeText.set("RUN");
         on.set(false);
         loaded.set(false);
         started.set(false);
