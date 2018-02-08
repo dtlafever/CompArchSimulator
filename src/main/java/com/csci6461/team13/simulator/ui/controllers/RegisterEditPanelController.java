@@ -100,5 +100,4 @@ public class RegisterEditPanelController {
         int value = RegisterEditHelper.registerBooleansToValue(booleans);
         re_val.setText(Integer.toString(value));
     }
-
 }

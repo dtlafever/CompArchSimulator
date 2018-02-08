@@ -33,30 +33,34 @@
         </AnchorPane>
       <ButtonBar>
          <buttons>
-            <Button fx:id="m_start" mnemonicParsing="false" styleClass="success" text="Start" textAlignment="CENTER">
+            <Button fx:id="m_ipl" mnemonicParsing="false" onMouseClicked="#iplHandler" styleClass="warning" text="IPL" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
-            </Button>
-            <Button fx:id="m_step" mnemonicParsing="false" styleClass="primary" text="Step" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="m_ipl" mnemonicParsing="false" styleClass="warning" text="IPL" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="m_reset" mnemonicParsing="false" styleClass="danger" text="Reset" textAlignment="CENTER">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+            </Button>
+            <Button fx:id="m_mode" layoutX="745.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#modeHandler" prefWidth="80.0" styleClass="success" text="RUN" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Button fx:id="m_load" mnemonicParsing="false" text="Load" textAlignment="CENTER">
+            <Button fx:id="m_load" mnemonicParsing="false" onMouseClicked="#loadHandler" styleClass="primary" text="Load" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="m_reset" mnemonicParsing="false" onMouseClicked="#resetHandler" styleClass="danger" text="Reset" textAlignment="CENTER">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -72,7 +76,7 @@
                <children>
                   <VBox HBox.hgrow="ALWAYS">
                      <children>
-                            <TitledPane animated="false" collapsible="false" text="Overview">
+                            <TitledPane fx:id="m_overview" animated="false" collapsible="false" text="Overview">
                                 <font>
                                     <Font name="System Bold" size="14.0" />
                                 </font>
@@ -113,13 +117,27 @@
                                           </HBox>
                                           <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" VBox.vgrow="NEVER">
                                              <children>
-                                                <Button fx:id="m_next" mnemonicParsing="false" styleClass="danger" text="Next" textAlignment="CENTER" HBox.hgrow="NEVER">
+                                                <Button fx:id="m_start" disable="true" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#startHandler" styleClass="danger" text="Start" textAlignment="CENTER">
                                                    <cursor>
                                                       <Cursor fx:constant="HAND" />
                                                    </cursor>
                                                    <font>
                                                       <Font name="System Bold" size="18.0" />
                                                    </font>
+                                                   <HBox.margin>
+                                                      <Insets right="20.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <Button fx:id="m_next" disable="true" mnemonicParsing="false" onMouseClicked="#nextHandler" styleClass="danger" text="Next" textAlignment="CENTER" HBox.hgrow="NEVER">
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                   <font>
+                                                      <Font name="System Bold" size="18.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets left="20.0" />
+                                                   </HBox.margin>
                                                 </Button>
                                              </children>
                                              <VBox.margin>
@@ -137,7 +155,7 @@
                               </HBox>
                            </content>
                             </TitledPane>
-                        <TitledPane animated="false" collapsible="false" text="Memory Control">
+                        <TitledPane fx:id="m_mem" animated="false" collapsible="false" text="Memory Control">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -147,7 +165,7 @@
                         </TitledPane>
                      </children>
                   </VBox>
-                      <VBox HBox.hgrow="NEVER">
+                      <VBox fx:id="m_regs" HBox.hgrow="NEVER">
                           <children>
                               <TitledPane animated="false" collapsible="false" text="Common Registers">
                                   <content>
@@ -449,13 +467,6 @@
                                   </font>
                               </TitledPane>
                               <ButtonBar>
-                                  <buttons>
-                                      <Button fx:id="m_save" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#saveHandler" styleClass="success" text="SAVE">
-                                          <cursor>
-                                              <Cursor fx:constant="HAND" />
-                                          </cursor>
-                                      </Button>
-                                  </buttons>
                                   <VBox.margin>
                                       <Insets bottom="5.0" right="10.0" top="5.0" />
                                   </VBox.margin>

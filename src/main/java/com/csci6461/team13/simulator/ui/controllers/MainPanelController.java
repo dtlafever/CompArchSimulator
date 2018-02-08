@@ -1,15 +1,16 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.Simulator;
+import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -17,22 +18,46 @@ import java.io.IOException;
 
 public class MainPanelController {
 
-    private static Stage registerEditor = null;
-    private static RegisterEditPanelController registerEditPanelController = null;
+    private Stage registerEditor = null;
+    private RegisterEditPanelController registerEditPanelController = null;
+
+    // signals - states of different parts of simulator
+    private SimpleStringProperty modeText = new SimpleStringProperty("RUN");
+    private SimpleBooleanProperty mode = new SimpleBooleanProperty(true);
+    private SimpleBooleanProperty on = new SimpleBooleanProperty(false);
+    private SimpleBooleanProperty loaded = new SimpleBooleanProperty(false);
+    private SimpleBooleanProperty started = new SimpleBooleanProperty(false);
 
     @FXML
     void initialize() {
-//        refresh();
+        m_ipl.disableProperty().bind(on);
+        m_overview.disableProperty().bind(on.not());
+        m_regs.disableProperty().bind(on.not());
+        m_mem.disableProperty().bind(on.not());
+
+        m_mode.textProperty().bind(modeText);
+        m_mode.disableProperty().bind(loaded.not().or(started));
+        m_load.disableProperty().bind(on.not().or(started));
+        m_reset.disableProperty().bind(on.not().or(started));
+
+        m_start.disableProperty().bind(loaded.not().or(started));
+        m_next.disableProperty().bind(mode.or(started.not()));
     }
 
     @FXML
-    private Button m_start;
+    private TitledPane m_overview;
 
     @FXML
-    private Button m_step;
+    private TitledPane m_mem;
+
+    @FXML
+    private VBox m_regs;
 
     @FXML
     private Button m_ipl;
+
+    @FXML
+    private Button m_mode;
 
     @FXML
     private Button m_reset;
@@ -45,6 +70,9 @@ public class MainPanelController {
 
     @FXML
     private TextField m_exec;
+
+    @FXML
+    private Button m_start;
 
     @FXML
     private Button m_next;
@@ -65,8 +93,10 @@ public class MainPanelController {
     private TextField m_msr;
     @FXML
     private Label m_cc;
+
     @FXML
     private Label m_mfr;
+
     @FXML
     private TextField m_r0;
 
@@ -88,92 +118,127 @@ public class MainPanelController {
     @FXML
     private TextField m_x3;
 
+    // Menu Buttons Handlers
     @FXML
-    private Button m_save;
+    void iplHandler(MouseEvent event) {
+        // todo run ipl code
 
-    // Registers TextFields Handlers
+        // power on
+        on.set(true);
+    }
+
+    @FXML
+    void loadHandler(MouseEvent event) {
+        // todo load program
+
+        // program loaded
+        loaded.set(true);
+    }
+
+    @FXML
+    void modeHandler(MouseEvent event) {
+        // toggle
+        mode.set(!mode.get());
+        modeText.set(mode.get() ? "RUN" : "DEBUG");
+    }
+
+    @FXML
+    void resetHandler(MouseEvent event) {
+        mode.set(true);
+        on.set(false);
+        loaded.set(false);
+    }
+
+    @FXML
+    void nextHandler(MouseEvent event) {
+        // execute one instruction under debug mode
+
+        // reset started signal
+        started.set(started.not().get());
+    }
+
+    @FXML
+    void startHandler(MouseEvent event) {
+        // set the program started
+        started.set(true);
+
+        // run program according to different modes
+        if (mode.get()) {
+            // run mode
+            MainPanelHelper.executeAll(null);
+            // reset started signal
+            started.set(started.not().get());
+        } else {
+            // debug mode
+        }
+    }
+
+    // Registers Handlers
     @FXML
     void pcHandler(MouseEvent event) {
-        createRegisterEditWindow(m_pc, "PC");
+        toEdit(m_pc, "PC");
     }
 
     @FXML
     void irHandler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getIR();
-        createRegisterEditWindow(m_ir, "IR");
+        toEdit(m_ir, "IR");
     }
 
     @FXML
     void marHandler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getIR();
-        createRegisterEditWindow(m_mar, "MAR");
+        toEdit(m_mar, "MAR");
     }
 
     @FXML
     void mbrHandler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getIR();
-        createRegisterEditWindow(m_mbr, "MBR");
+        toEdit(m_mbr, "MBR");
     }
 
     @FXML
     void msrHandler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getIR();
-        createRegisterEditWindow(m_msr, "MSR");
+        toEdit(m_msr, "MSR");
     }
 
     @FXML
     void r0Handler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getIR();
-        createRegisterEditWindow(m_r0, "R0");
+        toEdit(m_r0, "R0");
     }
 
     @FXML
     void r1Handler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getIR();
-        createRegisterEditWindow(m_r1, "R1");
+        toEdit(m_r1, "R1");
     }
 
     @FXML
     void r2Handler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getIR();
-        createRegisterEditWindow(m_r2, "R2");
+        toEdit(m_r2, "R2");
     }
 
     @FXML
     void r3Handler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getIR();
-        createRegisterEditWindow(m_r3, "R3");
+        toEdit(m_r3, "R3");
     }
 
 
     @FXML
     void x1Handler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getX1();
-        createRegisterEditWindow(m_x1, "X1");
+        toEdit(m_x1, "X1");
     }
 
     @FXML
     void x2Handler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getX2();
-        createRegisterEditWindow(m_x2, "X2");
+        toEdit(m_x2, "X2");
     }
 
     @FXML
     void x3Handler(MouseEvent event) {
-        int value = Simulator.getCpu().getRegisters().getX3();
-        createRegisterEditWindow(m_x3, "X3");
-    }
-
-    // Main Buttons Handlers
-    @FXML
-    void saveHandler(MouseEvent event) {
-
+        toEdit(m_x3, "X3");
     }
 
     /**
      * registerEditor is a Singleton object
      */
-    private void createRegisterEditWindow(TextField register, String name) {
+    private void toEdit(TextField register, String name) {
 
         if (registerEditor == null) {
             registerEditor = new Stage();

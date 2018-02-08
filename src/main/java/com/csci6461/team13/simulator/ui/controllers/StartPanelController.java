@@ -41,7 +41,7 @@ public class StartPanelController {
             FXMLUtil.addStylesheets(result.getNode(), "bootstrap3.css");
             primaryStage.setScene(new Scene(result.getNode()));
             primaryStage.setResizable(true);
-            primaryStage.setMaximized(true);
+//            primaryStage.setMaximized(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
