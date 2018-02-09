@@ -1,5 +1,6 @@
 package com.csci6461.team13.simulator.core;
 
+import com.csci6461.team13.simulator.core.Instruction;
 import com.csci6461.team13.simulator.util.Const;
 import java.util.UUID;
 
@@ -34,11 +35,12 @@ public class CPU {
     }
 
     // Decode the current instruction and execute it.
-    public void decodeAndExecute(String inst) {
+    // return false if halt opcode is seen
+    public boolean decodeAndExecute(int inst) {
+        boolean next = true;
         //DECODE
-        String opCode = inst.substring(0, 6);
-
-        Instruction instruction = new Instruction();
+        Instruction instruction = new Instruction(inst);
+        int opCode = instruction.getOpcode();
 
         //TODO: clean up so it isn't using switch cases
         if (Const.OPCODE.containsKey(opCode)) {
@@ -64,6 +66,9 @@ public class CPU {
                 case "STX":
                     alu.STX(instruction);
                     break;
+                case "HALT":
+                    next = false;
+                    break;
 
                 default:
                     break;
@@ -71,6 +76,7 @@ public class CPU {
         }else{
             //TODO: add machine fault if not a good instruction
         }
+        return next;
     }
 
     //----------------------

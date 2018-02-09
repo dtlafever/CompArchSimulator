@@ -1,6 +1,6 @@
 package com.csci6461.team13.simulator.core;
 
-import java.math.BigInteger;
+//import java.math.BigInteger;
 
 public class Instruction{
 
@@ -19,12 +19,17 @@ public class Instruction{
     }
 
     // given a string of an instruction, decompose it
-    public Instruction(String instruction){
-        this.opcode = binaryToDecimal(instruction.substring(0, 6));
-        this.r      = binaryToDecimal(instruction.substring(6, 8));
-        this.ix     = binaryToDecimal(instruction.substring(8, 10));
-        this.i      = binaryToDecimal(instruction.substring(10, 11));
-        this.address = binaryToDecimal(instruction.substring(11, 16));
+    public Instruction(int word){
+        String strWord = Integer.toBinaryString(word);
+        while (strWord.length() < 16){
+            strWord = "0" + strWord;
+        }
+
+        this.opcode = Integer.parseInt(strWord.substring(0, 6), 2);
+        this.r      = Integer.parseInt(strWord.substring(6, 8), 2);
+        this.ix     = Integer.parseInt(strWord.substring(8, 10), 2);
+        this.i      = Integer.parseInt(strWord.substring(10, 11), 2);
+        this.address = Integer.parseInt(strWord.substring(11, 16), 2);
     }
 
     public int getOpcode(){
@@ -68,9 +73,9 @@ public class Instruction{
     }
 
     // take a binary string and convert to integer
-	public int binaryToDecimal(String binary) {
-		return new BigInteger(binary, 2).intValue();
-    }
+	// public int binaryToDecimal(String binary) {
+	// 	return new BigInteger(binary, 2).intValue();
+    // }
     
     //get the effective address 
 	public int getEffectiveAddress(MCU mcu, Registers registers) {
