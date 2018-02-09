@@ -1,7 +1,6 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.Simulator;
-import com.csci6461.team13.simulator.core.Instruction;
 import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
@@ -17,12 +16,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainPanelController {
 
     private Stage registerEditor = null;
     private RegisterEditPanelController registerEditPanelController = null;
+    private MemControlController memControlController = null;
     private MainPanelHelper helper = null;
 
     // signals - states of different parts of simulator
@@ -110,8 +109,9 @@ public class MainPanelController {
 
         try {
             FXMLLoadResult result = FXMLUtil.loadAsNode("mem_control.fxml");
+            memControlController = (MemControlController) result.getController();
             m_mem.setContent(result.getNode());
-            ((MemControlController)result.getController()).setup(this);
+            memControlController.setup(this);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,8 +124,10 @@ public class MainPanelController {
 
         m_mode.textProperty().bind(modeText);
         m_mode.disableProperty().bind(signals.loaded.not().or(signals.started));
-        m_load.disableProperty().bind(signals.on.not().or(signals.started));
-        m_reset.disableProperty().bind(signals.on.not().or(signals.started));
+        // currently no load function
+//        m_load.disableProperty().bind(signals.on.not().or(signals.started));
+        m_load.setDisable(true);
+        m_reset.disableProperty().bind(signals.on.not());
 
         m_start.disableProperty().bind(signals.loaded.not().or(signals.started));
         m_next.disableProperty().bind(signals.mode.or(signals.started.not()));
@@ -136,6 +138,9 @@ public class MainPanelController {
         // init other bindings
         m_history.textProperty().bind(helper.history);
         m_exec.textProperty().bind(helper.exec);
+
+        refreshRegisters(Simulator.getCpu().getRegisters());
+
     }
 
     // Menu Buttons Handlers
@@ -145,6 +150,7 @@ public class MainPanelController {
 
         // power on
         signals.on.set(true);
+        signals.loaded.set(true);
     }
 
     @FXML
@@ -164,26 +170,20 @@ public class MainPanelController {
 
     @FXML
     void resetHandler(MouseEvent event) {
-        signals.mode.set(true);
-        modeText.set("RUN");
-        signals.on.set(false);
-        signals.loaded.set(false);
-        signals.started.set(false);
-
-        Simulator.initCPU();
-        refreshRegisters(Simulator.getCpu().getRegisters());
+        resetSimulator();
     }
 
     @FXML
     void nextHandler(MouseEvent event) {
         // execute one instruction under debug mode
         boolean hasNext = helper.execute(Simulator.getCpu());
-        if(!hasNext){
+        if (!hasNext) {
             // if there is not more instructions
             // reset started signal
             signals.started.set(false);
-        }else{
+        } else {
             // TODO fetch next, set to exec
+            helper.fetch(Simulator.getCpu());
         }
     }
 
@@ -192,11 +192,13 @@ public class MainPanelController {
         // setup the program started
         signals.started.set(true);
 
+
         // run program according to different modes
         if (signals.mode.get()) {
             // run mode
             boolean hasNext = true;
-            while (hasNext){
+            while (hasNext) {
+                helper.fetch(Simulator.getCpu());
                 hasNext = helper.execute(Simulator.getCpu());
                 // refresh register values on the stage
                 refreshRegisters(Simulator.getCpu().getRegisters());
@@ -206,6 +208,7 @@ public class MainPanelController {
         } else {
             // debug mode
             // TODO fetch next, set to exec
+            helper.fetch(Simulator.getCpu());
         }
     }
 
@@ -333,7 +336,44 @@ public class MainPanelController {
                 regs.setX3(Integer.valueOf(newValue)));
     }
 
-    public void refreshRegisters(Registers regs){
+    /**
+     * refresh all register value to latest
+     * */
+    public void refreshSimulator() {
+        Registers registers = Simulator.getCpu().getRegisters();
+        // refresh registers
+        refreshRegisters(registers);
+        // refresh mem control
+        memControlController.refresh();
+    }
+
+    /**
+     * reset the whole simulator to original state
+     * */
+    public void resetSimulator() {
+        // reset signals
+        signals.mode.set(true);
+        modeText.set("RUN");
+        signals.on.set(false);
+        signals.loaded.set(false);
+        signals.started.set(false);
+
+        // reset over texts
+        helper.exec.set("");
+        helper.history.set("");
+        // reset mem control
+        memControlController.reset();
+
+        // reset cpu
+        Simulator.getCpu().reset();
+        // reset registers
+        refreshSimulator();
+    }
+
+    /**
+     * refresh all register value to latest
+     * */
+    public void refreshRegisters(Registers regs) {
         m_pc.setText(Integer.toString(regs.getPC()));
         m_ir.setText(Integer.toString(regs.getIR()));
         m_mar.setText(Integer.toString(regs.getMAR()));
@@ -348,9 +388,5 @@ public class MainPanelController {
         m_x1.setText(Integer.toString(regs.getX1()));
         m_x2.setText(Integer.toString(regs.getX2()));
         m_x3.setText(Integer.toString(regs.getX3()));
-    }
-
-    public void refreshEntirePanel(){
-
     }
 }

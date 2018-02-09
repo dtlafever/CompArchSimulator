@@ -21,6 +21,14 @@ public class CPU {
         System.out.println("CPU " + CPU_ID + " started");
     }
 
+    // reset this cpu
+    public void reset(){
+        registers = new Registers();
+        mcu = new MCU();
+        alu = new ALU(registers, mcu);
+        System.out.println("CPU "+CPU_ID+" has been reset");
+    }
+
     //--------------------------
     //     FETCH/DECODE
     //--------------------------

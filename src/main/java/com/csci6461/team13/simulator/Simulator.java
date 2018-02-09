@@ -27,8 +27,8 @@ public class Simulator extends Application {
         // cpu settings
         initCPU();
 
+        // init signals
         getSignals();
-
 
         // main csci6461.team13.ui settings
 
@@ -55,7 +55,7 @@ public class Simulator extends Application {
         return cpu;
     }
 
-    public static void initCPU(){
+    private static void initCPU(){
         cpu = new CPU();
     }
 
