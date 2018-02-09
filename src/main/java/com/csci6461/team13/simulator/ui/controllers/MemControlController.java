@@ -76,7 +76,8 @@ public class MemControlController {
         mc_settopc.disableProperty().bind((signals.on.and(helper.stored).not()));
     }
 
-    public void set(MainPanelController mainPanelController) {
+    // place here a hook to access main panel controller
+    public void setup(MainPanelController mainPanelController) {
         this.mainPanelController = mainPanelController;
     }
 

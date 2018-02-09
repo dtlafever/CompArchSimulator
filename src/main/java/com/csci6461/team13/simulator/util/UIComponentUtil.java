@@ -1,23 +1,24 @@
 package com.csci6461.team13.simulator.util;
 
-import com.csci6461.team13.simulator.ui.helpers.RegisterEditHelper;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+import java.util.Arrays;
+
 public class UIComponentUtil {
 
-    private UIComponentUtil(){
+    private UIComponentUtil() {
 
     }
 
     /**
      * bidirectionally bind text value to 16 bits
      * they will change correspondingly
-     * */
-    public static void bindValueToBits(TextField textField, HBox hBox){
+     */
+    public static void bindValueToBits(TextField textField, HBox hBox) {
 
         ObservableList<Node> bits = hBox.getChildren();
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -25,17 +26,17 @@ public class UIComponentUtil {
                 int value;
                 if (newValue.isEmpty()) {
                     value = 0;
-                }else{
+                } else {
                     value = Integer.parseInt(newValue);
                 }
                 textField.setText(Integer.toString(value));
-                boolean[] booleans = RegisterEditHelper.registerValueToBooleans
+                boolean[] booleans = CoreUtil.intToBooleans
                         (value);
                 for (int i = 0; i < booleans.length; i++) {
                     ((RadioButton) bits.get(i)).setSelected(booleans[i]);
                 }
             } catch (Exception ex) {
-                if(oldValue.isEmpty()){
+                if (oldValue.isEmpty()) {
                     textField.clear();
                 }
                 textField.setText(oldValue);
@@ -48,10 +49,9 @@ public class UIComponentUtil {
                 for (int i = 0; i < booleans.length; i++) {
                     booleans[i] = ((RadioButton) bits.get(i)).isSelected();
                 }
-                int value = RegisterEditHelper.registerBooleansToValue(booleans);
+                int value = CoreUtil.booleansToInt(booleans);
                 textField.setText(Integer.toString(value));
             });
         }
-
     }
 }

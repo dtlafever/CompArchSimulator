@@ -22,7 +22,4 @@ public class FXMLLoadResult<T> {
     public void setController(T controller) {
         this.controller = controller;
     }
-
-
-
 }

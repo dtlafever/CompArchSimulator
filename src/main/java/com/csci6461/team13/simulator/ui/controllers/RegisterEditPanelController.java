@@ -55,18 +55,4 @@ public class RegisterEditPanelController {
     void exitHandler(MouseEvent event) {
         ((Node) event.getSource()).getScene().getWindow().hide();
     }
-
-    private void refreshBits(int value) {
-        ObservableList<Node> bits = re_bits.getChildren();
-        boolean[] booleans = RegisterEditHelper.registerValueToBooleans
-                (value);
-        for (int i = 0; i < booleans.length; i++) {
-            ((RadioButton) bits.get(i)).setSelected(booleans[i]);
-        }
-    }
-
-    private void refreshValue(boolean[] booleans) {
-        int value = RegisterEditHelper.registerBooleansToValue(booleans);
-        re_val.setText(Integer.toString(value));
-    }
 }

@@ -18,7 +18,7 @@ public class Registers {
 
     //--- 4 bits ---
 
-    // Condition Code: set when arithmetic/logical 
+    // Condition Code: setup when arithmetic/logical
     // operations are executed;
     // overflow   = 0
     // underflow  = 1
@@ -157,7 +157,7 @@ public class Registers {
         return this.CC;
     }
 
-    // Returns true if the specified bit is set to true
+    // Returns true if the specified bit is setup to true
     // OVERFLOW   = 0
     // UNDERFLOW  = 1
     // DIVZERO    = 2
