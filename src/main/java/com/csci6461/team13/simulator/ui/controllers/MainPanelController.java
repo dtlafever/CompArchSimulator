@@ -137,6 +137,8 @@ public class MainPanelController {
 
         // init other bindings
         m_history.textProperty().bind(helper.history);
+        m_history.textProperty().addListener((observable -> m_history
+                .setScrollTop(Double.MAX_VALUE)));
         m_exec.textProperty().bind(helper.exec);
 
         refreshRegisters(Simulator.getCpu().getRegisters());
@@ -178,20 +180,19 @@ public class MainPanelController {
         // execute one instruction under debug mode
         boolean hasNext = helper.execute(Simulator.getCpu());
         if (!hasNext) {
-            // if there is not more instructions
+            // if there is no more instructions
             // reset started signal
             signals.started.set(false);
         } else {
-            // TODO fetch next, set to exec
             helper.fetch(Simulator.getCpu());
         }
+        refreshSimulator();
     }
 
     @FXML
     void startHandler(MouseEvent event) {
         // setup the program started
         signals.started.set(true);
-
 
         // run program according to different modes
         if (signals.mode.get()) {
@@ -207,8 +208,8 @@ public class MainPanelController {
             signals.started.set(false);
         } else {
             // debug mode
-            // TODO fetch next, set to exec
             helper.fetch(Simulator.getCpu());
+            refreshSimulator();
         }
     }
 
@@ -361,6 +362,7 @@ public class MainPanelController {
         // reset over texts
         helper.exec.set("");
         helper.history.set("");
+        helper.historyLength = 0;
         // reset mem control
         memControlController.reset();
 

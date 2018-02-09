@@ -1,7 +1,6 @@
 package com.csci6461.team13.simulator.ui.helpers;
 
 import com.csci6461.team13.simulator.core.CPU;
-import com.csci6461.team13.simulator.core.Instruction;
 import javafx.beans.property.SimpleStringProperty;
 
 public class MainPanelHelper {
@@ -10,6 +9,7 @@ public class MainPanelHelper {
     // if this content update, the corresponding textfield in main panel would also update
     public SimpleStringProperty history = new SimpleStringProperty("");
     public SimpleStringProperty exec = new SimpleStringProperty("");
+    public int historyLength = 0;
 
     /**
      * execute a single instruction
@@ -18,8 +18,9 @@ public class MainPanelHelper {
         int inst = Integer.valueOf(exec.get());
         // execution
         boolean hasNext = cpu.decodeAndExecute(inst);
+        historyLength++;
         // update execution history
-        history.set(history.get()+"\n"+inst);
+        history.set(history.get()+"\n"+historyLength+": "+inst);
         return hasNext;
     }
 

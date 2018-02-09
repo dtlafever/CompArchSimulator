@@ -96,7 +96,7 @@
                                           </TextArea>
                                           <HBox alignment="CENTER">
                                              <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Executing">
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Next Execution">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
