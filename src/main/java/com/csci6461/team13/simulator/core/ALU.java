@@ -21,7 +21,7 @@ public class ALU {
     public void LDR(Instruction instruction) {
         registers.setMAR(instruction.getEffectiveAddress(mcu, registers));
         registers.setMBR(mcu.getWord(registers.getMAR()));
-        registers.setR(CoreUtil.binaryToDecimal(instruction.getR()), registers.getMBR());
+        registers.setR(instruction.getR(), registers.getMBR());
     }
 
     public void STR(Instruction instruction) {

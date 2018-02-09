@@ -5,6 +5,8 @@ package com.csci6461.team13.simulator.core;
 //       just act like it is unsigned since nothing in the registers
 //       are greater than 16 bits.
 
+import com.csci6461.team13.simulator.util.Register;
+
 public class Registers {
     //----------------------
     //      REGISTERS 
@@ -116,41 +118,9 @@ public class Registers {
     //      GETTERS/SETTERS
     //----------------------
 
-    // Returns the bit length of the register 
-    public int getBitLength(String regName) {
-        if (regName.equals("CC")) {
-            return 4;
-        }
-        if (regName.equals("PC")) {
-            return 12;
-        }
-        if (regName.equals("R0") ||
-                regName.equals("R1") ||
-                regName.equals("R2") ||
-                regName.equals("R3")) {
-            return 16;
-        }
-        if (regName.equals("X1") ||
-                regName.equals("X2") ||
-                regName.equals("X3")) {
-            return 16;
-        }
-        if (regName.equals("IR")) {
-            return 16;
-        }
-        if (regName.equals("MAR")) {
-            return 16;
-        }
-        if (regName.equals("MBR")) {
-            return 16;
-        }
-        if (regName.equals("MFR")) {
-            return 16;
-        }
-        if (regName.equals("MSR")) {
-            return 16;
-        }
-        return 0;
+    // Returns the bit length of the register
+    public int getBitLength(String regName){
+        return Register.valueOf(regName).getBitLength();
     }
 
     public int getCC() {

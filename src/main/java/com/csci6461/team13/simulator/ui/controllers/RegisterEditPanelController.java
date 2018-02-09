@@ -1,6 +1,8 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.ui.helpers.RegisterEditHelper;
+import com.csci6461.team13.simulator.util.CoreUtil;
+import com.csci6461.team13.simulator.util.Register;
 import com.csci6461.team13.simulator.util.UIComponentUtil;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,9 +33,11 @@ public class RegisterEditPanelController {
     @FXML
     private Button re_exit;
 
+    private int bitLength;
+
     @FXML
     private void initialize() {
-        UIComponentUtil.bindValueToBits(re_val, re_bits);
+        UIComponentUtil.bindValueToBits(re_val, re_bits, 16);
     }
 
     /**
@@ -43,6 +47,13 @@ public class RegisterEditPanelController {
         newVal = value;
         re_name.setText(name);
         re_val.setText(value);
+
+        ObservableList<Node> bits = re_bits.getChildren();
+        int bitLength = Register.valueOf(name).getBitLength();
+        this.bitLength = bitLength;
+        for (int i = 0; i < bits.size() - bitLength;i++){
+            ((RadioButton)bits.get(i)).setDisable(true);
+        }
     }
 
     @FXML

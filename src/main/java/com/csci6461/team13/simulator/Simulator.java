@@ -8,6 +8,8 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class Simulator extends Application {
 
     private static CPU cpu;
@@ -17,12 +19,16 @@ public class Simulator extends Application {
     private static Stage primaryStage;
     private static Signals signals = null;
 
+    public static ArrayList<Integer> initialProgram = new ArrayList<>();
+
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+//        initialProgram.add();
 
         // cpu settings
         initCPU();

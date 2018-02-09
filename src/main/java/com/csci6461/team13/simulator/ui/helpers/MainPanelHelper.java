@@ -1,6 +1,7 @@
 package com.csci6461.team13.simulator.ui.helpers;
 
 import com.csci6461.team13.simulator.core.CPU;
+import com.csci6461.team13.simulator.core.Instruction;
 import javafx.beans.property.SimpleStringProperty;
 
 public class MainPanelHelper {
@@ -14,17 +15,16 @@ public class MainPanelHelper {
      * execute a single instruction
      */
     public boolean execute(CPU cpu) {
+        int inst = Integer.valueOf(exec.get());
         // execution
-
+        boolean hasNext = cpu.decodeAndExecute(inst);
         // update execution history
-        history.set(history.get()+"\n"+"hello");
-        return true;
+        history.set(history.get()+"\n"+inst);
+        return hasNext;
     }
 
-    public boolean fetch(CPU cpu){
-        cpu.fetch();
-        exec.set(Integer.toBinaryString(cpu.getRegisters().getMBR()));
-        return true;
+    public void fetch(CPU cpu){
+        int word = cpu.fetch();
+        exec.set(String.valueOf(word));
     }
-
 }

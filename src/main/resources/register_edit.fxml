@@ -75,7 +75,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <Label layoutX="179.0" layoutY="221.0" text="0 -&gt; " />
+                  <Label layoutX="541.0" layoutY="220.0" text="&lt;- 0" />
                </children>
             </AnchorPane>
         </content>

@@ -44,7 +44,7 @@ public class MemControlController {
 
         this.signals = Simulator.getSignals();
 
-        UIComponentUtil.bindValueToBits(mc_nval, mc_bits);
+        UIComponentUtil.bindValueToBits(mc_nval, mc_bits, 16);
 
         mc_memaddr.textProperty().addListener((observable, oldValue, newValue) -> {
             helper.stored.set(false);

@@ -18,9 +18,11 @@ public class UIComponentUtil {
      * bidirectionally bind text value to 16 bits
      * they will change correspondingly
      */
-    public static void bindValueToBits(TextField textField, HBox hBox) {
+    public static void bindValueToBits(TextField textField, HBox hBox, int
+            bitLength) {
 
         ObservableList<Node> bits = hBox.getChildren();
+        // convert value to boolean disableProperties
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 int value;
@@ -43,6 +45,7 @@ public class UIComponentUtil {
             }
         });
 
+        // retrieve value from booleans
         for (Node btn : bits) {
             ((RadioButton) btn).selectedProperty().addListener((observable, oldValue, newValue) -> {
                 boolean[] booleans = new boolean[bits.size()];
