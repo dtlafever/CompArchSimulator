@@ -17,7 +17,14 @@ public class MainPanelHelper {
         // execution
 
         // update execution history
-        history.set(history.get()+"hello");
+        history.set(history.get()+"\n"+"hello");
         return true;
     }
+
+    public boolean fetch(CPU cpu){
+        cpu.fetch();
+        exec.set(Integer.toBinaryString(cpu.getRegisters().getMBR()));
+        return true;
+    }
+
 }
