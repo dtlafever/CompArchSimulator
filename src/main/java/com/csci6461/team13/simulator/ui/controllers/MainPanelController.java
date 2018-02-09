@@ -129,10 +129,13 @@ public class MainPanelController {
 
         m_start.disableProperty().bind(signals.loaded.not().or(signals.started));
         m_next.disableProperty().bind(signals.mode.or(signals.started.not()));
-        m_history.textProperty().bind(helper.history);
         helper = new MainPanelHelper();
 
         initRegisterBindings();
+
+        // init other bindings
+        m_history.textProperty().bind(helper.history);
+        m_exec.textProperty().bind(helper.exec);
     }
 
     // Menu Buttons Handlers
@@ -174,9 +177,14 @@ public class MainPanelController {
     @FXML
     void nextHandler(MouseEvent event) {
         // execute one instruction under debug mode
-        helper.execute(Simulator.getCpu(), null);
-        // reset started signal
-        signals.started.set(signals.started.not().get());
+        boolean hasNext = helper.execute(Simulator.getCpu());
+        if(!hasNext){
+            // if there is not more instructions
+            // reset started signal
+            signals.started.set(false);
+        }else{
+            // TODO fetch next, set to exec
+        }
     }
 
     @FXML
@@ -187,16 +195,17 @@ public class MainPanelController {
         // run program according to different modes
         if (signals.mode.get()) {
             // run mode
-            boolean hasNext = false;
-            for(Instruction instruction: new ArrayList<Instruction>()){
-                helper.execute(Simulator.getCpu(), instruction);
+            boolean hasNext = true;
+            while (hasNext){
+                hasNext = helper.execute(Simulator.getCpu());
                 // refresh register values on the stage
                 refreshRegisters(Simulator.getCpu().getRegisters());
             }
             // reset started signal
-            signals.started.set(signals.started.not().get());
+            signals.started.set(false);
         } else {
             // debug mode
+            // TODO fetch next, set to exec
         }
     }
 
