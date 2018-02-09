@@ -84,12 +84,12 @@
                                  <children>
                                     <VBox alignment="CENTER">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Program">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="History">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" top="10.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <TextArea fx:id="m_prog" editable="false" prefHeight="300.0" prefWidth="300.0" promptText="N/A">
+                                          <TextArea fx:id="m_history" editable="false" prefHeight="300.0" prefWidth="300.0" promptText="N/A">
                                              <font>
                                                 <Font name="Courier" size="13.0" />
                                              </font>

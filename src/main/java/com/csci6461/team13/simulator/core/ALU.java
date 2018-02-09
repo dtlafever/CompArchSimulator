@@ -1,141 +1,49 @@
 package com.csci6461.team13.simulator.core;
 
-//NOTE: we might want this broken up into many
-//      classes (1 for each instruction) but it 
-//      depends on how we want to do this
+import com.csci6461.team13.simulator.util.CoreUtil;
 
 public class ALU {
+
+    private Registers registers;
+    private MCU mcu;
+
+    ALU(Registers registers, MCU mcu){
+        this.registers = registers;
+        this.mcu = mcu;
+    }
+
     //--------------------------
     //     ASSEMBLY COMMANDS
     //--------------------------
 
-    // --- MISC ----------
-
-    public static void halt() {
-
-    }
-
-    public static void trap() {
-
-    }
-
     // --- LOAD/STORE ----------
 
-    public static void LDR() {
-
+    public void LDR(Instruction instruction) {
+        registers.setMAR(instruction.getEffectiveAddress(mcu, registers));
+        registers.setMBR(mcu.getWord(registers.getMAR()));
+        registers.setR(CoreUtil.binaryToDecimal(instruction.getR()), registers.getMBR());
     }
 
-    public static void STR() {
-
+    public void STR(Instruction instruction) {
+        registers.setMAR(instruction.getEffectiveAddress(mcu, registers));
+        registers.setMBR(registers.getR(instruction.getR()));
+        mcu.storeWord(registers.getMAR(), registers.getMBR());
     }
 
-    public static void LDA() {
-
+    public void LDA(Instruction instruction) {
+        int effectiveAddress = instruction.getEffectiveAddress(mcu, registers);
+        registers.setR(CoreUtil.binaryToDecimal(instruction.getR()), effectiveAddress);
     }
 
-    public static void LDX() {
-
+    public void LDX(Instruction instruction) {
+        registers.setMAR(instruction.getEffectiveAddress(mcu, registers));
+        registers.setMBR(mcu.getWord(registers.getMAR()));
+        registers.setX(CoreUtil.binaryToDecimal(instruction.getIx()), registers.getMBR());
     }
 
-    public static void STX() {
-
-    }
-
-    // --- TRANSFER ----------
-
-    public static void JZ() {
-
-    }
-
-    public static void JNE() {
-
-    }
-
-    public static void JCC() {
-
-    }
-
-    public static void JMA() {
-
-    }
-
-    public static void JSR() {
-
-    }
-
-    public static void RFS() {
-
-    }
-
-    public static void SOB() {
-
-    }
-
-    public static void JGE() {
-
-    }
-
-    // --- ARITHMETIC/LOGICAL ----------
-
-    public static void AMR() {
-
-    }
-
-    public static void SMR() {
-
-    }
-
-    public static void AIR() {
-
-    }
-
-    public static void SIR() {
-
-    }
-
-    public static void MLT() {
-
-    }
-
-    public static void DVD() {
-
-    }
-
-    public static void TRR() {
-
-    }
-
-    public static void AND() {
-
-    }
-
-    public static void ORR() {
-
-    }
-
-    public static void NOT() {
-
-    }
-
-    public static void SRC() {
-
-    }
-
-    public static void RRC() {
-
-    }
-
-    // ----- I/O Operations -------
-
-    public static void IN() {
-
-    }
-
-    public static void OUT() {
-
-    }
-
-    public static void CHK() {
-
+    public void STX(Instruction instruction) {
+        registers.setMAR(instruction.getEffectiveAddress(mcu, registers));
+        registers.setMBR(registers.getX(instruction.getIx()));
+        mcu.storeWord(registers.getMAR(), registers.getMBR());
     }
 }

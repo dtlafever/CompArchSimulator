@@ -50,7 +50,7 @@ public class MCU {
         return this.memory.get(addr);
     }
 
-    // set a word in memory to a particular value
+    // setup a word in memory to a particular value
     public void storeWord(int addr, int value) {
         if (this.memory != null) {
             this.memory.set(addr, value);
