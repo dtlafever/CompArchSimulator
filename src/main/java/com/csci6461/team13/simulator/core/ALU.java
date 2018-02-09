@@ -1,7 +1,5 @@
 package com.csci6461.team13.simulator.core;
 
-import com.csci6461.team13.simulator.util.CoreUtil;
-
 public class ALU {
 
     private Registers registers;
@@ -32,13 +30,13 @@ public class ALU {
 
     public void LDA(Instruction instruction) {
         int effectiveAddress = instruction.getEffectiveAddress(mcu, registers);
-        registers.setR(CoreUtil.binaryToDecimal(instruction.getR()), effectiveAddress);
+        registers.setR(instruction.getR(), effectiveAddress);
     }
 
     public void LDX(Instruction instruction) {
         registers.setMAR(instruction.getEffectiveAddress(mcu, registers));
         registers.setMBR(mcu.getWord(registers.getMAR()));
-        registers.setX(CoreUtil.binaryToDecimal(instruction.getIx()), registers.getMBR());
+        registers.setX(instruction.getIx(), registers.getMBR());
     }
 
     public void STX(Instruction instruction) {
