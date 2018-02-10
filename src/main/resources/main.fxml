@@ -127,7 +127,7 @@
                                                       <Insets right="20.0" />
                                                    </HBox.margin>
                                                 </Button>
-                                                <Button fx:id="m_next" mnemonicParsing="false" onMouseClicked="#nextHandler" styleClass="danger" text="Next" textAlignment="CENTER" HBox.hgrow="NEVER">
+                                                <Button fx:id="m_next" mnemonicParsing="false" onMouseClicked="#nextHandler" styleClass="danger" text="Step" textAlignment="CENTER" HBox.hgrow="NEVER">
                                                    <cursor>
                                                       <Cursor fx:constant="HAND" />
                                                    </cursor>
