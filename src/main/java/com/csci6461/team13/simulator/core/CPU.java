@@ -1,6 +1,5 @@
 package com.csci6461.team13.simulator.core;
 
-import com.csci6461.team13.simulator.core.Instruction;
 import com.csci6461.team13.simulator.util.Const;
 import java.util.UUID;
 

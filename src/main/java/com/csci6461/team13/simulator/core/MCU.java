@@ -12,7 +12,7 @@ import java.util.ArrayList;
 // 5 - Not Used
 public class MCU {
     // 16 bit words, so be careful
-    static ArrayList<Integer> memory;
+    ArrayList<Integer> memory;
 
     public int MAX_MEMORY = 2048;
     public int EXPANDED_MAX_MEMORY = 4096;

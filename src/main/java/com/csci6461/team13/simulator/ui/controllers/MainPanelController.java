@@ -1,9 +1,12 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.Simulator;
+import com.csci6461.team13.simulator.core.MCU;
+import com.csci6461.team13.simulator.core.ROM;
 import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
+import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainPanelController {
 
@@ -148,7 +152,49 @@ public class MainPanelController {
     // Menu Buttons Handlers
     @FXML
     void iplHandler(MouseEvent event) {
-        // todo run ipl code
+        MCU mcu = Simulator.getCpu().getMcu();
+        Registers registers = Simulator.getCpu().getRegisters();
+
+        // setup registers
+        registers.setR0(1000);
+        registers.setR1(2000);
+        registers.setR2(3000);
+        registers.setR3(4000);
+
+        registers.setX1(1000);
+        registers.setX2(2000);
+        registers.setX3(3000);
+
+        // setup direct addressing
+        mcu.storeWord(9, 9);
+        mcu.storeWord(11, 11);
+        mcu.storeWord(13, 13);
+        mcu.storeWord(15, 15);
+        mcu.storeWord(17, 17);
+
+        // setup indirect addressing
+        mcu.storeWord(10, 42);
+        mcu.storeWord(12, 44);
+        mcu.storeWord(14, 46);
+        mcu.storeWord(16, 48);
+        mcu.storeWord(18, 50);
+
+        mcu.storeWord(42, 142);
+        mcu.storeWord(44, 144);
+        mcu.storeWord(46, 146);
+        mcu.storeWord(48, 148);
+        mcu.storeWord(50, 150);
+
+        ArrayList<Integer> instructions = ROM.getInstructions();
+        // address of the program beginning
+        int index = Const.INITIAL_PROGRAM_ADDR;
+        for (int inst: instructions) {
+            mcu.storeWord(index++, inst);
+        }
+
+        registers.setPC(Const.INITIAL_PROGRAM_ADDR);
+
+        refreshSimulator();
 
         // power on
         signals.on.set(true);
