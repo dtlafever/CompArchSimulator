@@ -12,17 +12,14 @@ import java.util.ArrayList;
 // 5 - Not Used
 public class MCU {
     // 16 bit words, so be careful
-    ArrayList<Integer> memory;
+    ArrayList<Integer> memory = null;
 
     public int MAX_MEMORY = 2048;
     public int EXPANDED_MAX_MEMORY = 4096;
 
     // initialize all memory to 0 with a size of 2048
     public MCU() {
-        this.memory = new ArrayList<Integer>(this.MAX_MEMORY);
-        for (int i = 0; i < this.MAX_MEMORY; i++) {
-            this.memory.add(0);
-        }
+        reset();
         //TODO: cache (i don't think this is required for project 1)
     }
 
@@ -54,6 +51,19 @@ public class MCU {
     public void storeWord(int addr, int value) {
         if (this.memory != null) {
             this.memory.set(addr, value);
+        }
+    }
+
+    public void reset() {
+        if(this.memory == null){
+            this.memory = new ArrayList<>(this.MAX_MEMORY);
+            for (int i = 0; i < this.MAX_MEMORY; i++) {
+                this.memory.add(i,0);
+            }
+        }else{
+            for (int i = 0; i < this.MAX_MEMORY; i++) {
+                this.memory.set(i,0);
+            }
         }
     }
 

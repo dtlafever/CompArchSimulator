@@ -24,9 +24,8 @@ public class CPU {
 
     // reset this cpu
     public void reset() {
-        registers = new Registers();
-        mcu = new MCU();
-        alu = new ALU(registers, mcu);
+        registers.reset();
+        mcu.reset();
         System.out.println("CPU " + CPU_ID + " has been reset");
     }
 

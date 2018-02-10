@@ -80,24 +80,11 @@ public class Registers {
 
     // Default Constructor
     public Registers() {
-        this.CC = 0;
-        this.IR = 0;
-        this.MAR = 0;
-        this.MBR = 0;
-        this.MFR = 0;
-        this.MSR = 0;
-        this.PC = 0;
-        this.R0 = 0;
-        this.R1 = 0;
-        this.R2 = 0;
-        this.R3 = 0;
-        this.X1 = 0;
-        this.X2 = 0;
-        this.X3 = 0;
+        reset();
     }
 
     // Set all registers to 0
-    public void resetRegisters() {
+    public void reset() {
         this.CC = 0;
         this.IR = 0;
         this.MAR = 0;
