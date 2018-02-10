@@ -19,5 +19,6 @@ public class Const {
         OPCODE.put(42, "STX");
     }
 
+    // The initial memory address to start our pre loaded program
     public static int INITIAL_PROGRAM_ADDR = 100;
 }

@@ -18,7 +18,7 @@ public class Instruction {
         this.address = 0;
     }
 
-    // given a string of an instruction, decompose it
+    // given a integer of an instruction, decompose it
     public Instruction(int word) {
         String strWord = Integer.toBinaryString(word);
         while (strWord.length() < 16) {
