@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ROM {
 
-    private ROM(){
+    private ROM() {
 
     }
 

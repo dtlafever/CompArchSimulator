@@ -188,7 +188,7 @@ public class MainPanelController {
         ArrayList<Integer> instructions = ROM.getInstructions();
         // address of the program beginning
         int index = Const.INITIAL_PROGRAM_ADDR;
-        for (int inst: instructions) {
+        for (int inst : instructions) {
             mcu.storeWord(index++, inst);
         }
 
@@ -385,7 +385,7 @@ public class MainPanelController {
 
     /**
      * refresh all register value to latest
-     * */
+     */
     public void refreshSimulator() {
         Registers registers = Simulator.getCpu().getRegisters();
         // refresh registers
@@ -396,7 +396,7 @@ public class MainPanelController {
 
     /**
      * reset the whole simulator to original state
-     * */
+     */
     public void resetSimulator() {
         // reset signals
         signals.mode.set(true);
@@ -420,7 +420,7 @@ public class MainPanelController {
 
     /**
      * refresh all register value to latest
-     * */
+     */
     public void refreshRegisters(Registers regs) {
         m_pc.setText(Integer.toString(regs.getPC()));
         m_ir.setText(Integer.toString(regs.getIR()));

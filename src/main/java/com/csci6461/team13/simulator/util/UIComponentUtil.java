@@ -6,8 +6,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
-import java.util.Arrays;
-
 public class UIComponentUtil {
 
     private UIComponentUtil() {

@@ -1,7 +1,5 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
-import com.csci6461.team13.simulator.ui.helpers.RegisterEditHelper;
-import com.csci6461.team13.simulator.util.CoreUtil;
 import com.csci6461.team13.simulator.util.Register;
 import com.csci6461.team13.simulator.util.UIComponentUtil;
 import javafx.collections.ObservableList;
@@ -51,8 +49,8 @@ public class RegisterEditPanelController {
         ObservableList<Node> bits = re_bits.getChildren();
         int bitLength = Register.valueOf(name).getBitLength();
         this.bitLength = bitLength;
-        for (int i = 0; i < bits.size() - bitLength;i++){
-            ((RadioButton)bits.get(i)).setDisable(true);
+        for (int i = 0; i < bits.size() - bitLength; i++) {
+            ((RadioButton) bits.get(i)).setDisable(true);
         }
     }
 

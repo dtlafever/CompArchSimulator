@@ -5,7 +5,7 @@ public class ALU {
     private Registers registers;
     private MCU mcu;
 
-    ALU(Registers registers, MCU mcu){
+    ALU(Registers registers, MCU mcu) {
         this.registers = registers;
         this.mcu = mcu;
     }

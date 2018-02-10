@@ -1,21 +1,23 @@
 package com.csci6461.team13.simulator.util;
+
 import java.util.HashMap;
 
-public class Const{
+public class Const {
 
     private Const() {
     }
 
     // Hashmap for quick retrevial of Opcodes
     public static final HashMap<Integer, String> OPCODE = new HashMap<Integer, String>();
-	static {
-		OPCODE.put(0, "HALT");
+
+    static {
+        OPCODE.put(0, "HALT");
         OPCODE.put(1, "LDR");
         OPCODE.put(2, "STR");
-		OPCODE.put(3, "LDA");
-		OPCODE.put(41, "LDX");
-		OPCODE.put(42, "STX");
-	}
+        OPCODE.put(3, "LDA");
+        OPCODE.put(41, "LDX");
+        OPCODE.put(42, "STX");
+    }
 
     public static int INITIAL_PROGRAM_ADDR = 100;
 }

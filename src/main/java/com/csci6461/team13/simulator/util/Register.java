@@ -22,7 +22,7 @@ public enum Register {
         this.bitLength = bitLength;
     }
 
-    public int getBitLength(){
+    public int getBitLength() {
         return this.bitLength;
     }
 

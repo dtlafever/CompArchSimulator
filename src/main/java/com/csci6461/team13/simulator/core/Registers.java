@@ -119,7 +119,7 @@ public class Registers {
     //----------------------
 
     // Returns the bit length of the register
-    public int getBitLength(String regName){
+    public int getBitLength(String regName) {
         return Register.valueOf(regName).getBitLength();
     }
 
@@ -286,21 +286,21 @@ public class Registers {
     }
 
     public int getX(int num) {
-		if (num == 1)
-			return this.X1;
-		if (num == 2)
-			return this.X2;
-		if (num == 3)
-			return this.X3;
-		return 0;
-	}
+        if (num == 1)
+            return this.X1;
+        if (num == 2)
+            return this.X2;
+        if (num == 3)
+            return this.X3;
+        return 0;
+    }
 
-	public void setX(int num, int x) {
-		if (num == 1)
-			this.X1 = x;
-		if (num == 2)
-			this.X2 = x;
-		if (num == 3)
-			this.X3 = x;
-	}
+    public void setX(int num, int x) {
+        if (num == 1)
+            this.X1 = x;
+        if (num == 2)
+            this.X2 = x;
+        if (num == 3)
+            this.X3 = x;
+    }
 }

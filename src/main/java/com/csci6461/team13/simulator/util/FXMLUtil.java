@@ -45,7 +45,7 @@ public class FXMLUtil {
         node.getStylesheets().add(url.toExternalForm());
     }
 
-    public static final ArrayList getControllers(){
+    public static final ArrayList getControllers() {
         return controllers;
     }
 }

@@ -8,8 +8,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 public class Simulator extends Application {
 
     private static CPU cpu;
@@ -18,8 +16,6 @@ public class Simulator extends Application {
     // it will be initialized in the start method
     private static Stage primaryStage;
     private static Signals signals = null;
-
-    public static ArrayList<Integer> initialProgram = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -54,16 +50,16 @@ public class Simulator extends Application {
         return primaryStage;
     }
 
-    public static CPU getCpu(){
+    public static CPU getCpu() {
         return cpu;
     }
 
-    private static void initCPU(){
+    private static void initCPU() {
         cpu = new CPU();
     }
 
-    public static Signals getSignals(){
-        if(signals == null){
+    public static Signals getSignals() {
+        if (signals == null) {
             signals = new Signals();
         }
 

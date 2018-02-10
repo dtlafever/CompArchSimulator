@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class CoreUtil {
 
-    private CoreUtil(){
+    private CoreUtil() {
 
     }
 
@@ -30,7 +30,7 @@ public class CoreUtil {
     public static int booleansToInt(boolean[] booleans) {
         byte[] bytes = new byte[booleans.length];
         for (int i = 0; i < bytes.length; i++) {
-            bytes[i] = booleans[i]?(byte)1:0;
+            bytes[i] = booleans[i] ? (byte) 1 : 0;
         }
         return bytesToInt(bytes);
     }
@@ -38,7 +38,7 @@ public class CoreUtil {
     public static byte[] intToBytes(int value) {
         String binaryString = Integer.toBinaryString(value);
         byte[] bytes = new byte[16];
-        for (int i = 16-binaryString.length(), j=0; i < bytes.length; i++,j++) {
+        for (int i = 16 - binaryString.length(), j = 0; i < bytes.length; i++, j++) {
             bytes[i] = Byte.valueOf(String.valueOf(binaryString.charAt(j)));
         }
         return bytes;

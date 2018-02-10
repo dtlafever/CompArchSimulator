@@ -55,7 +55,7 @@ public class MemControlController {
                 mc_cval.setText(Integer.toString(mcu.getWord(Integer.valueOf(memAddrStr))));
                 // new valid value
                 helper.memaddr.set(true);
-            }else{
+            } else {
                 // not new valid value
                 helper.memaddr.set(false);
             }
@@ -129,6 +129,7 @@ public class MemControlController {
         mc_memaddr.clear();
         mc_cval.clear();
     }
+
     public void refresh() {
         mc_nval.clear();
         mc_memaddr.setText(mc_memaddr.getText());

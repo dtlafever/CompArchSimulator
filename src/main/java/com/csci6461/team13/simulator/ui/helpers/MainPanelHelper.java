@@ -20,11 +20,11 @@ public class MainPanelHelper {
         boolean hasNext = cpu.decodeAndExecute(inst);
         historyLength++;
         // update execution history
-        history.set(history.get()+"\n"+historyLength+": "+inst);
+        history.set(history.get() + "\n" + historyLength + ": " + inst);
         return hasNext;
     }
 
-    public void fetch(CPU cpu){
+    public void fetch(CPU cpu) {
         int word = cpu.fetch();
         exec.set(String.valueOf(word));
     }

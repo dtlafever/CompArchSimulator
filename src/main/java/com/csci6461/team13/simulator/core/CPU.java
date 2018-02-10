@@ -1,6 +1,7 @@
 package com.csci6461.team13.simulator.core;
 
 import com.csci6461.team13.simulator.util.Const;
+
 import java.util.UUID;
 
 public class CPU {
@@ -22,11 +23,11 @@ public class CPU {
     }
 
     // reset this cpu
-    public void reset(){
+    public void reset() {
         registers = new Registers();
         mcu = new MCU();
         alu = new ALU(registers, mcu);
-        System.out.println("CPU "+CPU_ID+" has been reset");
+        System.out.println("CPU " + CPU_ID + " has been reset");
     }
 
     //--------------------------
@@ -81,7 +82,7 @@ public class CPU {
                 default:
                     break;
             }
-        }else{
+        } else {
             //TODO: add machine fault if not a good instruction
         }
         return next;
