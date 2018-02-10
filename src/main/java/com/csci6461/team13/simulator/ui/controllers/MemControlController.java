@@ -99,7 +99,6 @@ public class MemControlController {
 
     @FXML
     void storeHandler(MouseEvent event) {
-        //
         String instStr = mc_nval.getText();
         String memAddrStr = mc_memaddr.getText();
         int memAddr = 0;
@@ -124,6 +123,7 @@ public class MemControlController {
         mc_cval.setText(Integer.toString(Simulator.getCpu().getMcu().getWord(memAddr)));
     }
 
+    // clear all values
     public void reset() {
         mc_nval.clear();
         mc_memaddr.clear();

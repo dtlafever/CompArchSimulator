@@ -13,6 +13,9 @@ public class MainPanelHelper {
 
     /**
      * execute a single instruction
+     *
+     * this should be executed after fetch method
+     *
      */
     public boolean execute(CPU cpu) {
         int inst = Integer.valueOf(exec.get());
@@ -24,6 +27,10 @@ public class MainPanelHelper {
         return hasNext;
     }
 
+    /**
+     * execute fetch operation in CPU
+     * it will fetch a instruction from current PC
+     * */
     public void fetch(CPU cpu) {
         int word = cpu.fetch();
         exec.set(String.valueOf(word));

@@ -349,6 +349,14 @@ public class MainPanelController {
         register.setText(registerEditPanelController.newVal);
     }
 
+    /**
+     * add listeners to all TextFields
+     * when the text value changes, it will save the value to Registers
+     * automatically
+     *
+     * CC and MFR is not changeable for user
+     *
+     * */
     private void initRegisterBindings() {
 
         Registers regs = Simulator.getCpu().getRegisters();

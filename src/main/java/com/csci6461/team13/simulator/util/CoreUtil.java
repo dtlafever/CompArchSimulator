@@ -52,13 +52,4 @@ public class CoreUtil {
         String binaryString = builder.toString();
         return Integer.parseInt(binaryString, 2);
     }
-
-    public static void main(String[] args) {
-        byte[] bytes = intToBytes(100);
-        System.out.println(Arrays.toString(bytes));
-        System.out.println(bytesToInt(bytes));
-        boolean[] booleans = intToBooleans(100);
-        System.out.println(Arrays.toString(booleans));
-        System.out.println(booleansToInt(booleans));
-    }
 }

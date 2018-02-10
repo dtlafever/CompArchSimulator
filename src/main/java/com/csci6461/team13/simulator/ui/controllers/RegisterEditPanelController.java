@@ -13,7 +13,10 @@ import javafx.scene.layout.HBox;
 
 public class RegisterEditPanelController {
 
-    // property used to temporary bind register textfield
+    // property used to temporary bind register textfield in the main panel
+    // this is accessable to MainPanelController
+    // MainPanelController uses this to update certain register value after
+    // this window being closed
     public String newVal = null;
 
     @FXML
@@ -35,6 +38,7 @@ public class RegisterEditPanelController {
 
     @FXML
     private void initialize() {
+        // initialize bitsToValue bidirectional bindings
         UIComponentUtil.bindValueToBits(re_val, re_bits, 16);
     }
 
@@ -56,7 +60,10 @@ public class RegisterEditPanelController {
 
     @FXML
     void saveHandler(MouseEvent event) {
+        // update the value for binding
         newVal = re_val.getText();
+        // hide the window
+        // it will still exist in the memory, but just hiding
         ((Node) event.getSource()).getScene().getWindow().hide();
     }
 
