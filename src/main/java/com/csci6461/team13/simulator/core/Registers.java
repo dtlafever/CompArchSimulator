@@ -16,7 +16,7 @@ public class Registers {
 
     // The register that holds the next address 
     // to be processed for execution
-    int PC;
+    static int PC;
 
     //--- 4 bits ---
 
@@ -26,7 +26,7 @@ public class Registers {
     // underflow  = 1
     // DivZero    = 2
     // EqualOrNot = 3
-    int CC;
+    static int CC;
 
     // Machine Fault Register: contains the ID code if
     // a machine fault after it occurs
@@ -34,36 +34,36 @@ public class Registers {
     // Illegal TRAP code                            = 1
     // Illegal Operation Code                       = 2
     // Illegal Memory Address beyond 2048 (memory)  = 3
-    int MFR;
+    static int MFR;
 
     //--- 16 bits ---
 
     // current address to fetch
-    int MAR;
+    static int MAR;
 
     // Memory Buffer Register: holds the word just fetched 
     // from or the word to be /last stored into memory
-    int MBR;
+    static int MBR;
 
     //Instruction Register: holds the instruction 
     // to be executed
-    int IR;
+    static int IR;
 
     // Machine Status Register: certain bits
     // record the status of the health of the machine
-    int MSR;
+    static int MSR;
 
     // General Purpose Registers
-    int R0;
-    int R1;
-    int R2;
-    int R3;
+    static int R0;
+    static int R1;
+    static int R2;
+    static int R3;
 
     // Index Register: contains a base address that
     // supports base register addressing of memory.
-    int X1;
-    int X2;
-    int X3;
+    static int X1;
+    static int X2;
+    static int X3;
 
     //----------------------
     //      CONSTANTS 
