@@ -1,5 +1,5 @@
 group 'com.csci6461.team13'
-version '0.0.1'
+version '0.1.1'
 
 apply plugin: 'java'
 apply plugin: 'idea'
