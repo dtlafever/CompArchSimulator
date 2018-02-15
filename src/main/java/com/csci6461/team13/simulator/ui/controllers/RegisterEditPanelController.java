@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.HBox;
 
 public class RegisterEditPanelController {
@@ -53,8 +54,13 @@ public class RegisterEditPanelController {
         ObservableList<Node> bits = re_bits.getChildren();
         int bitLength = Register.valueOf(name).getBitLength();
         this.bitLength = bitLength;
-        for (int i = 0; i < bits.size() - bitLength; i++) {
-            ((RadioButton) bits.get(i)).setDisable(true);
+        for (int i = 0; i < bits.size(); i++) {
+            if(i < bits.size() - bitLength){
+                ((RadioButton) bits.get(i)).setDisable(true);
+            }else{
+                ((RadioButton) bits.get(i)).setDisable(false);
+            }
+
         }
     }
 
