@@ -4,6 +4,7 @@ import com.csci6461.team13.simulator.Simulator;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.ROM;
 import com.csci6461.team13.simulator.core.Registers;
+import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
 import com.csci6461.team13.simulator.util.Const;
@@ -154,6 +155,8 @@ public class MainPanelController {
     void iplHandler(MouseEvent event) {
         MCU mcu = Simulator.getCpu().getMcu();
         Registers registers = Simulator.getCpu().getRegisters();
+
+        Instruction instruction = Instruction.build(0);
 
         // setup registers
         registers.setR0(1000);
