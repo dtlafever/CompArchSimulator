@@ -110,7 +110,7 @@ public class InstEditController {
     public void reset() {
         error.set("");
         inst.set("");
-        ie_val.clear();
+        ie_val.setText("0");
         newValSignal.set(false);
     }
 

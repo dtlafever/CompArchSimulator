@@ -11,6 +11,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class RegisterEditPanelController {
 
     // property used to temporary bind register textfield in the main panel
@@ -50,16 +53,15 @@ public class RegisterEditPanelController {
         re_name.setText(name);
         re_val.setText(value);
 
-        ObservableList<Node> bits = re_bits.getChildren();
+        List<RadioButton> bits = re_bits.getChildren().stream().filter(it -> it instanceof RadioButton).map(it -> (RadioButton)it).collect(Collectors.toList());
         int bitLength = Register.valueOf(name).getBitLength();
         this.bitLength = bitLength;
         for (int i = 0; i < bits.size(); i++) {
             if (i < bits.size() - bitLength) {
-                ((RadioButton) bits.get(i)).setDisable(true);
+                bits.get(i).setDisable(true);
             } else {
-                ((RadioButton) bits.get(i)).setDisable(false);
+                bits.get(i).setDisable(false);
             }
-
         }
     }
 

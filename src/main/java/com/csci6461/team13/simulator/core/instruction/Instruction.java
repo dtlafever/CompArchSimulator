@@ -152,9 +152,12 @@ public abstract class Instruction {
 
     @Override
     public String toString() {
-        return String.valueOf(Inst.findByOpcode(this.opcode).getTitle()) +
-                " " + r + "," + ix + "," +
-                i + "," + address;
+        String title = Inst.findByOpcode(this.opcode).getTitle();
+        if(title == null){
+            return null;
+        }else{
+            return title + " " + r + "," + ix + "," + i + "," + address;
+        }
     }
 
     public abstract boolean execute(Registers registers, MCU mcu);

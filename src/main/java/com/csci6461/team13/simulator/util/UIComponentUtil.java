@@ -36,8 +36,7 @@ public class UIComponentUtil {
                     value = Integer.parseInt(newValue);
                 }
                 textField.setText(Integer.toString(value));
-                boolean[] booleans = CoreUtil.intToBooleans
-                        (value);
+                boolean[] booleans = CoreUtil.intToBooleans(value);
                 for (int i = 0; i < booleans.length; i++) {
                     bits.get(i).setSelected(booleans[i]);
                 }

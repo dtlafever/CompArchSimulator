@@ -110,17 +110,6 @@
                                           <Insets bottom="5.0" top="5.0" />
                                        </VBox.margin>
                                     </Button>
-                                    <Button fx:id="m_pe" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#peHandler" prefWidth="100.0" styleClass="success" text="Prog Editor" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </Button>
                                  </children>
                               </VBox>
                            </content>

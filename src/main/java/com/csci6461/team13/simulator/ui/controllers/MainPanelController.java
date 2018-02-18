@@ -24,10 +24,8 @@ import java.util.ArrayList;
 
 public class MainPanelController {
 
-
     private MemControlController memControlController = null;
     private MainPanelHelper helper = null;
-
 
     // signals - states of different parts of simulator
     private SimpleStringProperty modeText = new SimpleStringProperty("RUN");
@@ -111,8 +109,6 @@ public class MainPanelController {
     // tools panel
     @FXML
     private Button m_ie;
-    @FXML
-    private Button m_pe;
 
     @FXML
     void initialize() {

@@ -53,12 +53,21 @@ public class CoreUtil {
     }
 
     public static String int2FixedLenStr(int value, int length) {
-        String strWord = Integer.toBinaryString(value);
+        StringBuilder strWord = new StringBuilder(Integer.toBinaryString(value));
         while (strWord.length() < length) {
-            strWord = "0" + strWord;
+            strWord.insert(0, "0");
         }
 
-        return strWord;
+        return strWord.toString();
+    }
+
+    public static int maxOfBits(int length){
+        StringBuilder strWord = new StringBuilder();
+        while (strWord.length() < length) {
+            strWord.insert(0, "1");
+        }
+
+        return Integer.parseInt(strWord.toString(), 2);
     }
 
 }
