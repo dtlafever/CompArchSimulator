@@ -4,6 +4,7 @@ import com.csci6461.team13.simulator.Simulator;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.ROM;
 import com.csci6461.team13.simulator.core.Registers;
+import com.csci6461.team13.simulator.core.instruction.Inst;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
@@ -156,8 +157,6 @@ public class MainPanelController {
         MCU mcu = Simulator.getCpu().getMcu();
         Registers registers = Simulator.getCpu().getRegisters();
 
-        Instruction instruction = Instruction.build(0);
-
         // setup registers
         registers.setR0(1000);
         registers.setR1(2000);
@@ -188,11 +187,12 @@ public class MainPanelController {
         mcu.storeWord(48, 148);
         mcu.storeWord(50, 150);
 
-        ArrayList<Integer> instructions = ROM.getInstructions();
+        ArrayList<String> instructions = ROM.getInstructions();
         // address of the program beginning
         int index = Const.INITIAL_PROGRAM_ADDR;
-        for (int inst : instructions) {
-            mcu.storeWord(index++, inst);
+        for (String instStr : instructions) {
+            Instruction instruction = Instruction.build(instStr);
+            mcu.storeWord(index++, instruction.toInteger());
         }
 
         registers.setPC(Const.INITIAL_PROGRAM_ADDR);

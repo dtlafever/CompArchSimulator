@@ -52,4 +52,14 @@ public class CoreUtil {
         String binaryString = builder.toString();
         return Integer.parseInt(binaryString, 2);
     }
+
+    public static String int2FixedLenStr(int value, int length){
+        String strWord = Integer.toBinaryString(value);
+        while (strWord.length() < length) {
+            strWord = "0" + strWord;
+        }
+
+        return strWord;
+    }
+
 }

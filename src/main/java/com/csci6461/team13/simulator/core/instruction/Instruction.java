@@ -3,8 +3,11 @@ package com.csci6461.team13.simulator.core.instruction;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.Registers;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.csci6461.team13.simulator.util.CoreUtil.int2FixedLenStr;
 
 public abstract class Instruction {
 
@@ -22,22 +25,52 @@ public abstract class Instruction {
         this.address = 0;
     }
 
-    public static Instruction build(int word) {
-        String strWord = Integer.toBinaryString(word);
-        while (strWord.length() < 16) {
-            strWord = "0" + strWord;
+    /**
+     * build an instruction from symbolic form
+     * example: LDR 3,1,1,31
+     *
+     * */
+    public static Instruction build(String line) {
+        Pattern pattern = Pattern.compile("^(\\w{3})\\s(\\d)," +
+                "(\\d),([01]),(\\d{1,2})$");
+        Matcher matcher = pattern.matcher(line);
+        if (matcher.matches()) {
+            String opcodeStr = matcher.group(1);
+            Inst inst = Inst.findByTitle(opcodeStr);
+            if (inst != null) {
+                int opcode = inst.getOpcode();
+                int r = Integer.parseInt(matcher.group(2));
+                int ix = Integer.parseInt(matcher.group(3));
+                int i = Integer.parseInt(matcher.group(4));
+                int address = Integer.parseInt(matcher.group(5));
+                return build(opcode, r, ix, i, address);
+            }
         }
+        return null;
+    }
 
+    public static void main(String[] args) {
+        Instruction instruction = build("LDR 3,1,1,31");
+        System.out.println(instruction.toString());
+    }
+
+    public static Instruction build(int word) {
+        String strWord = int2FixedLenStr(word, 16);
         int opcode = Integer.parseInt(strWord.substring(0, 6), 2);
         int r = Integer.parseInt(strWord.substring(6, 8), 2);
         int ix = Integer.parseInt(strWord.substring(8, 10), 2);
         int i = Integer.parseInt(strWord.substring(10, 11), 2);
         int address = Integer.parseInt(strWord.substring(11, 16), 2);
+
+        return build(opcode, r, ix, i, address);
+    }
+
+    public static Instruction build(int opcode, int r, int ix, int i, int address) {
         Instruction instruction = null;
-        Class<? extends  Instruction> clazz = Inst.findClassByOpcode(opcode);
-        if(clazz != null){
+        Inst inst = Inst.findByOpcode(opcode);
+        if (inst != null) {
             try {
-                instruction = clazz.getDeclaredConstructor().newInstance();
+                instruction = inst.getInstClass().getDeclaredConstructor().newInstance();
                 instruction.setOpcode(opcode);
                 instruction.setI(i);
                 instruction.setIx(ix);
@@ -47,8 +80,15 @@ public abstract class Instruction {
                 e.printStackTrace();
             }
         }
-        
+
         return instruction;
+    }
+
+    public Integer toInteger(){
+        String result = int2FixedLenStr(opcode, 6)+ int2FixedLenStr(r, 2)
+                + int2FixedLenStr(ix, 2)+ int2FixedLenStr(i, 1)
+                + int2FixedLenStr(address, 5);
+        return Integer.parseInt(result, 2);
     }
 
     public int getOpcode() {
@@ -109,6 +149,13 @@ public abstract class Instruction {
             }
         }
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf("[" + Inst.findByOpcode(this.opcode).getTitle()) +
+                " " + r + "," + ix + "," +
+                i + "," + address + "]";
     }
 
     public abstract boolean execute(Registers registers, MCU mcu);

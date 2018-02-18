@@ -32,38 +32,58 @@
         </AnchorPane>
       <ButtonBar>
          <buttons>
-            <Button fx:id="m_ipl" mnemonicParsing="false" onMouseClicked="#iplHandler" styleClass="warning" text="IPL" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button fx:id="m_mode" layoutX="745.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#modeHandler" prefWidth="80.0" styleClass="success" text="RUN" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button fx:id="m_load" mnemonicParsing="false" onMouseClicked="#loadHandler" styleClass="primary" text="Load" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button fx:id="m_reset" mnemonicParsing="false" onMouseClicked="#resetHandler" styleClass="danger" text="Reset" textAlignment="CENTER">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Button>
+            <VBox alignment="CENTER">
+               <children>
+                  <Button fx:id="m_ipl" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#iplHandler" prefWidth="80.0" styleClass="warning" text="IPL" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Label text="Init" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Button fx:id="m_mode" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#modeHandler" prefWidth="80.0" styleClass="success" text="RUN" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Label text="Mode" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Button fx:id="m_load" mnemonicParsing="false" onMouseClicked="#loadHandler" prefWidth="80.0" styleClass="primary" text="Load" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Label text="New Program" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Button fx:id="m_reset" mnemonicParsing="false" onMouseClicked="#resetHandler" prefWidth="80.0" styleClass="danger" text="Reset" textAlignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
+                  <Label text="Reset" />
+               </children>
+            </VBox>
          </buttons>
          <VBox.margin>
             <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
@@ -73,6 +93,43 @@
          <content>
             <HBox>
                <children>
+                  <VBox fx:id="m_regs1" alignment="TOP_CENTER">
+                     <children>
+                        <TitledPane alignment="CENTER" animated="false" collapsible="false" text="Tools" VBox.vgrow="ALWAYS">
+                           <content>
+                              <VBox>
+                                 <children>
+                                    <Button fx:id="m_ipl1" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#iplHandler" prefWidth="100.0" styleClass="success" text="Inst Editor" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button fx:id="m_ipl11" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#iplHandler" prefWidth="100.0" styleClass="success" text="Prog Editor" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </content>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </TitledPane>
+                     </children>
+                  </VBox>
                   <VBox HBox.hgrow="ALWAYS">
                      <children>
                             <TitledPane fx:id="m_overview" animated="false" collapsible="false" text="Overview">
@@ -462,11 +519,6 @@
                                       <Font name="System Bold" size="14.0" />
                                   </font>
                               </TitledPane>
-                              <ButtonBar>
-                                  <VBox.margin>
-                                      <Insets bottom="5.0" right="10.0" top="5.0" />
-                                  </VBox.margin>
-                              </ButtonBar>
                           </children>
                       </VBox>
                </children>

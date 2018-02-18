@@ -1,15 +1,13 @@
 package com.csci6461.team13.simulator.core;
 
-import com.csci6461.team13.simulator.core.instruction.Inst;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
-import com.csci6461.team13.simulator.util.Const;
 
 import java.util.UUID;
 
 public class CPU {
 
     // identity of cpu
-    private String CPU_ID = UUID.randomUUID().toString();
+    private final String CPU_ID = UUID.randomUUID().toString();
 
     private Registers registers;
     private MCU mcu;
