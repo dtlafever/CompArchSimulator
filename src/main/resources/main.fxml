@@ -99,7 +99,7 @@
                            <content>
                               <VBox>
                                  <children>
-                                    <Button fx:id="m_ipl1" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#iplHandler" prefWidth="100.0" styleClass="success" text="Inst Editor" textAlignment="CENTER">
+                                    <Button fx:id="m_ie" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#ieHandler" prefWidth="100.0" styleClass="success" text="Inst Editor" textAlignment="CENTER">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>
@@ -110,7 +110,7 @@
                                           <Insets bottom="5.0" top="5.0" />
                                        </VBox.margin>
                                     </Button>
-                                    <Button fx:id="m_ipl11" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#iplHandler" prefWidth="100.0" styleClass="success" text="Prog Editor" textAlignment="CENTER">
+                                    <Button fx:id="m_pe" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#peHandler" prefWidth="100.0" styleClass="success" text="Prog Editor" textAlignment="CENTER">
                                        <font>
                                           <Font name="System Bold" size="18.0" />
                                        </font>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane scaleShape="false" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csci6461.team13.simulator.ui.controllers.InstEditController">
+   <children>
+      <TitledPane animated="false" collapsible="false" layoutX="183.0" layoutY="48.0" text="Instruction Editor" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <content>
+            <VBox>
+               <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label alignment="CENTER" prefWidth="100.0" text="Instruction" textAlignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="ie_inst" promptText="N/A" />
+                        <Text fx:id="ie_error" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label alignment="CENTER" prefWidth="100.0" text="Value" textAlignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="ie_val" promptText="N/A" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label alignment="CENTER" prefWidth="100.0" text="Bits" textAlignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <HBox fx:id="ie_bits">
+                           <children>
+                              <RadioButton mnemonicParsing="false" HBox.hgrow="NEVER" />
+                              <RadioButton mnemonicParsing="false" />
+                              <RadioButton mnemonicParsing="false" />
+                              <RadioButton mnemonicParsing="false" />
+                              <RadioButton mnemonicParsing="false" />
+                              <RadioButton mnemonicParsing="false" />
+                              <Separator orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <RadioButton mnemonicParsing="false" />
+                              <RadioButton mnemonicParsing="false" />
+                              <Separator layoutX="166.0" layoutY="10.0" orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <RadioButton mnemonicParsing="false" />
+                              <RadioButton mnemonicParsing="false" />
+                              <Separator layoutX="229.0" layoutY="10.0" orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <RadioButton mnemonicParsing="false" />
+                              <Separator layoutX="292.0" layoutY="10.0" orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Separator>
+                              <RadioButton mnemonicParsing="false" />
+                              <RadioButton mnemonicParsing="false" />
+                              <RadioButton mnemonicParsing="false" HBox.hgrow="NEVER" />
+                              <RadioButton mnemonicParsing="false" />
+                              <RadioButton mnemonicParsing="false" />
+                           </children>
+                           <padding>
+                              <Insets top="2.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="24.0" layoutY="146.0">
+                     <children>
+                        <Label alignment="CENTER" prefWidth="100.0" textAlignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER" HBox.hgrow="NEVER">
+                           <children>
+                              <Label alignment="CENTER" prefWidth="156.0" text="opcode" textAlignment="CENTER" />
+                              <Separator orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="12.0" prefWidth="57.0" text="r" textAlignment="CENTER" />
+                              <Separator layoutX="166.0" layoutY="10.0" orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label alignment="CENTER" layoutX="210.0" layoutY="12.0" prefWidth="57.0" text="ix" textAlignment="CENTER" />
+                              <Separator layoutX="229.0" layoutY="10.0" orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label alignment="CENTER" layoutX="366.0" layoutY="12.0" prefWidth="31.0" text="i" textAlignment="CENTER" />
+                              <Separator layoutX="292.0" layoutY="10.0" orientation="VERTICAL">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Separator>
+                              <Label alignment="CENTER" layoutX="522.0" layoutY="12.0" prefWidth="135.0" text="address" textAlignment="CENTER" />
+                           </children>
+                           <padding>
+                              <Insets top="2.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Button fx:id="ie_instCopy" mnemonicParsing="false" onMouseClicked="#instCopyHandler" prefWidth="100.0" styleClass="success" text="Copy Inst" textAlignment="CENTER">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="ie_valCopy" mnemonicParsing="false" onMouseClicked="#valCopyHandler" onMouseEntered="#valCopyHandler" onMouseExited="#valCopyHandler" prefWidth="100.0" styleClass="success" text="Copy Val" textAlignment="CENTER">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="ie_exit" mnemonicParsing="false" onMouseClicked="#exitHandler" prefWidth="100.0" styleClass="danger" text="Exit" textAlignment="CENTER">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
+      </TitledPane>
+   </children>
+</AnchorPane>

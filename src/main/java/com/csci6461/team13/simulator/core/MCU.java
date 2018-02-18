@@ -55,14 +55,14 @@ public class MCU {
     }
 
     public void reset() {
-        if(this.memory == null){
+        if (this.memory == null) {
             this.memory = new ArrayList<>(this.MAX_MEMORY);
             for (int i = 0; i < this.MAX_MEMORY; i++) {
-                this.memory.add(i,0);
+                this.memory.add(i, 0);
             }
-        }else{
+        } else {
             for (int i = 0; i < this.MAX_MEMORY; i++) {
-                this.memory.set(i,0);
+                this.memory.set(i, 0);
             }
         }
     }

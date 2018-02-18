@@ -1,11 +1,21 @@
 package com.csci6461.team13.simulator.util;
 
 import javafx.scene.Parent;
+import javafx.stage.Stage;
 
 public class FXMLLoadResult<T> {
 
     private Parent node;
     private T controller;
+    private Stage stage;
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     public Parent getNode() {
         return node;

@@ -28,8 +28,7 @@ public abstract class Instruction {
     /**
      * build an instruction from symbolic form
      * example: LDR 3,1,1,31
-     *
-     * */
+     */
     public static Instruction build(String line) {
         Pattern pattern = Pattern.compile("^(\\w{3})\\s(\\d)," +
                 "(\\d),([01]),(\\d{1,2})$");
@@ -84,9 +83,9 @@ public abstract class Instruction {
         return instruction;
     }
 
-    public Integer toInteger(){
-        String result = int2FixedLenStr(opcode, 6)+ int2FixedLenStr(r, 2)
-                + int2FixedLenStr(ix, 2)+ int2FixedLenStr(i, 1)
+    public Integer toInteger() {
+        String result = int2FixedLenStr(opcode, 6) + int2FixedLenStr(r, 2)
+                + int2FixedLenStr(ix, 2) + int2FixedLenStr(i, 1)
                 + int2FixedLenStr(address, 5);
         return Integer.parseInt(result, 2);
     }
@@ -153,9 +152,9 @@ public abstract class Instruction {
 
     @Override
     public String toString() {
-        return String.valueOf("[" + Inst.findByOpcode(this.opcode).getTitle()) +
+        return String.valueOf(Inst.findByOpcode(this.opcode).getTitle()) +
                 " " + r + "," + ix + "," +
-                i + "," + address + "]";
+                i + "," + address;
     }
 
     public abstract boolean execute(Registers registers, MCU mcu);

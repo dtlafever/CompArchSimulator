@@ -1,7 +1,6 @@
 package com.csci6461.team13.simulator.util;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
 public class CoreUtil {
 
@@ -53,7 +52,7 @@ public class CoreUtil {
         return Integer.parseInt(binaryString, 2);
     }
 
-    public static String int2FixedLenStr(int value, int length){
+    public static String int2FixedLenStr(int value, int length) {
         String strWord = Integer.toBinaryString(value);
         while (strWord.length() < length) {
             strWord = "0" + strWord;

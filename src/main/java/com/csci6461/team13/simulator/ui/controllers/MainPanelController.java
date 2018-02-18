@@ -4,16 +4,15 @@ import com.csci6461.team13.simulator.Simulator;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.ROM;
 import com.csci6461.team13.simulator.core.Registers;
-import com.csci6461.team13.simulator.core.instruction.Inst;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
 import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
+import com.csci6461.team13.simulator.util.Register;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -25,10 +24,10 @@ import java.util.ArrayList;
 
 public class MainPanelController {
 
-    private Stage registerEditor = null;
-    private RegisterEditPanelController registerEditPanelController = null;
+
     private MemControlController memControlController = null;
     private MainPanelHelper helper = null;
+
 
     // signals - states of different parts of simulator
     private SimpleStringProperty modeText = new SimpleStringProperty("RUN");
@@ -109,6 +108,12 @@ public class MainPanelController {
     @FXML
     private TextField m_x3;
 
+    // tools panel
+    @FXML
+    private Button m_ie;
+    @FXML
+    private Button m_pe;
+
     @FXML
     void initialize() {
         this.signals = Simulator.getSignals();
@@ -148,7 +153,6 @@ public class MainPanelController {
         m_exec.textProperty().bind(helper.exec);
 
         refreshRegisters(Simulator.getCpu().getRegisters());
-
     }
 
     // Menu Buttons Handlers
@@ -262,104 +266,108 @@ public class MainPanelController {
         }
     }
 
+    // tools panel handlers
+    @FXML
+    void ieHandler(MouseEvent event) {
+        toInstEdit();
+    }
+
+    @FXML
+    void peHandler(MouseEvent event) {
+
+    }
+
     // Registers Handlers
     @FXML
     void pcHandler(MouseEvent event) {
-        toEdit(m_pc, "PC");
+        toRegisterEdit(m_pc, Register.PC.name());
     }
 
     @FXML
     void irHandler(MouseEvent event) {
-        toEdit(m_ir, "IR");
+        toRegisterEdit(m_ir, Register.IR.name());
     }
 
     @FXML
     void marHandler(MouseEvent event) {
-        toEdit(m_mar, "MAR");
+        toRegisterEdit(m_mar, Register.MAR.name());
     }
 
     @FXML
     void mbrHandler(MouseEvent event) {
-        toEdit(m_mbr, "MBR");
+        toRegisterEdit(m_mbr, Register.MBR.name());
     }
 
     @FXML
     void msrHandler(MouseEvent event) {
-        toEdit(m_msr, "MSR");
+        toRegisterEdit(m_msr, Register.MSR.name());
     }
 
     @FXML
     void r0Handler(MouseEvent event) {
-        toEdit(m_r0, "R0");
+        toRegisterEdit(m_r0, Register.R0.name());
     }
 
     @FXML
     void r1Handler(MouseEvent event) {
-        toEdit(m_r1, "R1");
+        toRegisterEdit(m_r1, Register.R1.name());
     }
 
     @FXML
     void r2Handler(MouseEvent event) {
-        toEdit(m_r2, "R2");
+        toRegisterEdit(m_r2, Register.R2.name());
     }
 
     @FXML
     void r3Handler(MouseEvent event) {
-        toEdit(m_r3, "R3");
+        toRegisterEdit(m_r3, Register.R3.name());
     }
 
 
     @FXML
     void x1Handler(MouseEvent event) {
-        toEdit(m_x1, "X1");
+        toRegisterEdit(m_x1, Register.X1.name());
     }
 
     @FXML
     void x2Handler(MouseEvent event) {
-        toEdit(m_x2, "X2");
+        toRegisterEdit(m_x2, Register.X2.name());
     }
 
     @FXML
     void x3Handler(MouseEvent event) {
-        toEdit(m_x3, "X3");
+        toRegisterEdit(m_x3, Register.X3.name());
     }
 
     /**
      * registerEditor is a Singleton object
      */
-    private void toEdit(TextField register, String name) {
+    private void toRegisterEdit(TextField register, String name) {
 
-        if (registerEditor == null) {
-            registerEditor = new Stage();
-            try {
-                FXMLLoadResult result;
-                result = FXMLUtil.loadAsNode("register_edit.fxml");
-                registerEditPanelController = (RegisterEditPanelController) result.getController();
-                FXMLUtil.addStylesheets(result.getNode(), "bootstrap3.css");
-                registerEditor.setScene(new Scene(result.getNode()));
-                registerEditor.setResizable(false);
-                registerEditor.setTitle("Register Editor");
-                registerEditor.initModality(Modality.WINDOW_MODAL);
-                registerEditor.initOwner(Simulator.getPrimaryStage());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        String originalValue = register.getText();
-        registerEditPanelController.reset(name, originalValue);
+        FXMLLoadResult editorResult = helper.getRegisterEditor(register,
+                name);
+        Stage registerEditor = editorResult.getStage();
+        RegisterEditPanelController controller = (RegisterEditPanelController) editorResult.getController();
         registerEditor.showAndWait();
-        register.setText(registerEditPanelController.newVal);
+        register.setText(controller.newVal);
+    }
+
+    private void toInstEdit() {
+        FXMLLoadResult editorResult = helper.getInstEditor(Simulator.getPrimaryStage(),
+                Modality.NONE);
+        Stage registerEditor = editorResult.getStage();
+        InstEditController controller = (InstEditController) editorResult
+                .getController();
+        registerEditor.show();
     }
 
     /**
      * add listeners to all TextFields
      * when the text value changes, it will save the value to Registers
      * automatically
-     *
+     * <p>
      * CC and MFR is not changeable for user
-     *
-     * */
+     */
     private void initRegisterBindings() {
 
         Registers regs = Simulator.getCpu().getRegisters();
