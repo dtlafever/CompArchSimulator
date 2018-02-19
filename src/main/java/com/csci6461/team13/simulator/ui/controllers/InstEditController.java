@@ -107,11 +107,11 @@ public class InstEditController {
         ie_val.clear();
     }
 
+    /**
+     * reset the whole panel
+     * */
     public void reset() {
-        error.set("");
-//        inst.set("");
         ie_val.setText("0");
-        newValSignal.set(false);
     }
 
     @FXML

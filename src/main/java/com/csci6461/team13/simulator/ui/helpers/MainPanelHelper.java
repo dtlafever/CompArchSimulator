@@ -78,7 +78,6 @@ public class MainPanelHelper {
         FXMLLoadResult<InstEditController> result = new FXMLLoadResult<>();
         result.setStage(this.instEditor);
         result.setController(this.instEditController);
-        this.instEditController.reset();
         return result;
     }
 
