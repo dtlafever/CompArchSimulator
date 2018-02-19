@@ -11,6 +11,8 @@ import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import com.csci6461.team13.simulator.util.Register;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -28,10 +30,12 @@ public class MainPanelController {
     private MemControlController memControlController = null;
     private MainPanelHelper helper = null;
 
+    private static String REGISTER_PROPERTY_NAME = "regName";
+
     /**
      * signals - states of different parts of simulator
-     * */
-    private SimpleStringProperty modeText = new SimpleStringProperty("RUN");
+     */
+    private SimpleStringProperty modeText = new SimpleStringProperty();
 
     private Signals signals;
 
@@ -120,6 +124,22 @@ public class MainPanelController {
     void initialize() {
         this.signals = Simulator.getSignals();
 
+        // initialize register properties
+        mPc.getProperties().put(REGISTER_PROPERTY_NAME, Register.PC.name());
+        mIr.getProperties().put(REGISTER_PROPERTY_NAME, Register.IR.name());
+        mMar.getProperties().put(REGISTER_PROPERTY_NAME, Register.MAR.name());
+        mMbr.getProperties().put(REGISTER_PROPERTY_NAME, Register.MBR.name());
+        mMsr.getProperties().put(REGISTER_PROPERTY_NAME, Register.MSR.name());
+        mCc.getProperties().put(REGISTER_PROPERTY_NAME, Register.CC.name());
+        mMfr.getProperties().put(REGISTER_PROPERTY_NAME, Register.MFR.name());
+        mR0.getProperties().put(REGISTER_PROPERTY_NAME, Register.R0.name());
+        mR1.getProperties().put(REGISTER_PROPERTY_NAME, Register.R1.name());
+        mR2.getProperties().put(REGISTER_PROPERTY_NAME, Register.R2.name());
+        mR3.getProperties().put(REGISTER_PROPERTY_NAME, Register.R3.name());
+        mX1.getProperties().put(REGISTER_PROPERTY_NAME, Register.X1.name());
+        mX2.getProperties().put(REGISTER_PROPERTY_NAME, Register.X2.name());
+        mX3.getProperties().put(REGISTER_PROPERTY_NAME, Register.X3.name());
+
         try {
             FXMLLoadResult result = FXMLUtil.loadAsNode("mem_control.fxml");
             memControlController = (MemControlController) result.getController();
@@ -135,8 +155,11 @@ public class MainPanelController {
         mRegs.disableProperty().bind(signals.on.not());
         mMem.disableProperty().bind(signals.on.not());
 
+        StringBinding modeText = Bindings.createStringBinding(() -> signals
+                        .mode.get() ? "RUN" : "DEBUG", signals.mode);
         mMode.textProperty().bind(modeText);
         mMode.disableProperty().bind(signals.loaded.not().or(signals.started));
+
         // currently no load function
 //        mLoad.disableProperty().bind(signals.on.not().or(signals.started));
         mLoad.setDisable(true);
@@ -213,7 +236,6 @@ public class MainPanelController {
     void modeHandler(MouseEvent event) {
         // toggle
         signals.mode.set(!signals.mode.get());
-        modeText.set(signals.mode.get() ? "RUN" : "DEBUG");
     }
 
     @FXML
@@ -222,7 +244,7 @@ public class MainPanelController {
     }
 
     @FXML
-    void exitHandler(MouseEvent event){
+    void exitHandler(MouseEvent event) {
         Simulator.getPrimaryStage().close();
     }
 
@@ -278,66 +300,11 @@ public class MainPanelController {
 
     }
 
-    // Registers Handlers
     @FXML
-    void pcHandler(MouseEvent event) {
-        toRegisterEdit(mPc, Register.PC.name());
-    }
-
-    @FXML
-    void irHandler(MouseEvent event) {
-        toRegisterEdit(mIr, Register.IR.name());
-    }
-
-    @FXML
-    void marHandler(MouseEvent event) {
-        toRegisterEdit(mMar, Register.MAR.name());
-    }
-
-    @FXML
-    void mbrHandler(MouseEvent event) {
-        toRegisterEdit(mMbr, Register.MBR.name());
-    }
-
-    @FXML
-    void msrHandler(MouseEvent event) {
-        toRegisterEdit(mMsr, Register.MSR.name());
-    }
-
-    @FXML
-    void r0Handler(MouseEvent event) {
-        toRegisterEdit(mR0, Register.R0.name());
-    }
-
-    @FXML
-    void r1Handler(MouseEvent event) {
-        toRegisterEdit(mR1, Register.R1.name());
-    }
-
-    @FXML
-    void r2Handler(MouseEvent event) {
-        toRegisterEdit(mR2, Register.R2.name());
-    }
-
-    @FXML
-    void r3Handler(MouseEvent event) {
-        toRegisterEdit(mR3, Register.R3.name());
-    }
-
-
-    @FXML
-    void x1Handler(MouseEvent event) {
-        toRegisterEdit(mX1, Register.X1.name());
-    }
-
-    @FXML
-    void x2Handler(MouseEvent event) {
-        toRegisterEdit(mX2, Register.X2.name());
-    }
-
-    @FXML
-    void x3Handler(MouseEvent event) {
-        toRegisterEdit(mX3, Register.X3.name());
+    void registerHandler(MouseEvent event) {
+        TextField register = (TextField) event.getSource();
+        toRegisterEdit(register, (String) register.getProperties().get
+                (REGISTER_PROPERTY_NAME));
     }
 
     /**

@@ -150,9 +150,9 @@
                                                       <Insets bottom="10.0" top="10.0" />
                                                    </VBox.margin>
                                                 </Text>
-                                                <TextArea fx:id="mHistory" editable="false" prefHeight="300.0" prefWidth="300.0" promptText="N/A">
+                                                <TextArea id="mHistory" fx:id="mHistory" editable="false" prefHeight="300.0" prefWidth="300.0" promptText="N/A">
                                                    <font>
-                                                      <Font name="Courier" size="13.0" />
+                                                      <Font name="Courier Bold" size="13.0" />
                                                    </font>
                                                 </TextArea>
                                                 <HBox alignment="CENTER">
@@ -162,9 +162,9 @@
                                                             <Font size="14.0" />
                                                          </font>
                                                       </Text>
-                                                      <TextField fx:id="mExec" editable="false" prefWidth="135.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                      <TextField id="mExec" fx:id="mExec" editable="false" prefWidth="135.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                          <font>
-                                                            <Font size="14.0" />
+                                                            <Font name="Courier Bold" size="14.0" />
                                                          </font>
                                                          <HBox.margin>
                                                             <Insets left="20.0" />
@@ -235,7 +235,7 @@
                                                                     <Insets />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mPc" alignment="CENTER" editable="false" onMouseClicked="#pcHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mPc" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -255,7 +255,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mIr" alignment="CENTER" editable="false" onMouseClicked="#irHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mIr" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -275,7 +275,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mMar" alignment="CENTER" editable="false" onMouseClicked="#marHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mMar" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -295,7 +295,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mMbr" alignment="CENTER" editable="false" onMouseClicked="#mbrHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mMbr" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -315,7 +315,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mMsr" alignment="CENTER" editable="false" onMouseClicked="#msrHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mMsr" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -372,7 +372,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mR0" alignment="CENTER" editable="false" onMouseClicked="#r0Handler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mR0" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -392,7 +392,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mR1" alignment="CENTER" editable="false" onMouseClicked="#r1Handler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mR1" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -412,7 +412,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mR2" alignment="CENTER" editable="false" onMouseClicked="#r2Handler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mR2" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -432,7 +432,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mR3" alignment="CENTER" editable="false" onMouseClicked="#r3Handler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mR3" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -463,7 +463,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mX1" alignment="CENTER" editable="false" onMouseClicked="#x1Handler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mX1" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -483,7 +483,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mX2" alignment="CENTER" editable="false" onMouseClicked="#x2Handler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mX2" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>
@@ -503,7 +503,7 @@
                                                                     <Insets top="5.0" />
                                                                 </HBox.margin>
                                                             </Label>
-                                                            <TextField fx:id="mX3" alignment="CENTER" editable="false" onMouseClicked="#x3Handler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                            <TextField fx:id="mX3" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
                                                                 <HBox.margin>
                                                                     <Insets left="5.0" right="5.0" />
                                                                 </HBox.margin>

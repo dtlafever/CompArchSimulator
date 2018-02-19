@@ -38,7 +38,7 @@ public class StartPanelController {
         try {
             // load the main scene, then current scene will dismiss
             FXMLLoadResult result = FXMLUtil.loadAsNode("main.fxml");
-            FXMLUtil.addStylesheets(result.getNode(), "bootstrap3.css");
+            FXMLUtil.addStylesheets(result.getNode(), "static/bootstrap3.css");
             primaryStage.setScene(new Scene(result.getNode()));
             primaryStage.setResizable(true);
 //            primaryStage.setMaximized(true);

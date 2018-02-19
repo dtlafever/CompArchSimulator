@@ -31,31 +31,43 @@ public class MainPanelHelper {
     private RegisterEditPanelController registerEditPanelController = null;
 
     /**
+     * execute fetch operation in CPU
+     * it will fetch a instruction from current PC
+     */
+    public void fetch(CPU cpu) {
+        cpu.fetch();
+        int word = cpu.getRegisters().getIR();
+        Instruction instruction = Instruction.build(word);
+        exec.set(String.format("[%d]%s", word, instruction.toString()));
+    }
+
+    /**
      * execute a single instruction
      * <p>
      * this should be executed after fetch method
      */
     public boolean execute(CPU cpu) {
-        int inst = Integer.valueOf(exec.get());
         // execution
-        boolean hasNext = cpu.decodeAndExecute(inst);
-        updateHistory(inst);
+        boolean hasNext = cpu.decodeAndExecute();
+        int word = cpu.getRegisters().getIR();
+        updateHistory(word);
         return hasNext;
     }
 
     public void updateHistory(int inst) {
-        String line = Instruction.build(inst).toString();
+        String instStr = Instruction.build(inst).toString();
+        String line = String.format("%d: \t[%d]\t%s\n%s", historyLen, inst,
+                instStr,
+                history.get());
         historyLen++;
         // update execution history
-        history.set(String.format("%d: \t[%s]\n%s", historyLen, line, history
-                .get()));
+        history.set(line);
     }
 
     public void updateHistory(String line) {
         // update execution history
         history.set(String.format("[%s]\n%s", line, history.get()));
     }
-
 
     public FXMLLoadResult getInstEditor(Stage owner, Modality modality) {
         if (instEditor == null) {
@@ -65,7 +77,7 @@ public class MainPanelHelper {
                 result = FXMLUtil.loadAsNode("inst_edit.fxml");
                 this.instEditController = (InstEditController)
                         result.getController();
-                FXMLUtil.addStylesheets(result.getNode(), "bootstrap3.css");
+                FXMLUtil.addStylesheets(result.getNode(), "static/bootstrap3.css");
                 this.instEditor.setScene(new Scene(result.getNode()));
                 this.instEditor.setResizable(false);
                 this.instEditor.setTitle("Instruction Editor");
@@ -90,7 +102,7 @@ public class MainPanelHelper {
                 result = FXMLUtil.loadAsNode("register_edit.fxml");
                 this.registerEditPanelController = (RegisterEditPanelController)
                         result.getController();
-                FXMLUtil.addStylesheets(result.getNode(), "bootstrap3.css");
+                FXMLUtil.addStylesheets(result.getNode(), "static/bootstrap3.css");
                 this.registerEditor.setScene(new Scene(result.getNode()));
                 this.registerEditor.setResizable(false);
                 this.registerEditor.setTitle("Register Editor");
@@ -108,14 +120,5 @@ public class MainPanelHelper {
         result.setController(this.registerEditPanelController);
         this.registerEditPanelController.reset(name, originalValue);
         return result;
-    }
-
-    /**
-     * execute fetch operation in CPU
-     * it will fetch a instruction from current PC
-     */
-    public void fetch(CPU cpu) {
-        int word = cpu.fetch();
-        exec.set(String.valueOf(word));
     }
 }

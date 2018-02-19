@@ -34,18 +34,20 @@ public class CPU {
     //--------------------------
 
     // Grab the instruction at the PC location
-    public int fetch() {
+    public void fetch() {
         registers.setMAR(registers.getPC());
         registers.setMBR(mcu.getWord(registers.MAR));
         registers.incrementPC(); // we have a seperate adder for PC
         registers.setIR(registers.getMBR());
-        return registers.getIR();
     }
 
-    // Decode the current instruction and execute it.
-    // return false if halt opcode is seen
-    public boolean decodeAndExecute(int word) {
+    /**
+     * Decode the current instruction in IR and execute it.
+     * return false if halt opcode is seen
+     * */
+    public boolean decodeAndExecute() {
         boolean next = true;
+        int word = registers.getIR();
         //DECODE
         Instruction instruction = Instruction.build(word);
 

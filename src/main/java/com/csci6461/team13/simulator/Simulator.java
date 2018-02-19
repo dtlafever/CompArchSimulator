@@ -34,9 +34,9 @@ public class Simulator extends Application {
 
         // load start scene
         FXMLLoadResult result = FXMLUtil.loadAsNode("start.fxml");
-        FXMLUtil.addStylesheets(result.getNode(), "bootstrap3.css");
+        FXMLUtil.addStylesheets(result.getNode(), "static/bootstrap3.css");
 
-        Image icon = new Image("icon_x.jpg");
+        Image icon = new Image("static/icon_x.jpg");
 
         primaryStage.setTitle("CSCI6461 TEAM 13");
         primaryStage.getIcons().add(icon);
