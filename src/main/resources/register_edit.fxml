@@ -23,19 +23,19 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="re_name" disable="true" editable="false" layoutX="166.0" layoutY="73.0" promptText="N/A" />
+                  <TextField fx:id="reName" disable="true" editable="false" layoutX="166.0" layoutY="73.0" promptText="N/A" />
                   <Text layoutX="67.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Value">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="re_val" layoutX="166.0" layoutY="128.0" promptText="N/A" />
+                  <TextField fx:id="reVal" layoutX="166.0" layoutY="128.0" promptText="N/A" />
                   <Text layoutX="74.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bits">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <HBox fx:id="re_bits" layoutX="166.0" layoutY="191.0">
+                  <HBox fx:id="reBits" layoutX="166.0" layoutY="191.0">
                      <children>
                         <RadioButton mnemonicParsing="false" />
                         <RadioButton mnemonicParsing="false" />
@@ -57,7 +57,7 @@
                   </HBox>
                   <HBox layoutX="229.0" layoutY="257.0">
                      <children>
-                        <Button fx:id="re_save" mnemonicParsing="false" onMouseClicked="#saveHandler" prefWidth="60.0" styleClass="primary" text="Save" textAlignment="CENTER">
+                        <Button fx:id="reSave" mnemonicParsing="false" onMouseClicked="#saveHandler" prefWidth="60.0" styleClass="primary" text="Save" textAlignment="CENTER">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
@@ -65,7 +65,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="re_exit" mnemonicParsing="false" onMouseClicked="#exitHandler" prefWidth="60.0" styleClass="danger" text="Exit" textAlignment="CENTER">
+                        <Button fx:id="reExit" mnemonicParsing="false" onMouseClicked="#exitHandler" prefWidth="60.0" styleClass="danger" text="Exit" textAlignment="CENTER">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>

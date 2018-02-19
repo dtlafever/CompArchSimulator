@@ -1,7 +1,7 @@
 package com.csci6461.team13.simulator.core.instruction;
 
-import com.csci6461.team13.simulator.core.instruction.Miscellaneous.HLT;
-import com.csci6461.team13.simulator.core.instruction.loadStore.*;
+import com.csci6461.team13.simulator.core.instruction.miscellaneous.HLT;
+import com.csci6461.team13.simulator.core.instruction.loadstore.*;
 
 public enum Inst {
 

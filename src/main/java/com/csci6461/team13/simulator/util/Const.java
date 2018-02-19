@@ -6,5 +6,5 @@ public class Const {
     }
 
     // The initial memory address to start our pre loaded program
-    public static int INITIAL_PROGRAM_ADDR = 100;
+    public static int ROM_ADDR = 100;
 }

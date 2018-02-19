@@ -19,14 +19,14 @@ public class CPU {
         registers = new Registers();
         mcu = new MCU();
         alu = new ALU(registers, mcu);
-        System.out.println("CPU " + CPU_ID + " started");
+        System.out.println(String.format("CPU %s started", CPU_ID));
     }
 
     // reset this cpu
     public void reset() {
         registers.reset();
         mcu.reset();
-        System.out.println("CPU " + CPU_ID + " has been reset");
+        System.out.println(String.format("CPU %s has been reset", CPU_ID));
     }
 
     //--------------------------

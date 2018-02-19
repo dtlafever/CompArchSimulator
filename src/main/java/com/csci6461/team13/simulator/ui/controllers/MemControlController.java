@@ -14,45 +14,43 @@ import javafx.scene.layout.HBox;
 public class MemControlController {
 
     @FXML
-    private TextField mc_nval;
+    private TextField mcNval;
 
     @FXML
-    private TextField mc_cval;
+    private TextField mcCval;
 
     @FXML
-    private HBox mc_bits;
+    private HBox mcBits;
 
     @FXML
-    private TextField mc_memaddr;
+    private TextField mcMemAddr;
 
     @FXML
-    private Button mc_store;
+    private Button mcStore;
 
     @FXML
-    private Button mc_clear;
+    private Button mcClear;
 
     @FXML
-    private Button mc_settopc;
+    private Button mcSettopc;
 
     private MemControlHelper helper = new MemControlHelper();
     private MainPanelController mainPanelController = null;
 
-    private Signals signals = null;
-
     @FXML
     private void initialize() {
 
-        this.signals = Simulator.getSignals();
+        Signals signals = Simulator.getSignals();
 
-        UIComponentUtil.bindValueToBits(mc_nval, mc_bits, 16);
+        UIComponentUtil.bindValueToBits(mcNval, mcBits, 16);
 
-        mc_memaddr.textProperty().addListener((observable, oldValue, newValue) -> {
+        mcMemAddr.textProperty().addListener((observable, oldValue, newValue) -> {
             helper.stored.set(false);
             MCU mcu = Simulator.getCpu().getMcu();
-            String memAddrStr = mc_memaddr.getText();
+            String memAddrStr = mcMemAddr.getText();
             if (!memAddrStr.isEmpty()) {
                 // reset current value
-                mc_cval.setText(Integer.toString(mcu.getWord(Integer.valueOf(memAddrStr))));
+                mcCval.setText(Integer.toString(mcu.getWord(Integer.valueOf(memAddrStr))));
                 // new valid value
                 helper.memaddr.set(true);
             } else {
@@ -61,7 +59,7 @@ public class MemControlController {
             }
         });
 
-        mc_nval.textProperty().addListener(((observable, oldValue, newValue) -> {
+        mcNval.textProperty().addListener(((observable, oldValue, newValue) -> {
             helper.stored.set(false);
             if (!newValue.isEmpty()) {
                 // new valid value signal
@@ -72,8 +70,8 @@ public class MemControlController {
             }
         }));
 
-        mc_store.disableProperty().bind(signals.on.not().or(helper.nval.not().or(helper.memaddr.not())));
-        mc_settopc.disableProperty().bind((signals.on.and(helper.stored).not()));
+        mcStore.disableProperty().bind(signals.on.not().or(helper.nval.not().or(helper.memaddr.not())));
+        mcSettopc.disableProperty().bind((signals.on.and(helper.stored).not()));
     }
 
     // place here a hook to access main panel controller
@@ -83,24 +81,24 @@ public class MemControlController {
 
     @FXML
     void clearHandler(MouseEvent event) {
-        mc_nval.clear();
-        mc_cval.clear();
-        mc_memaddr.clear();
+        mcNval.clear();
+        mcCval.clear();
+        mcMemAddr.clear();
         helper.stored.set(false);
     }
 
     @FXML
     void setToPCHandler(MouseEvent event) {
         // save the address of stored instruction to pc
-        Simulator.getCpu().getRegisters().setPC(Integer.valueOf(mc_memaddr.getText()));
+        Simulator.getCpu().getRegisters().setPC(Integer.valueOf(mcMemAddr.getText()));
         helper.stored.set(false);
         mainPanelController.refreshRegisters(Simulator.getCpu().getRegisters());
     }
 
     @FXML
     void storeHandler(MouseEvent event) {
-        String instStr = mc_nval.getText();
-        String memAddrStr = mc_memaddr.getText();
+        String instStr = mcNval.getText();
+        String memAddrStr = mcMemAddr.getText();
         int memAddr = 0;
         int inst;
 
@@ -116,22 +114,22 @@ public class MemControlController {
         }
 
         Simulator.getCpu().getMcu().storeWord(memAddr, inst);
-        mc_nval.clear();
+        mcNval.clear();
         helper.stored.set(true);
         // reset new value signal to disable store button
         helper.nval.set(false);
-        mc_cval.setText(Integer.toString(Simulator.getCpu().getMcu().getWord(memAddr)));
+        mcCval.setText(Integer.toString(Simulator.getCpu().getMcu().getWord(memAddr)));
     }
 
     // clear all values
     public void reset() {
-        mc_nval.clear();
-        mc_memaddr.clear();
-        mc_cval.clear();
+        mcNval.clear();
+        mcMemAddr.clear();
+        mcCval.clear();
     }
 
     public void refresh() {
-        mc_nval.clear();
-        mc_memaddr.setText(mc_memaddr.getText());
+        mcNval.clear();
+        mcMemAddr.setText(mcMemAddr.getText());
     }
 }

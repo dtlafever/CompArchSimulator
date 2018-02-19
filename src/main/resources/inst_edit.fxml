@@ -30,8 +30,8 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="ie_inst" promptText="N/A" />
-                        <Text fx:id="ie_error" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="ieInst" promptText="N/A" />
+                        <Text fx:id="ieError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>
@@ -48,7 +48,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="ie_val" promptText="N/A" />
+                        <TextField fx:id="ieVal" promptText="N/A" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="20.0" />
@@ -61,7 +61,7 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <HBox fx:id="ie_bits">
+                        <HBox fx:id="ieBits">
                            <children>
                               <RadioButton mnemonicParsing="false" HBox.hgrow="NEVER" />
                               <RadioButton mnemonicParsing="false" />
@@ -152,7 +152,7 @@
                   </HBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <Button fx:id="ie_instCopy" mnemonicParsing="false" onMouseClicked="#instCopyHandler" prefWidth="100.0" styleClass="success" text="Copy Inst" textAlignment="CENTER">
+                        <Button fx:id="ieInstCopy" mnemonicParsing="false" onMouseClicked="#instCopyHandler" prefWidth="100.0" styleClass="success" text="Copy Inst" textAlignment="CENTER">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -160,7 +160,7 @@
                               <Insets />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="ie_valCopy" mnemonicParsing="false" onMouseClicked="#valCopyHandler" onMouseEntered="#valCopyHandler" onMouseExited="#valCopyHandler" prefWidth="100.0" styleClass="success" text="Copy Val" textAlignment="CENTER">
+                        <Button fx:id="ieValCopy" mnemonicParsing="false" onMouseClicked="#valCopyHandler" onMouseEntered="#valCopyHandler" onMouseExited="#valCopyHandler" prefWidth="100.0" styleClass="success" text="Copy Val" textAlignment="CENTER">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -168,7 +168,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="ie_exit" mnemonicParsing="false" onMouseClicked="#exitHandler" prefWidth="100.0" styleClass="danger" text="Exit" textAlignment="CENTER">
+                        <Button fx:id="ieExit" mnemonicParsing="false" onMouseClicked="#exitHandler" prefWidth="100.0" styleClass="danger" text="Exit" textAlignment="CENTER">
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>

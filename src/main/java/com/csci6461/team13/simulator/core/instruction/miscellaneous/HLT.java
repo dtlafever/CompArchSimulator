@@ -1,4 +1,4 @@
-package com.csci6461.team13.simulator.core.instruction.Miscellaneous;
+package com.csci6461.team13.simulator.core.instruction.miscellaneous;
 
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.Registers;

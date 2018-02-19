@@ -21,94 +21,100 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainPanelController {
 
     private MemControlController memControlController = null;
     private MainPanelHelper helper = null;
 
-    // signals - states of different parts of simulator
+    /**
+     * signals - states of different parts of simulator
+     * */
     private SimpleStringProperty modeText = new SimpleStringProperty("RUN");
 
     private Signals signals;
 
     @FXML
-    private TitledPane m_overview;
+    private TitledPane mOverview;
 
     @FXML
-    private TitledPane m_mem;
+    private TitledPane mMem;
 
     @FXML
-    private VBox m_regs;
+    private VBox mRegs;
 
     @FXML
-    private Button m_ipl;
+    private Button mIpl;
 
     @FXML
-    private Button m_mode;
+    private Button mMode;
 
     @FXML
-    private Button m_reset;
+    private Button mReset;
 
     @FXML
-    private Button m_load;
+    private Button mLoad;
 
     @FXML
-    private TextArea m_history;
+    private Button mExit;
 
     @FXML
-    private TextField m_exec;
+    private TextArea mHistory;
 
     @FXML
-    private Button m_start;
+    private TextField mExec;
 
     @FXML
-    private Button m_next;
+    private Button mStart;
 
     @FXML
-    private TextField m_pc;
+    private Button mNext;
 
     @FXML
-    private TextField m_ir;
+    private TextField mPc;
 
     @FXML
-    private TextField m_mar;
+    private TextField mIr;
 
     @FXML
-    private TextField m_mbr;
+    private TextField mMar;
 
     @FXML
-    private TextField m_msr;
-    @FXML
-    private Label m_cc;
+    private TextField mMbr;
 
     @FXML
-    private Label m_mfr;
+    private TextField mMsr;
+    @FXML
+    private Label mCc;
 
     @FXML
-    private TextField m_r0;
+    private Label mMfr;
 
     @FXML
-    private TextField m_r1;
+    private TextField mR0;
 
     @FXML
-    private TextField m_r2;
+    private TextField mR1;
 
     @FXML
-    private TextField m_r3;
+    private TextField mR2;
 
     @FXML
-    private TextField m_x1;
+    private TextField mR3;
 
     @FXML
-    private TextField m_x2;
+    private TextField mX1;
 
     @FXML
-    private TextField m_x3;
+    private TextField mX2;
+
+    @FXML
+    private TextField mX3;
 
     // tools panel
     @FXML
-    private Button m_ie;
+    private Button mIe;
 
     @FXML
     void initialize() {
@@ -117,36 +123,36 @@ public class MainPanelController {
         try {
             FXMLLoadResult result = FXMLUtil.loadAsNode("mem_control.fxml");
             memControlController = (MemControlController) result.getController();
-            m_mem.setContent(result.getNode());
+            mMem.setContent(result.getNode());
             memControlController.setup(this);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        m_ipl.disableProperty().bind(signals.on);
-        m_overview.disableProperty().bind(signals.on.not());
-        m_regs.disableProperty().bind(signals.on.not());
-        m_mem.disableProperty().bind(signals.on.not());
+        mIpl.disableProperty().bind(signals.on);
+        mOverview.disableProperty().bind(signals.on.not());
+        mRegs.disableProperty().bind(signals.on.not());
+        mMem.disableProperty().bind(signals.on.not());
 
-        m_mode.textProperty().bind(modeText);
-        m_mode.disableProperty().bind(signals.loaded.not().or(signals.started));
+        mMode.textProperty().bind(modeText);
+        mMode.disableProperty().bind(signals.loaded.not().or(signals.started));
         // currently no load function
-//        m_load.disableProperty().bind(signals.on.not().or(signals.started));
-        m_load.setDisable(true);
-        m_reset.disableProperty().bind(signals.on.not());
+//        mLoad.disableProperty().bind(signals.on.not().or(signals.started));
+        mLoad.setDisable(true);
+        mReset.disableProperty().bind(signals.on.not());
 
-        m_start.disableProperty().bind(signals.loaded.not().or(signals.started));
-        m_next.disableProperty().bind(signals.mode.or(signals.started.not()));
+        mStart.disableProperty().bind(signals.loaded.not().or(signals.started));
+        mNext.disableProperty().bind(signals.mode.or(signals.started.not()));
         helper = new MainPanelHelper();
 
         initRegisterBindings();
 
         // init other bindings
-        m_history.textProperty().bind(helper.history);
-        m_history.textProperty().addListener((observable -> m_history
+        mHistory.textProperty().bind(helper.history);
+        mHistory.textProperty().addListener((observable -> mHistory
                 .setScrollTop(Double.MAX_VALUE)));
-        m_exec.textProperty().bind(helper.exec);
+        mExec.textProperty().bind(helper.exec);
 
         refreshRegisters(Simulator.getCpu().getRegisters());
     }
@@ -156,16 +162,6 @@ public class MainPanelController {
     void iplHandler(MouseEvent event) {
         MCU mcu = Simulator.getCpu().getMcu();
         Registers registers = Simulator.getCpu().getRegisters();
-
-        // setup registers
-        registers.setR0(1000);
-        registers.setR1(2000);
-        registers.setR2(3000);
-        registers.setR3(4000);
-
-        registers.setX1(1000);
-        registers.setX2(2000);
-        registers.setX3(3000);
 
         // setup direct addressing
         mcu.storeWord(9, 9);
@@ -189,13 +185,14 @@ public class MainPanelController {
 
         ArrayList<String> instructions = ROM.getInstructions();
         // address of the program beginning
-        int index = Const.INITIAL_PROGRAM_ADDR;
+        int index = Const.ROM_ADDR;
         for (String instStr : instructions) {
             Instruction instruction = Instruction.build(instStr);
-            mcu.storeWord(index++, instruction.toInteger());
+            Objects.requireNonNull(instruction, "Invalid ROM");
+            mcu.storeWord(index++, instruction.toWord());
         }
 
-        registers.setPC(Const.INITIAL_PROGRAM_ADDR);
+        registers.setPC(Const.ROM_ADDR);
 
         refreshSimulator();
 
@@ -222,6 +219,11 @@ public class MainPanelController {
     @FXML
     void resetHandler(MouseEvent event) {
         resetSimulator();
+    }
+
+    @FXML
+    void exitHandler(MouseEvent event){
+        Simulator.getPrimaryStage().close();
     }
 
     @FXML
@@ -279,63 +281,63 @@ public class MainPanelController {
     // Registers Handlers
     @FXML
     void pcHandler(MouseEvent event) {
-        toRegisterEdit(m_pc, Register.PC.name());
+        toRegisterEdit(mPc, Register.PC.name());
     }
 
     @FXML
     void irHandler(MouseEvent event) {
-        toRegisterEdit(m_ir, Register.IR.name());
+        toRegisterEdit(mIr, Register.IR.name());
     }
 
     @FXML
     void marHandler(MouseEvent event) {
-        toRegisterEdit(m_mar, Register.MAR.name());
+        toRegisterEdit(mMar, Register.MAR.name());
     }
 
     @FXML
     void mbrHandler(MouseEvent event) {
-        toRegisterEdit(m_mbr, Register.MBR.name());
+        toRegisterEdit(mMbr, Register.MBR.name());
     }
 
     @FXML
     void msrHandler(MouseEvent event) {
-        toRegisterEdit(m_msr, Register.MSR.name());
+        toRegisterEdit(mMsr, Register.MSR.name());
     }
 
     @FXML
     void r0Handler(MouseEvent event) {
-        toRegisterEdit(m_r0, Register.R0.name());
+        toRegisterEdit(mR0, Register.R0.name());
     }
 
     @FXML
     void r1Handler(MouseEvent event) {
-        toRegisterEdit(m_r1, Register.R1.name());
+        toRegisterEdit(mR1, Register.R1.name());
     }
 
     @FXML
     void r2Handler(MouseEvent event) {
-        toRegisterEdit(m_r2, Register.R2.name());
+        toRegisterEdit(mR2, Register.R2.name());
     }
 
     @FXML
     void r3Handler(MouseEvent event) {
-        toRegisterEdit(m_r3, Register.R3.name());
+        toRegisterEdit(mR3, Register.R3.name());
     }
 
 
     @FXML
     void x1Handler(MouseEvent event) {
-        toRegisterEdit(m_x1, Register.X1.name());
+        toRegisterEdit(mX1, Register.X1.name());
     }
 
     @FXML
     void x2Handler(MouseEvent event) {
-        toRegisterEdit(m_x2, Register.X2.name());
+        toRegisterEdit(mX2, Register.X2.name());
     }
 
     @FXML
     void x3Handler(MouseEvent event) {
-        toRegisterEdit(m_x3, Register.X3.name());
+        toRegisterEdit(mX3, Register.X3.name());
     }
 
     /**
@@ -371,33 +373,33 @@ public class MainPanelController {
 
         Registers regs = Simulator.getCpu().getRegisters();
 
-        m_pc.textProperty().addListener((observable, oldValue, newValue) ->
+        mPc.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setPC(Integer.valueOf(newValue)));
-        m_ir.textProperty().addListener((observable, oldValue, newValue) ->
+        mIr.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setIR(Integer.valueOf(newValue)));
-        m_mar.textProperty().addListener((observable, oldValue, newValue) ->
+        mMar.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setMAR(Integer.valueOf(newValue)));
-        m_mbr.textProperty().addListener((observable, oldValue, newValue) ->
+        mMbr.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setMBR(Integer.valueOf(newValue)));
-        m_msr.textProperty().addListener((observable, oldValue, newValue) ->
+        mMsr.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setMSR(Integer.valueOf(newValue)));
-//        m_cc.textProperty().addListener((observable, oldValue, newValue) ->
+//        mCc.textProperty().addListener((observable, oldValue, newValue) ->
 //                regs.setCC(Integer.valueOf(newValue)));
-//        m_mfr.textProperty().addListener((observable, oldValue, newValue) ->
+//        mMfr.textProperty().addListener((observable, oldValue, newValue) ->
 //                regs.setMFR(Integer.valueOf(newValue)));
-        m_r0.textProperty().addListener((observable, oldValue, newValue) ->
+        mR0.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setR0(Integer.valueOf(newValue)));
-        m_r1.textProperty().addListener((observable, oldValue, newValue) ->
+        mR1.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setR1(Integer.valueOf(newValue)));
-        m_r2.textProperty().addListener((observable, oldValue, newValue) ->
+        mR2.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setR2(Integer.valueOf(newValue)));
-        m_r3.textProperty().addListener((observable, oldValue, newValue) ->
+        mR3.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setR3(Integer.valueOf(newValue)));
-        m_x1.textProperty().addListener((observable, oldValue, newValue) ->
+        mX1.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setX1(Integer.valueOf(newValue)));
-        m_x2.textProperty().addListener((observable, oldValue, newValue) ->
+        mX2.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setX2(Integer.valueOf(newValue)));
-        m_x3.textProperty().addListener((observable, oldValue, newValue) ->
+        mX3.textProperty().addListener((observable, oldValue, newValue) ->
                 regs.setX3(Integer.valueOf(newValue)));
     }
 
@@ -440,19 +442,19 @@ public class MainPanelController {
      * refresh all register value to latest
      */
     public void refreshRegisters(Registers regs) {
-        m_pc.setText(Integer.toString(regs.getPC()));
-        m_ir.setText(Integer.toString(regs.getIR()));
-        m_mar.setText(Integer.toString(regs.getMAR()));
-        m_mbr.setText(Integer.toString(regs.getMBR()));
-        m_msr.setText(Integer.toString(regs.getMSR()));
-        m_cc.setText(Integer.toString(regs.getCC()));
-        m_mfr.setText(Integer.toString(regs.getMFR()));
-        m_r0.setText(Integer.toString(regs.getR0()));
-        m_r1.setText(Integer.toString(regs.getR1()));
-        m_r2.setText(Integer.toString(regs.getR2()));
-        m_r3.setText(Integer.toString(regs.getR3()));
-        m_x1.setText(Integer.toString(regs.getX1()));
-        m_x2.setText(Integer.toString(regs.getX2()));
-        m_x3.setText(Integer.toString(regs.getX3()));
+        mPc.setText(Integer.toString(regs.getPC()));
+        mIr.setText(Integer.toString(regs.getIR()));
+        mMar.setText(Integer.toString(regs.getMAR()));
+        mMbr.setText(Integer.toString(regs.getMBR()));
+        mMsr.setText(Integer.toString(regs.getMSR()));
+        mCc.setText(Integer.toString(regs.getCC()));
+        mMfr.setText(Integer.toString(regs.getMFR()));
+        mR0.setText(Integer.toString(regs.getR0()));
+        mR1.setText(Integer.toString(regs.getR1()));
+        mR2.setText(Integer.toString(regs.getR2()));
+        mR3.setText(Integer.toString(regs.getR3()));
+        mX1.setText(Integer.toString(regs.getX1()));
+        mX2.setText(Integer.toString(regs.getX2()));
+        mX3.setText(Integer.toString(regs.getX3()));
     }
 }

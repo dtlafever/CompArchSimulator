@@ -11,11 +11,26 @@ import static com.csci6461.team13.simulator.util.CoreUtil.int2FixedLenStr;
 
 public abstract class Instruction {
 
-    private int opcode; // 6 bits
-    private int r;      // 2 bits
-    private int ix;     // 2 bits
-    private int i;      // 1 bit
-    private int address;// 5 bits
+    /**
+     * 6 bits
+     */
+    private int opcode;
+    /**
+     * 2 bits
+     */
+    private int r;
+    /**
+     * 2 bits
+     */
+    private int ix;
+    /**
+     * 1 bits
+     */
+    private int i;
+    /**
+     * 5 bits
+     */
+    private int address;
 
     protected Instruction() {
         this.opcode = 0;
@@ -48,11 +63,9 @@ public abstract class Instruction {
         return null;
     }
 
-    public static void main(String[] args) {
-        Instruction instruction = build("LDR 3,1,1,31");
-        System.out.println(instruction.toString());
-    }
-
+    /**
+     * build an instruction from a integer word
+     */
     public static Instruction build(int word) {
         String strWord = int2FixedLenStr(word, 16);
         int opcode = Integer.parseInt(strWord.substring(0, 6), 2);
@@ -64,6 +77,9 @@ public abstract class Instruction {
         return build(opcode, r, ix, i, address);
     }
 
+    /**
+     * build an instruction from parts
+     */
     public static Instruction build(int opcode, int r, int ix, int i, int address) {
         Instruction instruction = null;
         Inst inst = Inst.findByOpcode(opcode);
@@ -83,7 +99,7 @@ public abstract class Instruction {
         return instruction;
     }
 
-    public Integer toInteger() {
+    public Integer toWord() {
         String result = int2FixedLenStr(opcode, 6) + int2FixedLenStr(r, 2)
                 + int2FixedLenStr(ix, 2) + int2FixedLenStr(i, 1)
                 + int2FixedLenStr(address, 5);
@@ -130,7 +146,9 @@ public abstract class Instruction {
         this.address = value;
     }
 
-    //get the effective address 
+    /**
+     * get the effective address
+     */
     public int getEffectiveAddress(MCU mcu, Registers registers) {
         if (this.i == 0) {
             // NO indirect addressing
@@ -152,13 +170,19 @@ public abstract class Instruction {
 
     @Override
     public String toString() {
-        String title = Inst.findByOpcode(this.opcode).getTitle();
-        if(title == null){
+        Inst inst = Inst.findByOpcode(this.opcode);
+        if (inst == null) {
             return null;
-        }else{
-            return title + " " + r + "," + ix + "," + i + "," + address;
+        } else {
+            String title = inst.getTitle();
+            return String.format("%s %d,%d,%d,%d", title, r, ix, i, address);
         }
     }
 
+    /**
+     * the primary execution method
+     * <p>
+     * return true if there is a next instructions
+     */
     public abstract boolean execute(Registers registers, MCU mcu);
 }

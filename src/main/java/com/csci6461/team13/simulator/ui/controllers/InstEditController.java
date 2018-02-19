@@ -2,8 +2,10 @@ package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.util.UIComponentUtil;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -17,66 +19,66 @@ import javafx.scene.text.Text;
 public class InstEditController {
 
     // signal a new valid instruction
-    private SimpleBooleanProperty newValSignal = new SimpleBooleanProperty(false);
-    private SimpleStringProperty inst = new SimpleStringProperty("");
-    private SimpleStringProperty error = new SimpleStringProperty();
+    private BooleanProperty newValSignal = new SimpleBooleanProperty(false);
+    private StringProperty inst = new SimpleStringProperty("");
+    private StringProperty error = new SimpleStringProperty();
 
     @FXML
-    private TextField ie_inst;
+    private TextField ieInst;
 
     @FXML
-    private Text ie_error;
+    private Text ieError;
 
     @FXML
-    private Button ie_instCopy;
+    private Button ieInstCopy;
 
     @FXML
-    private Button ie_valCopy;
+    private Button ieValCopy;
 
     @FXML
-    private TextField ie_val;
+    private TextField ieVal;
 
     @FXML
-    private HBox ie_bits;
+    private HBox ieBits;
 
     @FXML
-    private Button ie_exit;
+    private Button ieExit;
 
     @FXML
     void initialize() {
 
-        UIComponentUtil.bindValueToBits(ie_val, ie_bits, 16);
+        UIComponentUtil.bindValueToBits(ieVal, ieBits, 16);
 
-        ie_instCopy.disableProperty().bind(newValSignal.not());
-        ie_valCopy.disableProperty().bind(newValSignal.not());
-        ie_error.textProperty().bind(error);
+        ieInstCopy.disableProperty().bind(newValSignal.not());
+        ieValCopy.disableProperty().bind(newValSignal.not());
+        ieError.textProperty().bind(error);
 
-        ie_inst.textProperty().addListener((observable, oldValue, newValue) -> {
+        ieInst.textProperty().addListener((observable, oldValue, newValue) -> {
             Instruction instruction = Instruction.build(newValue);
             if (instruction != null) {
                 // a valid instruction
-                ie_val.setText(String.valueOf(instruction.toInteger()));
+                ieVal.setText(String.valueOf(instruction.toWord()));
                 newValSignal.set(true);
             }
         });
 
-        ie_val.textProperty().addListener((observable, oldValue, newValue) -> {
+        ieVal.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                int value = Integer.parseInt(ie_val.getText());
+                int value = Integer.parseInt(ieVal.getText());
                 Instruction instruction = Instruction.build(value);
                 if (instruction != null) {
                     // valid instruction
                     inst.set(instruction.toString());
                     newValSignal.set(true);
                     error.set("");
-                    ie_inst.setStyle("-fx-text-inner-color: black;");
-                    ie_val.setStyle("-fx-text-inner-color: black;");
+                    ieInst.setStyle("-fx-text-inner-color: black;");
+                    ieVal.setStyle("-fx-text-inner-color: black;");
                 } else {
                     throw new NumberFormatException();
                 }
             } catch (NumberFormatException ex) {
-                ie_inst.setStyle("-fx-text-inner-color: red;");
-                ie_val.setStyle("-fx-text-inner-color: red;");
+                ieInst.setStyle("-fx-text-inner-color: red;");
+                ieVal.setStyle("-fx-text-inner-color: red;");
                 error.set("Not A Valid Instruction");
                 // not a valid instruction
                 inst.set("");
@@ -88,40 +90,40 @@ public class InstEditController {
             Instruction instruction = Instruction.build(newValue);
             if (instruction == null) {
                 // not a valid instruction
-                ie_inst.setStyle("-fx-text-inner-color: red;");
-                ie_val.setStyle("-fx-text-inner-color: red;");
+                ieInst.setStyle("-fx-text-inner-color: red;");
+                ieVal.setStyle("-fx-text-inner-color: red;");
                 error.set("Not A Valid Instruction");
                 newValSignal.set(false);
             } else {
-                ie_inst.setStyle("-fx-text-inner-color: black;");
-                ie_val.setStyle("-fx-text-inner-color: black;");
-                ie_val.setText(String.valueOf(instruction.toInteger()));
+                ieInst.setStyle("-fx-text-inner-color: black;");
+                ieVal.setStyle("-fx-text-inner-color: black;");
+                ieVal.setText(String.valueOf(instruction.toWord()));
                 error.set("");
                 newValSignal.set(true);
             }
         });
 
-        ie_inst.textProperty().bindBidirectional(inst);
+        ieInst.textProperty().bindBidirectional(inst);
 
-        ie_inst.clear();
-        ie_val.clear();
+        ieInst.clear();
+        ieVal.clear();
     }
 
     /**
      * reset the whole panel
      * */
     public void reset() {
-        ie_val.setText("0");
+        ieVal.setText("0");
     }
 
     @FXML
     void instCopyHandler(MouseEvent event) {
-        setupCopyBtn(ie_inst, event);
+        setupCopyBtn(ieInst, event);
     }
 
     @FXML
     void valCopyHandler(MouseEvent event) {
-        setupCopyBtn(ie_val, event);
+        setupCopyBtn(ieVal, event);
     }
 
     private void setupCopyBtn(TextField textField, MouseEvent event) {

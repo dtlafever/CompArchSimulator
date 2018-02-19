@@ -36,7 +36,7 @@
                         <Insets left="15.0" />
                      </HBox.margin>
                   </Text>
-                  <TextField fx:id="mc_nval" promptText="N/A">
+                  <TextField fx:id="mcNval" promptText="N/A">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -59,7 +59,7 @@
                         <Insets left="100.0" />
                      </HBox.margin>
                   </Text>
-                  <HBox fx:id="mc_bits">
+                  <HBox fx:id="mcBits">
                      <children>
                         <RadioButton mnemonicParsing="false" />
                         <RadioButton mnemonicParsing="false" />
@@ -91,7 +91,7 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Text>
-                  <TextField fx:id="mc_memaddr" promptText="N/A">
+                  <TextField fx:id="mcMemAddr" promptText="N/A">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -111,7 +111,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="mc_cval" editable="false" promptText="N/A">
+                  <TextField fx:id="mcCval" editable="false" promptText="N/A">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -123,7 +123,7 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="347.0" VBox.vgrow="NEVER">
                <children>
-                  <Button fx:id="mc_store" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#storeHandler" prefWidth="60.0" styleClass="danger" text="Store" textAlignment="CENTER">
+                  <Button fx:id="mcStore" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#storeHandler" prefWidth="60.0" styleClass="danger" text="Store" textAlignment="CENTER">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -134,7 +134,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="mc_clear" mnemonicParsing="false" onMouseClicked="#clearHandler" prefWidth="60.0" styleClass="danger" text="Clear" textAlignment="CENTER" HBox.hgrow="NEVER">
+                  <Button fx:id="mcClear" mnemonicParsing="false" onMouseClicked="#clearHandler" prefWidth="60.0" styleClass="danger" text="Clear" textAlignment="CENTER" HBox.hgrow="NEVER">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -145,7 +145,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="mc_settopc" layoutX="43.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#setToPCHandler" styleClass="danger" text="Set To PC" textAlignment="CENTER">
+                  <Button fx:id="mcSettopc" layoutX="43.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#setToPCHandler" styleClass="danger" text="Set To PC" textAlignment="CENTER">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

@@ -8,6 +8,7 @@ import com.csci6461.team13.simulator.ui.controllers.RegisterEditPanelController;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -19,8 +20,8 @@ public class MainPanelHelper {
 
     // execution history property
     // if this content update, the corresponding textfield in main panel would also update
-    public SimpleStringProperty history = new SimpleStringProperty("");
-    public SimpleStringProperty exec = new SimpleStringProperty("");
+    public StringProperty history = new SimpleStringProperty("");
+    public StringProperty exec = new SimpleStringProperty();
     public int historyLen = 0;
 
     private InstEditController instEditController = null;
@@ -42,18 +43,18 @@ public class MainPanelHelper {
         return hasNext;
     }
 
-    public void updateHistory(int inst){
+    public void updateHistory(int inst) {
         String line = Instruction.build(inst).toString();
         historyLen++;
         // update execution history
-        history.set(historyLen + ": \t[" + line + "]\n" + history.get());
+        history.set(String.format("%d: \t[%s]\n%s", historyLen, line, history
+                .get()));
     }
 
-    public void updateHistory(String line){
+    public void updateHistory(String line) {
         // update execution history
-        history.set("[" + line + "]\n" + history.get());
+        history.set(String.format("[%s]\n%s", line, history.get()));
     }
-
 
 
     public FXMLLoadResult getInstEditor(Stage owner, Modality modality) {

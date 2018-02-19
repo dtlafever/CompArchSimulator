@@ -22,7 +22,7 @@
       </AnchorPane>
       <HBox alignment="CENTER" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
          <children>
-            <Button fx:id="startBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
+            <Button fx:id="sStart" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
                     onMouseClicked="#handleStartBtn" styleClass="warning" text="START" textAlignment="CENTER"
                     textFill="WHITE">
                <cursor>

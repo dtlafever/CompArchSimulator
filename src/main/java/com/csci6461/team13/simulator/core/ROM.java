@@ -14,15 +14,15 @@ public class ROM {
 
         instructions = new ArrayList<>();
 
-        instructions.add("LDR 0,0,0,9");
-        instructions.add("LDR 0,0,1,10");
+        instructions.add("LDR 1,0,0,9");
+        instructions.add("LDR 2,0,1,10");
         instructions.add("STR 1,0,0,11");
-        instructions.add("STR 1,0,1,12");
-        instructions.add("LDA 2,0,0,13");
+        instructions.add("STR 2,0,1,12");
+        instructions.add("LDA 1,0,0,13");
         instructions.add("LDA 2,0,1,14");
         instructions.add("LDX 0,1,0,15");
-        instructions.add("LDX 0,1,1,16");
-        instructions.add("STX 0,2,0,17");
+        instructions.add("LDX 0,2,1,16");
+        instructions.add("STX 0,1,0,17");
         instructions.add("STX 0,2,1,18");
         // halt
         instructions.add("HLT 0,0,0,0");

@@ -2,7 +2,6 @@ package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.util.Register;
 import com.csci6461.team13.simulator.util.UIComponentUtil;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -23,26 +22,26 @@ public class RegisterEditPanelController {
     public String newVal = null;
 
     @FXML
-    private TextField re_name;
+    private TextField reName;
 
     @FXML
-    private TextField re_val;
+    private TextField reVal;
 
     @FXML
-    private HBox re_bits;
+    private HBox reBits;
 
     @FXML
-    private Button re_save;
+    private Button reSave;
 
     @FXML
-    private Button re_exit;
+    private Button reExit;
 
     private int bitLength;
 
     @FXML
     private void initialize() {
         // initialize bitsToValue bidirectional bindings
-        UIComponentUtil.bindValueToBits(re_val, re_bits, 16);
+        UIComponentUtil.bindValueToBits(reVal, reBits, 16);
     }
 
     /**
@@ -50,10 +49,10 @@ public class RegisterEditPanelController {
      */
     public void reset(String name, String value) {
         newVal = value;
-        re_name.setText(name);
-        re_val.setText(value);
+        reName.setText(name);
+        reVal.setText(value);
 
-        List<RadioButton> bits = re_bits.getChildren().stream().filter(it -> it instanceof RadioButton).map(it -> (RadioButton)it).collect(Collectors.toList());
+        List<RadioButton> bits = reBits.getChildren().stream().filter(it -> it instanceof RadioButton).map(it -> (RadioButton)it).collect(Collectors.toList());
         int bitLength = Register.valueOf(name).getBitLength();
         this.bitLength = bitLength;
         for (int i = 0; i < bits.size(); i++) {
@@ -68,7 +67,7 @@ public class RegisterEditPanelController {
     @FXML
     void saveHandler(MouseEvent event) {
         // update the value for binding
-        newVal = re_val.getText();
+        newVal = reVal.getText();
         // hide the window
         // it will still exist in the memory, but just hiding
         ((Node) event.getSource()).getScene().getWindow().hide();

@@ -14,7 +14,7 @@ import java.io.IOException;
 public class StartPanelController {
 
     @FXML
-    Button startBtn;
+    Button sStart;
 
     /**
      * automatically executed by application after loading
@@ -25,7 +25,7 @@ public class StartPanelController {
     }
 
     /**
-     * act to clicks on startBtn
+     * act to clicks on sStart
      * <p>
      * switch scene to main scene
      */
@@ -34,7 +34,7 @@ public class StartPanelController {
         System.out.println("Simulation Started");
 
         Stage primaryStage = Simulator.getPrimaryStage();
-        startBtn.setDisable(true);
+        sStart.setDisable(true);
         try {
             // load the main scene, then current scene will dismiss
             FXMLLoadResult result = FXMLUtil.loadAsNode("main.fxml");
