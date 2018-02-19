@@ -21,7 +21,7 @@ public class MainPanelHelper {
     // if this content update, the corresponding textfield in main panel would also update
     public SimpleStringProperty history = new SimpleStringProperty("");
     public SimpleStringProperty exec = new SimpleStringProperty("");
-    public int historyLength = 0;
+    public int historyLen = 0;
 
     private InstEditController instEditController = null;
     private Stage instEditor = null;
@@ -36,14 +36,25 @@ public class MainPanelHelper {
      */
     public boolean execute(CPU cpu) {
         int inst = Integer.valueOf(exec.get());
-        String instStr = Instruction.build(inst).toString();
         // execution
         boolean hasNext = cpu.decodeAndExecute(inst);
-        historyLength++;
-        // update execution history
-        history.set(historyLength + ": \t[" + instStr + "]\n" + history.get());
+        updateHistory(inst);
         return hasNext;
     }
+
+    public void updateHistory(int inst){
+        String line = Instruction.build(inst).toString();
+        historyLen++;
+        // update execution history
+        history.set(historyLen + ": \t[" + line + "]\n" + history.get());
+    }
+
+    public void updateHistory(String line){
+        // update execution history
+        history.set("[" + line + "]\n" + history.get());
+    }
+
+
 
     public FXMLLoadResult getInstEditor(Stage owner, Modality modality) {
         if (instEditor == null) {

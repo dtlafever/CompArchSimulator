@@ -232,6 +232,7 @@ public class MainPanelController {
             // if there is no more instructions
             // reset started signal
             signals.started.set(false);
+            helper.updateHistory("--END--");
         } else {
             helper.fetch(Simulator.getCpu());
         }
@@ -242,6 +243,7 @@ public class MainPanelController {
     void startHandler(MouseEvent event) {
         // setup the program started
         signals.started.set(true);
+        helper.updateHistory("--START--");
 
         // run program according to different modes
         if (signals.mode.get()) {
@@ -253,6 +255,7 @@ public class MainPanelController {
                 // refresh register values on the stage
                 refreshRegisters(Simulator.getCpu().getRegisters());
             }
+            helper.updateHistory("--END--");
             // reset started signal
             signals.started.set(false);
         } else {
@@ -352,8 +355,8 @@ public class MainPanelController {
         FXMLLoadResult editorResult = helper.getInstEditor(Simulator.getPrimaryStage(),
                 Modality.NONE);
         Stage registerEditor = editorResult.getStage();
-        InstEditController controller = (InstEditController) editorResult
-                .getController();
+        InstEditController controller = (InstEditController) editorResult.getController();
+        controller.reset();
         registerEditor.show();
     }
 
@@ -423,7 +426,7 @@ public class MainPanelController {
         // reset over texts
         helper.exec.set("");
         helper.history.set("");
-        helper.historyLength = 0;
+        helper.historyLen = 0;
         // reset mem control
         memControlController.reset();
 

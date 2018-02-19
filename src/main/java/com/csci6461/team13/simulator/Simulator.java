@@ -6,6 +6,7 @@ import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Simulator extends Application {
@@ -35,7 +36,10 @@ public class Simulator extends Application {
         FXMLLoadResult result = FXMLUtil.loadAsNode("start.fxml");
         FXMLUtil.addStylesheets(result.getNode(), "bootstrap3.css");
 
+        Image icon = new Image("icon_x.jpg");
+
         primaryStage.setTitle("CSCI6461 TEAM 13");
+        primaryStage.getIcons().add(icon);
         primaryStage.setScene(new Scene(result.getNode()));
         primaryStage.setResizable(false);
         primaryStage.show();
