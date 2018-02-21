@@ -118,31 +118,31 @@
                         </Label>
                         <HBox alignment="CENTER" HBox.hgrow="NEVER">
                            <children>
-                              <Label alignment="CENTER" prefWidth="156.0" text="opcode" textAlignment="CENTER" />
+                              <Label alignment="CENTER" prefWidth="144.0" text="opcode" textAlignment="CENTER" />
                               <Separator orientation="VERTICAL">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Separator>
-                              <Label alignment="CENTER" layoutX="10.0" layoutY="12.0" prefWidth="57.0" text="r" textAlignment="CENTER" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="12.0" prefWidth="53.0" text="r" textAlignment="CENTER" />
                               <Separator layoutX="166.0" layoutY="10.0" orientation="VERTICAL">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Separator>
-                              <Label alignment="CENTER" layoutX="210.0" layoutY="12.0" prefWidth="57.0" text="ix" textAlignment="CENTER" />
+                              <Label alignment="CENTER" layoutX="210.0" layoutY="12.0" prefWidth="53.0" text="ix" textAlignment="CENTER" />
                               <Separator layoutX="229.0" layoutY="10.0" orientation="VERTICAL">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Separator>
-                              <Label alignment="CENTER" layoutX="366.0" layoutY="12.0" prefWidth="31.0" text="i" textAlignment="CENTER" />
+                              <Label alignment="CENTER" layoutX="366.0" layoutY="12.0" prefWidth="29.0" text="i" textAlignment="CENTER" />
                               <Separator layoutX="292.0" layoutY="10.0" orientation="VERTICAL">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </Separator>
-                              <Label alignment="CENTER" layoutX="522.0" layoutY="12.0" prefWidth="135.0" text="address" textAlignment="CENTER" />
+                              <Label alignment="CENTER" layoutX="522.0" layoutY="12.0" prefWidth="120.0" text="address" textAlignment="CENTER" />
                            </children>
                            <padding>
                               <Insets top="2.0" />

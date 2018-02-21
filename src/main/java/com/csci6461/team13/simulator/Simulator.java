@@ -2,6 +2,7 @@ package com.csci6461.team13.simulator;
 
 import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.ui.basic.Signals;
+import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.application.Application;
@@ -34,9 +35,9 @@ public class Simulator extends Application {
 
         // load start scene
         FXMLLoadResult result = FXMLUtil.loadAsNode("start.fxml");
-        FXMLUtil.addStylesheets(result.getNode(), "static/bootstrap3.css");
+        FXMLUtil.addStylesheets(result.getNode(), Const.UNIVERSAL_STYLESHEET_URL);
 
-        Image icon = new Image("static/icon_x.jpg");
+        Image icon = new Image(Const.ICON_URL);
 
         primaryStage.setTitle("CSCI6461 TEAM 13");
         primaryStage.getIcons().add(icon);

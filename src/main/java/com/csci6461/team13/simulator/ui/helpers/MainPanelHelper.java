@@ -5,6 +5,7 @@ import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.ui.controllers.InstEditController;
 import com.csci6461.team13.simulator.ui.controllers.RegisterEditPanelController;
+import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.beans.property.SimpleStringProperty;
@@ -77,7 +78,7 @@ public class MainPanelHelper {
                 result = FXMLUtil.loadAsNode("inst_edit.fxml");
                 this.instEditController = (InstEditController)
                         result.getController();
-                FXMLUtil.addStylesheets(result.getNode(), "static/bootstrap3.css");
+                FXMLUtil.addStylesheets(result.getNode(), Const.UNIVERSAL_STYLESHEET_URL);
                 this.instEditor.setScene(new Scene(result.getNode()));
                 this.instEditor.setResizable(false);
                 this.instEditor.setTitle("Instruction Editor");
@@ -102,7 +103,7 @@ public class MainPanelHelper {
                 result = FXMLUtil.loadAsNode("register_edit.fxml");
                 this.registerEditPanelController = (RegisterEditPanelController)
                         result.getController();
-                FXMLUtil.addStylesheets(result.getNode(), "static/bootstrap3.css");
+                FXMLUtil.addStylesheets(result.getNode(), Const.UNIVERSAL_STYLESHEET_URL);
                 this.registerEditor.setScene(new Scene(result.getNode()));
                 this.registerEditor.setResizable(false);
                 this.registerEditor.setTitle("Register Editor");

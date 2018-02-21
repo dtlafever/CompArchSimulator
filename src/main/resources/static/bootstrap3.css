@@ -3,6 +3,16 @@
     -fx-outer-border: #cecece;
 }
 
+#st_title, #m_title{
+    -fx-background-color: steelblue;
+    -fx-text-fill: white;
+}
+
+#st_main{
+    -fx-background-color: white;
+}
+
+
 .button:focused, .toggle-button:focused,
 .split-menu-button:focused, .menu-button:focused,
 .number-button:focused,
@@ -904,7 +914,7 @@ VBox > .split-menu-button.last > .arrow-button {
  ******************************************************************************/
 
 .radio-button {
-    -fx-label-padding: 0.0em 0.0em 0.1em 0.416667em; /* 0 0 0 5 */
+    /*-fx-label-padding: 0.0em 0.0em 0.1em 0.416667em; !* 0 0 0 5 *!*/
     -fx-text-fill: -fx-text-background-color;
     -fx-padding: 0 0 .5 0;
 }

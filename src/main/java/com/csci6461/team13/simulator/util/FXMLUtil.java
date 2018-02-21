@@ -48,4 +48,9 @@ public class FXMLUtil {
     public static final ArrayList getControllers() {
         return controllers;
     }
+
+    public static final void replaceTheme(Parent node, String themeUrl){
+        node.getStylesheets().clear();
+        addStylesheets(node, themeUrl);
+    }
 }

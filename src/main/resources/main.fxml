@@ -20,7 +20,7 @@
     <children>
         <AnchorPane>
             <children>
-                <Label alignment="CENTER" layoutX="393.0" layoutY="83.0" style="-fx-background-color: steelblue;" text="Simulator X" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <Label id="m_title" alignment="CENTER" layoutX="393.0" layoutY="83.0" text="Simulator X" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <font>
                         <Font name="Verdana Pro Bold" size="21.0" />
                     </font>

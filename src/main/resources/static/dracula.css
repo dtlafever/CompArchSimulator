@@ -1,0 +1,66 @@
+.root {
+    -fx-base: #2B2B2B;
+/ / dark -fx-focus-color: transparent;
+}
+
+#st_title, #m_title {
+    -fx-background-color: #606365;
+    -fx-text-fill: #FFF7CC;
+}
+
+#st_main {
+    -fx-background-color: #3C3F41;
+}
+
+.button, .menu-button, .toggle-button, .split-menu-button {
+    -fx-font-size: 14;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-pref-height: 30;
+    -fx-min-width: 30;
+}
+
+.button, .menu-button, .split-menu-button, .toggle-button, .number-button {
+    -fx-background-insets: 0, 0, -1, 0;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * RadioButton                                                                 *
+ *                                                                             *
+ ******************************************************************************/
+
+.radio-button {
+    /*-fx-label-padding: 0.0em 0.0em 0.1em 0.416667em; !* 0 0 0 5 *!*/
+    -fx-text-fill: -fx-text-background-color;
+    /*-fx-padding: 0 0 .5 0;*/
+}
+
+.radio-button > .radio,
+.radio-button:focused > .radio {
+    /*-fx-border-radius: 1em;*/
+    -fx-background-radius: 1.0em; /* large value to make sure this remains circular */
+    -fx-padding: 1 2 3 2;
+    -fx-background-color: #2B2B2B;
+}
+
+.radio-button:selected > .radio, .radio-button:hover > .radio {
+    -fx-fill-color: white;
+}
+
+.radio-button:pressed > .radio {
+    -fx-background-color: white;
+}
+
+.radio-button:selected > .radio > .dot {
+    -fx-background-color: white;
+}
+
+.radio-button:hover > .radio,
+.radio-button:selected > .radio {
+    -fx-background-color: linear-gradient(to bottom, white, white);
+}
+
+.radio-button:pressed > .radio {
+    -fx-background-color: white;
+}
