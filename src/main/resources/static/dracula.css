@@ -1,6 +1,6 @@
 .root {
     -fx-base: #2B2B2B;
-/ / dark -fx-focus-color: transparent;
+    -fx-focus-color: transparent;
 }
 
 #st_title, #m_title {
