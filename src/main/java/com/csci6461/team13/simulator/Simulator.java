@@ -14,8 +14,10 @@ public class Simulator extends Application {
 
     private static CPU cpu;
 
-    // primaryStage is the root component of the UI module
-    // it will be initialized in the start method
+     /**
+      * primaryStage is the root component of the UI module
+      * it will be initialized in the start method
+      * */
     private static Stage primaryStage;
     private static Signals signals = null;
 
@@ -35,7 +37,8 @@ public class Simulator extends Application {
 
         // load start scene
         FXMLLoadResult result = FXMLUtil.loadAsNode("start.fxml");
-        FXMLUtil.addStylesheets(result.getNode(), Const.UNIVERSAL_STYLESHEET_URL);
+        FXMLUtil.addStylesheets(result.getNode(), Const
+                .UNIVERSAL_STYLESHEET_URL.get());
 
         Image icon = new Image(Const.ICON_URL);
 

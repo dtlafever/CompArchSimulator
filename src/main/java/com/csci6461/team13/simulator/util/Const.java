@@ -1,5 +1,7 @@
 package com.csci6461.team13.simulator.util;
 
+import javafx.beans.binding.StringBinding;
+
 public class Const {
 
     private Const() {
@@ -10,6 +12,7 @@ public class Const {
 
     public final static String DRACULA_THEME_URL = "static/dracula.css";
     public final static String BOOTSTRAP3_THEME_URL = "static/bootstrap3.css";
-    public static String UNIVERSAL_STYLESHEET_URL = "static/bootstrap3.css";
+    public static StringBinding UNIVERSAL_STYLESHEET_URL;
     public static String ICON_URL = "static/icon_x.jpg";
+
 }

@@ -78,7 +78,8 @@ public class MainPanelHelper {
                 result = FXMLUtil.loadAsNode("inst_edit.fxml");
                 this.instEditController = (InstEditController)
                         result.getController();
-                FXMLUtil.addStylesheets(result.getNode(), Const.UNIVERSAL_STYLESHEET_URL);
+                FXMLUtil.addStylesheets(result.getNode(), Const
+                        .UNIVERSAL_STYLESHEET_URL.get());
                 this.instEditor.setScene(new Scene(result.getNode()));
                 this.instEditor.setResizable(false);
                 this.instEditor.setTitle("Instruction Editor");
@@ -103,7 +104,8 @@ public class MainPanelHelper {
                 result = FXMLUtil.loadAsNode("register_edit.fxml");
                 this.registerEditPanelController = (RegisterEditPanelController)
                         result.getController();
-                FXMLUtil.addStylesheets(result.getNode(), Const.UNIVERSAL_STYLESHEET_URL);
+                FXMLUtil.addStylesheets(result.getNode(), Const
+                        .UNIVERSAL_STYLESHEET_URL.get());
                 this.registerEditor.setScene(new Scene(result.getNode()));
                 this.registerEditor.setResizable(false);
                 this.registerEditor.setTitle("Register Editor");
