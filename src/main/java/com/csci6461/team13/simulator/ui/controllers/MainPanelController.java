@@ -296,11 +296,6 @@ public class MainPanelController {
     }
 
     @FXML
-    void peHandler(MouseEvent event) {
-
-    }
-
-    @FXML
     void registerHandler(MouseEvent event) {
         TextField register = (TextField) event.getSource();
         toRegisterEdit(register, (String) register.getProperties().get
@@ -373,7 +368,7 @@ public class MainPanelController {
     /**
      * refresh all register value to latest
      */
-    public void refreshSimulator() {
+    private void refreshSimulator() {
         Registers registers = Simulator.getCpu().getRegisters();
         // refresh registers
         refreshRegisters(registers);
@@ -384,7 +379,7 @@ public class MainPanelController {
     /**
      * reset the whole simulator to original state
      */
-    public void resetSimulator() {
+    private void resetSimulator() {
         // reset signals
         signals.mode.set(true);
         modeText.set("RUN");

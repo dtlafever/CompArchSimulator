@@ -93,6 +93,7 @@ public abstract class Instruction {
                 instruction.setAddress(address);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 e.printStackTrace();
+                return null;
             }
         }
 
