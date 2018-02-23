@@ -1,6 +1,8 @@
 package com.csci6461.team13.simulator.core;
 
 import java.util.ArrayList;
+import com.csci6461.team13.simulator.util.Const;
+import com.csci6461.team13.simulator.core.Cache.CacheLine;
 
 // Memory Control Unit
 // Reserved Locations of Memory:
@@ -14,20 +16,20 @@ public class MCU {
     // 16 bit words, so be careful
     ArrayList<Integer> memory = null;
 
-    public int MAX_MEMORY = 2048;
-    public int EXPANDED_MAX_MEMORY = 4096;
+    // 16 blocks of cache
+    Cache cache;
 
     // initialize all memory to 0 with a size of 2048
     public MCU() {
         reset();
-        //TODO: cache (i don't think this is required for project 1)
+        this.cache = new Cache();
     }
 
     // Expand memory to 4096
     public void expandMemorySize() {
         if (this.memory != null && this.memory.size() > 0) {
-            this.memory.ensureCapacity(this.EXPANDED_MAX_MEMORY);
-            for (int curSize = memory.size(); curSize < this.EXPANDED_MAX_MEMORY; curSize++) {
+            this.memory.ensureCapacity(Const.EXPANDED_MAX_MEMORY);
+            for (int curSize = memory.size(); curSize < Const.EXPANDED_MAX_MEMORY; curSize++) {
                 this.memory.add(0);
             }
         }
@@ -56,16 +58,53 @@ public class MCU {
 
     public void reset() {
         if (this.memory == null) {
-            this.memory = new ArrayList<>(this.MAX_MEMORY);
-            for (int i = 0; i < this.MAX_MEMORY; i++) {
+            this.memory = new ArrayList<>(Const.MAX_MEMORY);
+            for (int i = 0; i < Const.MAX_MEMORY; i++) {
                 this.memory.add(i, 0);
             }
         } else {
-            for (int i = 0; i < this.MAX_MEMORY; i++) {
+            for (int i = 0; i < Const.MAX_MEMORY; i++) {
                 this.memory.set(i, 0);
             }
         }
     }
 
-    //TODO: cache?
+    //////////////////////////////////////////
+
+    public Cache getCache(){
+        return this.cache;
+    }
+
+    // Checks to see if the address exists in cache and if so, return the value.
+    // Otherwise, fetch it from memory and store to cache.
+    public int getFromCache(int addr){
+        // Let us first see if the block is already in cache
+        for (CacheLine line : cache.getCacheLines()){
+            if (addr == line.getAddr()){
+                return line.getData();
+            }
+        }
+        // The address does not exist, lets add it to the cache and fetch
+        // a word from memory
+        int value = getWord(addr);
+        cache.add(addr, value);
+        return value;
+    }
+
+    // store into cache and memory, replacing values in cache if they already exists.
+    public void storeToCache(int addr, int value){
+        storeWord(addr, value);
+        
+        // check if block exists already
+        for (CacheLine line : cache.getCacheLines()){
+            if (addr == line.getAddr()){
+                // We should replace the block
+                line.setData(value);
+                return;
+            }
+        }
+        // The address does not exist, add to cache
+        cache.add(addr, value);
+    }
+
 }
