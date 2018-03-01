@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.core.Cache.CacheLine;
 
-// Memory Control Unit
-// Reserved Locations of Memory:
-// 0 - Reserved for the Trap instruction for Part III.
-// 1 - Reserved for a machine fault
-// 2 - Store PC for Trap
-// 3 - Not Used
-// 4 - Store PC for Machine Fault
-// 5 - Not Used
+/**
+ * Memory Control Unit
+ * Reserved Locations of Memory:
+ * 0 - Reserved for the Trap instruction for Part III.
+ * 1 - Reserved for a machine fault
+ * 2 - Store PC for Trap
+ * 3 - Not Used
+ * 4 - Store PC for Machine Fault
+ * 5 - Not Used
+ * */
 public class MCU {
     // 16 bit words, so be careful
     ArrayList<Integer> memory = null;
@@ -69,8 +71,6 @@ public class MCU {
         }
     }
 
-    //////////////////////////////////////////
-
     public Cache getCache(){
         return this.cache;
     }
@@ -106,5 +106,4 @@ public class MCU {
         // The address does not exist, add to cache
         cache.add(addr, value);
     }
-
 }

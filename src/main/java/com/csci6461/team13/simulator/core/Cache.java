@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import com.csci6461.team13.simulator.util.Const;
 
 public class Cache{
-    //////////////////////////////
     public class CacheLine{
         int addr;
         int data;
@@ -30,9 +29,8 @@ public class Cache{
             this.data = data;
         }
     }
-    //////////////////////////////
 
-    LinkedList<CacheLine> cacheLines;
+    private LinkedList<CacheLine> cacheLines;
 
     public Cache(){
         this.cacheLines = new LinkedList<CacheLine>();
