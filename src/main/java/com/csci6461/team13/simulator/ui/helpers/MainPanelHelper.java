@@ -2,28 +2,21 @@ package com.csci6461.team13.simulator.ui.helpers;
 
 import com.csci6461.team13.simulator.Simulator;
 import com.csci6461.team13.simulator.core.CPU;
+import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.ui.controllers.InstEditController;
 import com.csci6461.team13.simulator.ui.controllers.RegisterEditPanelController;
 import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.geometry.HPos;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.beans.property.*;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class MainPanelHelper {
 
@@ -33,6 +26,7 @@ public class MainPanelHelper {
     public int executedInstCount = 0;
     public IntegerProperty nextWord = new SimpleIntegerProperty();
     public IntegerProperty nextAddr = new SimpleIntegerProperty();
+    public BooleanProperty enableIOInput = new SimpleBooleanProperty(true);
 
     private InstEditController instEditController = null;
     private Stage instEditor = null;
@@ -44,14 +38,14 @@ public class MainPanelHelper {
      * execute fetch operation in CPU
      * it will fetch a instruction from current PC
      */
-    public void fetch(CPU cpu) {
-        cpu.fetch();
-        int word = cpu.getRegisters().getIR();
-        int addr = cpu.getRegisters().getPC();
+    public int fetch(CPU cpu) {
+        int word = cpu.fetch();
+        int addr = cpu.getRegisters().getMAR();
         Instruction instruction = Instruction.build(word);
         exec.set(String.format("%s(%d) @ [%d]",  instruction.toString(),word, addr));
         nextWord.set(word);
         nextAddr.set(addr);
+        return word;
     }
 
     /**
@@ -59,12 +53,12 @@ public class MainPanelHelper {
      * <p>
      * this should be executed after fetch method
      */
-    public boolean execute(CPU cpu) {
+    public ExecutionResult execute(CPU cpu) {
         // execution
-        boolean hasNext = cpu.decodeAndExecute();
+        ExecutionResult executionResult = cpu.decodeAndExecute();
         executedInstCount++;
         exec.set("");
-        return hasNext;
+        return executionResult;
     }
 
     public FXMLLoadResult getInstEditor(Stage owner, Modality modality) {

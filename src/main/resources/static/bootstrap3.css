@@ -925,7 +925,7 @@ VBox > .split-menu-button.last > .arrow-button {
     -fx-border-radius: 1em;
     -fx-background-radius: 1.0em; /* large value to make sure this remains circular */
     -fx-padding: 1 2 3 2;
-    -fx-background-color: white;
+    -fx-background-color: transparent;
 }
 
 .radio-button > .radio > .dot {
@@ -952,7 +952,7 @@ VBox > .split-menu-button.last > .arrow-button {
 .check-box:selected > .box,
 .radio-button:hover > .radio,
 .radio-button:selected > .radio {
-    -fx-background-color: linear-gradient(to bottom, white, #efefef);
+    -fx-background-color: linear-gradient(to bottom, transparent, #efefef);
 }
 
 .check-box:pressed > .box,

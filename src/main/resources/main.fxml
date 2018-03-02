@@ -6,6 +6,9 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -113,7 +116,7 @@
                      <content>
                         <VBox alignment="TOP_CENTER">
                            <children>
-                              <Button fx:id="mIe" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#ieHandler" styleClass="success" text="Inst Editor" textAlignment="CENTER">
+                              <Button fx:id="mIe" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#ieHandler" prefWidth="100.0" styleClass="success" text="Inst Editor" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -121,7 +124,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                               </Button>
                            </children>
@@ -141,9 +144,9 @@
                            <children>
                               <HBox alignment="TOP_CENTER">
                                  <children>
-                                    <VBox alignment="TOP_CENTER">
+                                    <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Console Output">
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Simulator Messages">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" top="10.0" />
                                              </VBox.margin>
@@ -151,7 +154,7 @@
                                                 <Font name="System Bold" size="16.0" />
                                              </font>
                                           </Text>
-                                          <TextArea fx:id="mHistory" editable="false" minHeight="200.0" promptText="N/A" />
+                                          <TextArea fx:id="mHistory" editable="false" prefWidth="400.0" promptText="N/A" wrapText="true" VBox.vgrow="ALWAYS" />
                                           <HBox alignment="CENTER">
                                              <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fetched">
@@ -172,7 +175,7 @@
                                                 <Insets bottom="20.0" top="20.0" />
                                              </VBox.margin>
                                           </HBox>
-                                          <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" VBox.vgrow="NEVER">
+                                          <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" VBox.vgrow="ALWAYS">
                                              <children>
                                                 <Button fx:id="mStart" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#startHandler" styleClass="danger" text="Start" textAlignment="CENTER">
                                                    <cursor>
@@ -203,17 +206,82 @@
                                           </HBox>
                                        </children>
                                     </VBox>
-                                    <VBox HBox.hgrow="ALWAYS">
+                                    <Separator orientation="VERTICAL">
                                        <HBox.margin>
-                                          <Insets left="10.0" />
+                                          <Insets left="20.0" right="20.0" />
                                        </HBox.margin>
+                                    </Separator>
+                                    <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Console Printer" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <TextArea fx:id="mConsolePrinter" editable="false" prefWidth="300.0" promptText="N/A" wrapText="true" VBox.vgrow="ALWAYS" />
+                                          <VBox alignment="TOP_CENTER">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Keyboard Buffer">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" top="10.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                                <TextArea fx:id="mKBInput" prefHeight="150.0" prefWidth="300.0" promptText="N/A" />
+                                             </children>
+                                          </VBox>
+                                       </children>
                                     </VBox>
                                  </children>
                                  <padding>
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                  </padding>
                               </HBox>
-                              <HBox fx:id="mMem" VBox.vgrow="ALWAYS" />
+                              <HBox fx:id="mMem" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <VBox alignment="TOP_CENTER">
+                                       <children>
+                                          <Separator />
+                                          <HBox alignment="CENTER">
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" top="20.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cache" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets bottom="20.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                <TableView HBox.hgrow="ALWAYS">
+                                                   <columns>
+                                                      <TableColumn prefWidth="75.0" text="Tag" />
+                                                      <TableColumn prefWidth="75.0" text="Data" />
+                                                   </columns>
+                                                   <columnResizePolicy>
+                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
+                                                </TableView>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets left="20.0" right="20.0" />
+                                       </padding>
+                                    </VBox>
+                                    <Separator orientation="VERTICAL" />
+                                 </children></HBox>
                            </children>
                         </VBox>
                             <VBox fx:id="mRegs" HBox.hgrow="NEVER">

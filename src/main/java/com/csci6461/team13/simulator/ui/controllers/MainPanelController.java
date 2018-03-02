@@ -4,26 +4,27 @@ import com.csci6461.team13.simulator.Simulator;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.ROM;
 import com.csci6461.team13.simulator.core.Registers;
+import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
+import com.csci6461.team13.simulator.core.io.Device;
+import com.csci6461.team13.simulator.core.io.Keyboard;
+import com.csci6461.team13.simulator.core.io.Printer;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
-import com.csci6461.team13.simulator.util.Const;
-import com.csci6461.team13.simulator.util.FXMLLoadResult;
-import com.csci6461.team13.simulator.util.FXMLUtil;
-import com.csci6461.team13.simulator.util.Register;
+import com.csci6461.team13.simulator.util.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.IntConsumer;
 
@@ -41,8 +42,16 @@ public class MainPanelController {
 
     private Signals signals;
 
+    private int i = 0;
+
     @FXML
     private HBox mOverview;
+
+    @FXML
+    private TextArea mKBInput;
+
+    @FXML
+    private TextArea mConsolePrinter;
 
     @FXML
     private HBox mMem;
@@ -126,56 +135,44 @@ public class MainPanelController {
     void initialize() {
         this.signals = Simulator.getSignals();
 
-        // initialize register properties
-        putRegProperty(mPc, Register.PC);
-        putRegProperty(mIr, Register.IR);
-        putRegProperty(mMar, Register.MAR);
-        putRegProperty(mMbr, Register.MBR);
-        putRegProperty(mMsr, Register.MSR);
-        putRegProperty(mR0, Register.R0);
-        putRegProperty(mR1, Register.R1);
-        putRegProperty(mR2, Register.R2);
-        putRegProperty(mR3, Register.R3);
-        putRegProperty(mX1, Register.X1);
-        putRegProperty(mX2, Register.X2);
-        putRegProperty(mX3, Register.X3);
-
-        try {
-            FXMLLoadResult result = FXMLUtil.loadAsNode("mem_control.fxml");
-            memControlController = (MemControlController) result.getController();
-            mMem.getChildren().add(result.getNode());
-            memControlController.setup(this);
-            mMem.autosize();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        // init menu button bindings
         mIpl.disableProperty().bind(signals.on);
         mOverview.disableProperty().bind(signals.on.not());
-//        mRegs.disableProperty().bind(signals.on.not());
-//        mMem.disableProperty().bind(signals.on.not());
 
         StringBinding modeText = Bindings.createStringBinding(() -> signals
                 .mode.get() ? "RUN" : "DEBUG", signals.mode);
         mMode.textProperty().bind(modeText);
         mMode.disableProperty().bind(signals.loaded.not().or(signals.started));
 
-        // currently no load function
-//        mLoad.disableProperty().bind(signals.on.not().or(signals.started));
-        mLoad.setDisable(true);
+        mLoad.disableProperty().bind(signals.loaded.or(signals.on.not()));
         mReset.disableProperty().bind(signals.on.not());
 
         mStart.disableProperty().bind(signals.loaded.not().or(signals.started));
         mNext.disableProperty().bind(signals.mode.or(signals.started.not()));
         helper = new MainPanelHelper();
 
-        initRegisterBindings();
+        // init io bindings
+        List<Device> devices = Simulator.getCpu().getDevices();
+        Keyboard keyboard = (Keyboard) CoreUtil.findDevice(devices, Const
+                .DEVICE_ID_KEYBOARD);
+        Printer printer = (Printer) CoreUtil.findDevice(devices, Const
+                .DEVICE_ID_PRINTER);
+        if (keyboard != null) {
+            mKBInput.textProperty().bindBidirectional(keyboard.bufferProperty());
+            mKBInput.disableProperty().bind(helper.enableIOInput.and(keyboard.waitingForInput)
+                    .not());
+        }
+        if (printer != null) {
+            mConsolePrinter.textProperty().bindBidirectional(printer.textProperty());
+        }
 
         // init other bindings
         mHistory.textProperty().bindBidirectional(helper.consoleOutput);
         mExec.textProperty().bind(helper.exec);
 
+        addMemControlPanel();
+        initRegiseterProperties();
+        initRegisterListeners();
         refreshRegisters(Simulator.getCpu().getRegisters());
     }
 
@@ -185,31 +182,10 @@ public class MainPanelController {
         MCU mcu = Simulator.getCpu().getMcu();
         Registers registers = Simulator.getCpu().getRegisters();
 
-        // setup direct addressing
-        mcu.storeWord(9, 9);
-        mcu.storeWord(11, 11);
-        mcu.storeWord(13, 13);
-        mcu.storeWord(15, 15);
-        mcu.storeWord(17, 17);
-
-        // setup indirect addressing
-        mcu.storeWord(10, 42);
-        mcu.storeWord(12, 44);
-        mcu.storeWord(14, 46);
-        mcu.storeWord(16, 48);
-        mcu.storeWord(18, 50);
-
-        mcu.storeWord(42, 142);
-        mcu.storeWord(44, 144);
-        mcu.storeWord(46, 146);
-        mcu.storeWord(48, 148);
-        mcu.storeWord(50, 150);
-
-        ArrayList<String> instructions = ROM.getInstructions();
+        ArrayList<Instruction> instructions = ROM.getInstructions();
         // address of the program beginning
         int index = Const.ROM_ADDR;
-        for (String instStr : instructions) {
-            Instruction instruction = Instruction.build(instStr);
+        for (Instruction instruction : instructions) {
             Objects.requireNonNull(instruction, "Invalid ROM");
             mcu.storeWord(index++, instruction.toWord());
         }
@@ -220,14 +196,19 @@ public class MainPanelController {
 
         // power on
         signals.on.set(true);
-        signals.loaded.set(true);
+        updateHistory("Computer Initialized");
+        // load program
+        loadHandler(event);
     }
 
     @FXML
     void loadHandler(MouseEvent event) {
         // todo load program
+        // enable keyboard for program 1
+        helper.enableIOInput.set(true);
 
         // program loaded
+        updateHistory("Loaded: Program 1");
         signals.loaded.set(true);
     }
 
@@ -250,13 +231,28 @@ public class MainPanelController {
     @FXML
     void nextHandler(MouseEvent event) {
         // execute one instruction under debug mode
-        boolean hasNext = helper.execute(Simulator.getCpu());
+        ExecutionResult executionResult = helper.execute(Simulator.getCpu());
         updateHistory(helper.nextWord.get(), helper.nextAddr.get());
+        boolean hasNext = false;
+        switch (executionResult) {
+            case CONTINUE:
+                // continue next execution cycle
+                hasNext = true;
+                break;
+            case HALT:
+                // terminate the program
+                hasNext = false;
+                break;
+            case RETRY:
+                // reset PC to previous value
+                // then pause
+                hasNext = true;
+                break;
+        }
         if (!hasNext) {
             // if there is no more instructions
-            // reset started signal
+            // flush started signal
             signals.started.set(false);
-            updateHistory("--END--");
         } else {
             helper.fetch(Simulator.getCpu());
         }
@@ -267,7 +263,6 @@ public class MainPanelController {
     void startHandler(MouseEvent event) {
         // setup the program started
         signals.started.set(true);
-        updateHistory("--START--");
 
         // run program according to different modes
         if (signals.mode.get()) {
@@ -275,13 +270,30 @@ public class MainPanelController {
             boolean hasNext = true;
             while (hasNext) {
                 helper.fetch(Simulator.getCpu());
-                hasNext = helper.execute(Simulator.getCpu());
+                ExecutionResult executionResult = helper.execute(Simulator.getCpu());
+                switch (executionResult) {
+                    case CONTINUE:
+                        // continue next execution cycle
+                        hasNext = true;
+                        mStart.setText("Start");
+                        break;
+                    case HALT:
+                        // terminate the program
+                        hasNext = false;
+                        mStart.setText("Start");
+                        break;
+                    case RETRY:
+                        // reset PC to previous value
+                        // then pause
+                        hasNext = false;
+                        mStart.setText("Retry");
+                        break;
+                }
                 updateHistory(helper.nextWord.get(), helper.nextAddr.get());
                 // refresh register values on the stage
                 refreshRegisters(Simulator.getCpu().getRegisters());
             }
-            updateHistory("--END--");
-            // reset started signal
+            // flush started signal
             signals.started.set(false);
         } else {
             // debug mode
@@ -301,6 +313,18 @@ public class MainPanelController {
         TextField register = (TextField) event.getSource();
         toRegisterEdit(register, (String) register.getProperties().get
                 (REGISTER_PROPERTY_NAME));
+    }
+
+    private void addMemControlPanel() {
+        try {
+            FXMLLoadResult result = FXMLUtil.loadAsNode("mem_control.fxml");
+            memControlController = (MemControlController) result.getController();
+            mMem.getChildren().add(result.getNode());
+            memControlController.setup(this);
+            mMem.autosize();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -332,7 +356,7 @@ public class MainPanelController {
      * <p>
      * CC and MFR is not changeable for user
      */
-    private void initRegisterBindings() {
+    private void initRegisterListeners() {
         Registers regs = Simulator.getCpu().getRegisters();
         addRegListener(mPc, regs::setPC);
         addRegListener(mIr, regs::setIR);
@@ -348,6 +372,22 @@ public class MainPanelController {
         addRegListener(mX3, regs::setX3);
     }
 
+    private void initRegiseterProperties() {
+        // init register properties
+        putRegProperty(mPc, Register.PC);
+        putRegProperty(mIr, Register.IR);
+        putRegProperty(mMar, Register.MAR);
+        putRegProperty(mMbr, Register.MBR);
+        putRegProperty(mMsr, Register.MSR);
+        putRegProperty(mR0, Register.R0);
+        putRegProperty(mR1, Register.R1);
+        putRegProperty(mR2, Register.R2);
+        putRegProperty(mR3, Register.R3);
+        putRegProperty(mX1, Register.X1);
+        putRegProperty(mX2, Register.X2);
+        putRegProperty(mX3, Register.X3);
+    }
+
     /**
      * refresh all register value to latest
      */
@@ -360,26 +400,26 @@ public class MainPanelController {
     }
 
     /**
-     * reset the whole simulator to original state
+     * flush the whole simulator to original state
      */
     private void resetSimulator() {
-        // reset signals
+        // flush signals
         signals.mode.set(true);
         modeText.set("RUN");
         signals.on.set(false);
         signals.loaded.set(false);
         signals.started.set(false);
 
-        // reset over texts
+        // flush over texts
         helper.exec.set("");
         helper.consoleOutput.set("");
         helper.executedInstCount = 0;
-        // reset mem control
+        // flush mem control
         memControlController.reset();
 
-        // reset cpu
+        // flush cpu
         Simulator.getCpu().reset();
-        // reset registers
+        // flush registers
         refreshSimulator();
     }
 
@@ -406,7 +446,7 @@ public class MainPanelController {
     private void updateHistory(int word, int addr) {
         String instStr = Instruction.build(word).toString();
         String line = String.format("Executed: %s(%d)\t@ [%d]\nMSG: \n",
-                instStr, word,addr);
+                instStr, word, addr);
         // update execution consoleOutput
         mHistory.appendText(line);
     }

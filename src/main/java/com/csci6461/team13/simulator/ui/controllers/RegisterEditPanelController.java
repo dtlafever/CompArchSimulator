@@ -45,7 +45,7 @@ public class RegisterEditPanelController {
     }
 
     /**
-     * reset register edit panel
+     * flush register edit panel
      */
     public void reset(String name, String value) {
         newVal = value;

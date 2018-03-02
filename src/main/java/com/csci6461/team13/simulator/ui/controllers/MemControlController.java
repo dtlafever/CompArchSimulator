@@ -43,12 +43,6 @@ public class MemControlController {
     @FXML
     private Button mcSettopc;
 
-    @FXML
-    private HBox mMemGrid;
-
-    @FXML
-    private HBox mCacheGrid;
-
     private MemControlHelper helper = new MemControlHelper();
     private MainPanelController mainPanelController = null;
 
@@ -64,7 +58,7 @@ public class MemControlController {
             MCU mcu = Simulator.getCpu().getMcu();
             String memAddrStr = mcMemAddr.getText();
             if (!memAddrStr.isEmpty()) {
-                // reset current value
+                // flush current value
                 mcCval.setText(Integer.toString(mcu.getWord(Integer.valueOf(memAddrStr))));
                 // new valid value
                 helper.memaddr.set(true);
@@ -131,7 +125,7 @@ public class MemControlController {
         Simulator.getCpu().getMcu().storeWord(memAddr, inst);
         mcNval.clear();
         helper.stored.set(true);
-        // reset new value signal to disable store button
+        // flush new value signal to disable store button
         helper.nval.set(false);
         mcCval.setText(Integer.toString(Simulator.getCpu().getMcu().getWord(memAddr)));
     }

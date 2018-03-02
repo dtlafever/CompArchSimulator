@@ -1,5 +1,7 @@
 package com.csci6461.team13.simulator.core;
 
+import com.csci6461.team13.simulator.core.instruction.Instruction;
+
 import java.util.ArrayList;
 
 public class ROM {
@@ -8,27 +10,16 @@ public class ROM {
 
     }
 
-    private static ArrayList<String> instructions;
+    private static ArrayList<Instruction> instructions;
 
     static {
 
         instructions = new ArrayList<>();
-
-        instructions.add("LDR 1,0,0,9");
-        instructions.add("LDR 2,0,1,10");
-        instructions.add("STR 1,0,0,11");
-        instructions.add("STR 2,0,1,12");
-        instructions.add("LDA 1,0,0,13");
-        instructions.add("LDA 2,0,1,14");
-        instructions.add("LDX 0,1,0,15");
-        instructions.add("LDX 0,2,1,16");
-        instructions.add("STX 0,1,0,17");
-        instructions.add("STX 0,2,1,18");
-        // halt
-        instructions.add("HLT 0,0,0,0");
+        instructions.add(Instruction.build("LDR 1,0,0,9"));
+        instructions.add(Instruction.build("HLT 0,0,0,0"));
     }
 
-    public static ArrayList<String> getInstructions() {
+    public static ArrayList<Instruction> getInstructions() {
         return instructions;
     }
 }

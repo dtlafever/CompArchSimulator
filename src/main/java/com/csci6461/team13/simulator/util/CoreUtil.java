@@ -1,6 +1,9 @@
 package com.csci6461.team13.simulator.util;
 
+import com.csci6461.team13.simulator.core.io.Device;
+
 import java.math.BigInteger;
+import java.util.List;
 
 public class CoreUtil {
 
@@ -68,6 +71,17 @@ public class CoreUtil {
         }
 
         return Integer.parseInt(strWord.toString(), 2);
+    }
+
+    public static Device findDevice(List<Device> devices, int devId){
+
+        for (Device device: devices){
+            if(device.getDevId() == devId){
+                return device;
+            }
+        }
+
+        return null;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.csci6461.team13.simulator.core.instruction;
 
+import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.Registers;
 
@@ -45,7 +46,7 @@ public abstract class Instruction {
      * example: LDR 3,1,1,31
      */
     public static Instruction build(String line) {
-        Pattern pattern = Pattern.compile("^(\\w{3})\\s(\\d)," +
+        Pattern pattern = Pattern.compile("^(\\w{2,3})\\s(\\d)," +
                 "(\\d),([01]),(\\d{1,2})$");
         Matcher matcher = pattern.matcher(line);
         if (matcher.matches()) {
@@ -183,7 +184,7 @@ public abstract class Instruction {
     /**
      * the primary execution method
      * <p>
-     * return true if there is a next instructions
+     * return execution result
      */
-    public abstract boolean execute(Registers registers, MCU mcu);
+    public abstract ExecutionResult execute(CPU cpu);
 }

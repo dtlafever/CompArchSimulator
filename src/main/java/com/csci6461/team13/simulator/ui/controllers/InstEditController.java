@@ -110,7 +110,7 @@ public class InstEditController {
     }
 
     /**
-     * reset the whole panel
+     * flush the whole panel
      * */
     public void reset() {
         ieVal.setText("0");

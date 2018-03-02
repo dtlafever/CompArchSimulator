@@ -1,6 +1,9 @@
 package com.csci6461.team13.simulator;
 
 import com.csci6461.team13.simulator.core.CPU;
+import com.csci6461.team13.simulator.core.io.Device;
+import com.csci6461.team13.simulator.core.io.Keyboard;
+import com.csci6461.team13.simulator.core.io.Printer;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
@@ -10,14 +13,16 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.util.Random;
+
 public class Simulator extends Application {
 
     private static CPU cpu;
 
-     /**
-      * primaryStage is the root component of the UI module
-      * it will be initialized in the start method
-      * */
+    /**
+     * primaryStage is the root component of the UI module
+     * it will be initialized in the start method
+     */
     private static Stage primaryStage;
     private static Signals signals = null;
 
@@ -32,6 +37,14 @@ public class Simulator extends Application {
 
         // init signals
         getSignals();
+
+        // create devices
+        String keyboardName = "keyboard";
+        Device keyboard = new Keyboard(Const.DEVICE_ID_KEYBOARD, keyboardName);
+        String printerName = "printer";
+        Device printer = new Printer(Const.DEVICE_ID_PRINTER, printerName);
+        cpu.getDevices().add(keyboard);
+        cpu.getDevices().add(printer);
 
         // main csci6461.team13.ui settings
 

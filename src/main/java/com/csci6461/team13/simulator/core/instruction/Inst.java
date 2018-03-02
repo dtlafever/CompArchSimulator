@@ -1,5 +1,7 @@
 package com.csci6461.team13.simulator.core.instruction;
 
+import com.csci6461.team13.simulator.core.instruction.io.IN;
+import com.csci6461.team13.simulator.core.instruction.io.OUT;
 import com.csci6461.team13.simulator.core.instruction.miscellaneous.HLT;
 import com.csci6461.team13.simulator.core.instruction.loadstore.*;
 
@@ -13,7 +15,11 @@ public enum Inst {
     INST_STR(2, "STR", STR.class),
     INST_LDA(3, "LDA", LDA.class),
     INST_LDX(41, "LDX", LDX.class),
-    INST_STX(42, "STX", STX.class);
+    INST_STX(42, "STX", STX.class),
+    // IO
+    INST_IN(61, "IN", IN.class),
+    INST_OUT(62, "OUT", OUT.class)
+    ;
 
     Inst(int opcode, String title, Class<? extends Instruction> instClass) {
         this.opcode = opcode;

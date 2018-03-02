@@ -11,12 +11,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <HBox xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.csci6461.team13.simulator.ui.controllers.MemControlController">
    <children>
-      <HBox>
+      <HBox HBox.hgrow="ALWAYS">
          <children>
-            <VBox>
+            <VBox alignment="TOP_CENTER">
                <children>
                   <Separator />
                   <HBox alignment="CENTER">
@@ -163,7 +162,6 @@
                         <Insets bottom="20.0" left="50.0" top="20.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox fx:id="mMemGrid" alignment="TOP_CENTER" />
                </children>
                <HBox.margin>
                   <Insets />
@@ -172,36 +170,11 @@
                   <Insets left="20.0" right="20.0" />
                </padding>
             </VBox>
-            <Separator orientation="VERTICAL">
+            <Separator orientation="VERTICAL" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Separator>
-            <VBox layoutX="10.0" layoutY="10.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Separator />
-                  <HBox alignment="CENTER">
-                     <VBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
-                     </VBox.margin>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cache" textAlignment="CENTER">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" layoutX="10.0" layoutY="347.0" VBox.vgrow="ALWAYS">
-                     <VBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
-                     </VBox.margin>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets left="20.0" right="20.0" />
-               </padding>
-            </VBox>
          </children>
       </HBox>
    </children>
