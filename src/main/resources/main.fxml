@@ -264,10 +264,10 @@
                                                 <Insets bottom="20.0" />
                                              </VBox.margin>
                                              <children>
-                                                <TableView HBox.hgrow="ALWAYS">
+                                                <TableView fx:id="mCache" HBox.hgrow="ALWAYS">
                                                    <columns>
-                                                      <TableColumn prefWidth="75.0" text="Tag" />
-                                                      <TableColumn prefWidth="75.0" text="Data" />
+                                                      <TableColumn fx:id="mCacheAddr" prefWidth="75.0" text="Address" />
+                                                      <TableColumn fx:id="mCacheData" prefWidth="75.0" text="Data" />
                                                    </columns>
                                                    <columnResizePolicy>
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

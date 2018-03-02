@@ -26,6 +26,8 @@ public class IN extends Instruction {
             if(value != null){
                 registers.setR(this.getR(), value);
                 ((Input) device).waitingForInput.set(false);
+                // read one, then flush the buffer
+                ((Input) device).flush();
                 return ExecutionResult.CONTINUE;
             }else{
                 // no available value in buffer
@@ -33,7 +35,7 @@ public class IN extends Instruction {
                 return ExecutionResult.RETRY;
             }
         }else{
-            // not such device
+            // no such device
             return ExecutionResult.HALT;
         }
     }

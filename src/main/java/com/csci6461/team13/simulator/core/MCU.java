@@ -16,10 +16,10 @@ import com.csci6461.team13.simulator.core.Cache.CacheLine;
  * */
 public class MCU {
     // 16 bit words, so be careful
-    ArrayList<Integer> memory = null;
+    private ArrayList<Integer> memory = null;
 
     // 16 blocks of cache
-    Cache cache;
+    private Cache cache;
 
     // initialize all memory to 0 with a size of 2048
     public MCU() {

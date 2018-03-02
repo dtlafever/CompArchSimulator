@@ -21,10 +21,8 @@ public class Keyboard extends Input {
             Matcher matcher = pattern.matcher(newValue);
             if (matcher.matches()) {
                 String valStr = matcher.group().trim();
-                System.out.println(valStr);
                 Integer value = Integer.valueOf(valStr);
                 write(value);
-                buffer.set("");
                 disable();
             }
         });
@@ -41,19 +39,19 @@ public class Keyboard extends Input {
         return super.flush();
     }
 
-    public synchronized void enable(){
+    public synchronized void enable() {
         waitingForInput.set(true);
     }
 
-    public synchronized void disable(){
+    public synchronized void disable() {
         waitingForInput.set(false);
     }
 
-    public String getBuffer() {
+    public synchronized String getBuffer() {
         return buffer.get();
     }
 
-    public StringProperty bufferProperty() {
+    public synchronized StringProperty bufferProperty() {
         return buffer;
     }
 }

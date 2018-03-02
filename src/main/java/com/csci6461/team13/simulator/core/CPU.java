@@ -60,7 +60,7 @@ public class CPU {
         if (instruction != null) {
             //EXECUTE
             executionResult = instruction.execute(this);
-            if(executionResult.equals(ExecutionResult.RETRY)){
+            if(executionResult.equals(ExecutionResult.RETRY)||executionResult.equals(ExecutionResult.HALT)){
                 int prevVal = registers.getPC()-1;
                 registers.setPC(prevVal);
             }

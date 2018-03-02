@@ -15,8 +15,8 @@ public class ROM {
     static {
 
         instructions = new ArrayList<>();
-        instructions.add(Instruction.build("LDR 1,0,0,9"));
-        instructions.add(Instruction.build("HLT 0,0,0,0"));
+        instructions.add(Instruction.build("IN 1,0,0,0"));
+        instructions.add(Instruction.build("OUT 1,0,0,1"));
     }
 
     public static ArrayList<Instruction> getInstructions() {

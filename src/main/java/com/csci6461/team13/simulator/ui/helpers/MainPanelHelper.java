@@ -2,21 +2,26 @@ package com.csci6461.team13.simulator.ui.helpers;
 
 import com.csci6461.team13.simulator.Simulator;
 import com.csci6461.team13.simulator.core.CPU;
+import com.csci6461.team13.simulator.core.Cache;
+import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
+import com.csci6461.team13.simulator.ui.basic.CacheRow;
 import com.csci6461.team13.simulator.ui.controllers.InstEditController;
 import com.csci6461.team13.simulator.ui.controllers.RegisterEditPanelController;
 import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.util.List;
 
 public class MainPanelHelper {
 
@@ -34,6 +39,12 @@ public class MainPanelHelper {
     private Stage registerEditor = null;
     private RegisterEditPanelController registerEditPanelController = null;
 
+    private ObservableList<CacheRow> cacheRows = FXCollections.observableArrayList();
+
+    public ObservableList<CacheRow> getCache() {
+        return cacheRows;
+    }
+
     /**
      * execute fetch operation in CPU
      * it will fetch a instruction from current PC
@@ -42,7 +53,7 @@ public class MainPanelHelper {
         int word = cpu.fetch();
         int addr = cpu.getRegisters().getMAR();
         Instruction instruction = Instruction.build(word);
-        exec.set(String.format("%s(%d) @ [%d]",  instruction.toString(),word, addr));
+        exec.set(String.format("%s(%d) @ [%d]", instruction.toString(), word, addr));
         nextWord.set(word);
         nextAddr.set(addr);
         return word;
@@ -59,6 +70,24 @@ public class MainPanelHelper {
         executedInstCount++;
         exec.set("");
         return executionResult;
+    }
+
+    public void refreshCache(CPU cpu){
+        MCU mcu = cpu.getMcu();
+        Cache cache = mcu.getCache();
+        List<Cache.CacheLine> cacheLines = cache.getCacheLines();
+        cacheRows.clear();
+//        String addr = String.valueOf(1);
+//        String data = String.valueOf(123);
+//        cacheRows.add(new CacheRow(addr, data));
+//        addr = String.valueOf(2);
+//        data = String.valueOf(345);
+//        cacheRows.add(new CacheRow(addr, data));
+        for (Cache.CacheLine cacheLine : cacheLines) {
+            String addr = String.valueOf(cacheLine.getAddr());
+            String data = String.valueOf(cacheLine.getData());
+            cacheRows.add(new CacheRow(addr, data));
+        }
     }
 
     public FXMLLoadResult getInstEditor(Stage owner, Modality modality) {

@@ -1,6 +1,7 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.Simulator;
+import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.ROM;
 import com.csci6461.team13.simulator.core.Registers;
@@ -9,6 +10,7 @@ import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.core.io.Device;
 import com.csci6461.team13.simulator.core.io.Keyboard;
 import com.csci6461.team13.simulator.core.io.Printer;
+import com.csci6461.team13.simulator.ui.basic.CacheRow;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
 import com.csci6461.team13.simulator.util.*;
@@ -42,8 +44,6 @@ public class MainPanelController {
 
     private Signals signals;
 
-    private int i = 0;
-
     @FXML
     private HBox mOverview;
 
@@ -52,6 +52,15 @@ public class MainPanelController {
 
     @FXML
     private TextArea mConsolePrinter;
+
+    @FXML
+    private TableView<CacheRow> mCache;
+
+    @FXML
+    private TableColumn<CacheRow, String> mCacheAddr;
+
+    @FXML
+    private TableColumn<CacheRow, String> mCacheData;
 
     @FXML
     private HBox mMem;
@@ -133,6 +142,7 @@ public class MainPanelController {
 
     @FXML
     void initialize() {
+        helper = new MainPanelHelper();
         this.signals = Simulator.getSignals();
 
         // init menu button bindings
@@ -149,7 +159,6 @@ public class MainPanelController {
 
         mStart.disableProperty().bind(signals.loaded.not().or(signals.started));
         mNext.disableProperty().bind(signals.mode.or(signals.started.not()));
-        helper = new MainPanelHelper();
 
         // init io bindings
         List<Device> devices = Simulator.getCpu().getDevices();
@@ -170,10 +179,17 @@ public class MainPanelController {
         mHistory.textProperty().bindBidirectional(helper.consoleOutput);
         mExec.textProperty().bind(helper.exec);
 
+        initCacheTable();
         addMemControlPanel();
         initRegiseterProperties();
         initRegisterListeners();
         refreshRegisters(Simulator.getCpu().getRegisters());
+    }
+
+    private void initCacheTable(){
+        mCacheAddr.setCellValueFactory(cellData->cellData.getValue().addrProperty());
+        mCacheData.setCellValueFactory(cellData->cellData.getValue().dataProperty());
+        mCache.setItems(helper.getCache());
     }
 
     // Menu Buttons Handlers
@@ -392,9 +408,12 @@ public class MainPanelController {
      * refresh all register value to latest
      */
     private void refreshSimulator() {
-        Registers registers = Simulator.getCpu().getRegisters();
+        CPU cpu = Simulator.getCpu();
+        Registers registers = cpu.getRegisters();
         // refresh registers
         refreshRegisters(registers);
+        // refresh cache table
+        helper.refreshCache(cpu);
         // refresh mem control
         memControlController.refresh();
     }
