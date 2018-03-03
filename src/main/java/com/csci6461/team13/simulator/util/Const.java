@@ -26,4 +26,17 @@ public class Const {
     public final static int DEVICE_ID_PRINTER = 1;
     public final static int DEVICE_ID_CARD_READER = 2;
 
+    public enum ConditionCode {
+        OVERFLOW(0), UNDERFLOW(1), DIVZERO(2), EQUALORNOT(3);
+        int value;
+
+        private ConditionCode(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return this.value;
+        }
+    }
+
 }
