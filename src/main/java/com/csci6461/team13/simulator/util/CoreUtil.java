@@ -39,7 +39,7 @@ public class CoreUtil {
 
     public static byte[] intToBytes(int value) {
         String binaryString = Integer.toBinaryString(value);
-        byte[] bytes = new byte[16];
+        byte[] bytes = new byte[Const.CPU_BIT_LENGTH];
         for (int i = 16 - binaryString.length(), j = 0; i < bytes.length; i++, j++) {
             bytes[i] = Byte.valueOf(String.valueOf(binaryString.charAt(j)));
         }

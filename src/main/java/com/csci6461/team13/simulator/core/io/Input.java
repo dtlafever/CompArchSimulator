@@ -11,21 +11,41 @@ import java.util.LinkedList;
 public abstract class Input extends Device {
 
     public BooleanProperty waitingForInput = new SimpleBooleanProperty(false);
+    private final LinkedList<Character> inputBuffer;
 
     public Input(int devId, String name) {
         super(devId, name);
         inputBuffer = new LinkedList<>();
     }
 
-    private final LinkedList<Integer> inputBuffer;
-
-    public final synchronized Integer read() {
-        return inputBuffer.pollLast();
+    public synchronized Character read() {
+        return inputBuffer.pollFirst();
     }
 
-    public final synchronized boolean write(int character) {
+    public final synchronized boolean write(char character) {
         inputBuffer.offer(character);
         return true;
+    }
+
+    public synchronized boolean write(char[] characters) {
+        for (char character: characters){
+            inputBuffer.offer(character);
+        }
+        return true;
+    }
+
+    public synchronized boolean replaceWith(char[] characters){
+        inputBuffer.clear();
+        write(characters);
+        return true;
+    }
+
+    public synchronized String getBufferedString(){
+        StringBuilder builder = new StringBuilder();
+        for (char character: inputBuffer){
+            builder.append(character);
+        }
+        return builder.toString();
     }
 
     public synchronized boolean flush(){

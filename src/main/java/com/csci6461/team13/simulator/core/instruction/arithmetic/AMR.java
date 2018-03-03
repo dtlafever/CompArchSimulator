@@ -6,6 +6,7 @@ import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.util.Const;
+import com.csci6461.team13.simulator.util.CoreUtil;
 
 public class AMR extends Instruction {
     
@@ -14,6 +15,8 @@ public class AMR extends Instruction {
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
         MCU mcu = cpu.getMcu();
+        int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
+        int min = 0;
 
         //store effective address in memory address register
         registers.setMAR(this.getEffectiveAddress(mcu, registers));
@@ -24,7 +27,7 @@ public class AMR extends Instruction {
         int result = registers.getR(this.getR()) + registers.getMBR();
 
         // Overflow check!
-        if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE){
+        if (result > max || result < min){
             registers.setCCByBit(Const.ConditionCode.OVERFLOW.getValue(), true);
         }else{
             registers.setR(this.getR(), result);
@@ -32,3 +35,4 @@ public class AMR extends Instruction {
 
         return ExecutionResult.CONTINUE;
     }
+}

@@ -3,9 +3,6 @@ package com.csci6461.team13.simulator.core.io;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * @author zhiyuan
  */
@@ -17,20 +14,23 @@ public class Keyboard extends Input {
         buffer = new SimpleStringProperty("");
         // read one integer value, ends with a new line
         buffer.addListener((observable, oldValue, newValue) -> {
-            Pattern pattern = Pattern.compile("^(\\d{1,5})(\\s*\n)");
-            Matcher matcher = pattern.matcher(newValue);
-            if (matcher.matches()) {
-                String valStr = matcher.group().trim();
-                Integer value = Integer.valueOf(valStr);
-                write(value);
-                disable();
-            }
+            char[] characters = newValue.toCharArray();
+            replaceWith(characters);
         });
     }
 
     public static void main(String[] args) {
         Keyboard keyboard = new Keyboard(1, "2");
         keyboard.buffer.set("12 13 14 1232 12352");
+        System.out.println(keyboard.buffer.toString());
+    }
+
+    @Override
+    public final synchronized Character read() {
+        Character character = super.read();
+        String newValue = getBufferedString();
+        buffer.set(newValue);
+        return character;
     }
 
     @Override

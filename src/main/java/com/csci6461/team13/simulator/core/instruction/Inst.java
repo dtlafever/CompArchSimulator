@@ -19,36 +19,36 @@ public enum Inst {
     INST_LDA(3, "LDA", LDA.class),
     INST_LDX(41, "LDX", LDX.class),
     INST_STX(42, "STX", STX.class),
+    
     // IO
     INST_IN(61, "IN", IN.class),
     INST_OUT(62, "OUT", OUT.class),
-    
+
     //TRANSFER
-    INST_JZ(010, "JZ", JZ.class),
-    INST_JNE(011, "JNE", JNE.class),
-    INST_JCC(012, "JCC", JCC.class),
-    INST_JMA(013, "JMA", JMA.class),
-    INST_JSR(014, "JSR", JSR.class),
-    INST_RFS(015, "RFS", RFS.class),
-    INST_SOB(016, "SOB", SOB.class),
-    INST_JGE(017, "JGE", JGE.class),
+    INST_JZ(10, "JZ", JZ.class),
+    INST_JNE(11, "JNE", JNE.class),
+    INST_JCC(12, "JCC", JCC.class),
+    INST_JMA(13, "JMA", JMA.class),
+    INST_JSR(14, "JSR", JSR.class),
+    INST_RFS(15, "RFS", RFS.class),
+    INST_SOB(16, "SOB", SOB.class),
+    INST_JGE(17, "JGE", JGE.class),
 
     //Arithmetic
-    INST_AMR(004, "AMR", AMR.class),
-    INST_SMR(005, "SMR", SMR.class),
-    INST_AIR(006, "AIR", AIR.class),
-    INST_SIR(007, "SIR", SIR.class),
-    INST_MLT(020, "MLT", MLT.class),
-    INST_DVD(021, "DVD", DVD.class),
+    INST_AMR(4, "AMR", AMR.class),
+    INST_SMR(5, "SMR", SMR.class),
+    INST_AIR(6, "AIR", AIR.class),
+    INST_SIR(7, "SIR", SIR.class),
+    INST_MLT(20, "MLT", MLT.class),
+    INST_DVD(21, "DVD", DVD.class),
 
     //Logical
-    INST_TRR(022, "TRR", TRR.class),
-    INST_AND(023, "AND", AND.class),
-    INST_ORR(024, "ORR", ORR.class),
-    INST_NOT(025, "NOT", NOT.class),
-    INST_SRC(031, "SRC", SRC.class),
-    INST_RRC(032, "RRC", RRC.class),
-    ;
+    INST_TRR(22, "TRR", TRR.class),
+    INST_AND(23, "AND", AND.class),
+    INST_ORR(24, "ORR", ORR.class),
+    INST_NOT(25, "NOT", NOT.class),
+    INST_SRC(31, "SRC", SRC.class),
+    INST_RRC(32, "RRC", RRC.class),;
 
     Inst(int opcode, String title, Class<? extends Instruction> instClass) {
         this.opcode = opcode;

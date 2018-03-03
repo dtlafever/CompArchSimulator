@@ -232,7 +232,29 @@
                                                       <Insets bottom="10.0" top="10.0" />
                                                    </VBox.margin>
                                                 </Text>
-                                                <TextArea fx:id="mKBInput" prefHeight="150.0" prefWidth="300.0" promptText="N/A" />
+                                                <TextArea fx:id="mKBBuffer" editable="false" prefHeight="150.0" prefWidth="300.0" promptText="N/A" />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="239.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Keyboard">
+                                                   <font>
+                                                      <Font size="16.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets bottom="10.0" top="10.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                                <HBox alignment="CENTER_LEFT">
+                                                   <children>
+                                                      <TextField fx:id="mKeyboard" promptText="N/A" HBox.hgrow="ALWAYS" />
+                                                      <Button fx:id="mKBSubmit" alignment="CENTER" mnemonicParsing="false" styleClass="danger" text="Submit">
+                                                         <HBox.margin>
+                                                            <Insets left="20.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                   </children>
+                                                </HBox>
                                              </children>
                                           </VBox>
                                        </children>

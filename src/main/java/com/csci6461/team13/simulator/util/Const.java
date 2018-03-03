@@ -10,6 +10,8 @@ public class Const {
     // The initial memory address to start our pre loaded program
     public static int ROM_ADDR = 10;
 
+    public static final int CPU_BIT_LENGTH = 16;
+
     // Cache
     public static final int MAX_CACHE_LINES = 16;
 

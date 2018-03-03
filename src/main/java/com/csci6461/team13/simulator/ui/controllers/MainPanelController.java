@@ -48,7 +48,13 @@ public class MainPanelController {
     private HBox mOverview;
 
     @FXML
-    private TextArea mKBInput;
+    private TextArea mKBBuffer;
+
+    @FXML
+    private TextField mKeyboard;
+
+    @FXML
+    private Button mKBSubmit;
 
     @FXML
     private TextArea mConsolePrinter;
@@ -167,9 +173,16 @@ public class MainPanelController {
         Printer printer = (Printer) CoreUtil.findDevice(devices, Const
                 .DEVICE_ID_PRINTER);
         if (keyboard != null) {
-            mKBInput.textProperty().bindBidirectional(keyboard.bufferProperty());
-            mKBInput.disableProperty().bind(helper.enableIOInput.and(keyboard.waitingForInput)
-                    .not());
+            mKBBuffer.textProperty().bindBidirectional(keyboard.bufferProperty());
+//            mKeyboard.disableProperty().bind(helper.enableIOInput.and(keyboard
+//                    .waitingForInput).not());
+            mKBSubmit.disableProperty().bind(helper.enableIOInput.and(keyboard
+                    .waitingForInput).not());
+            mKBSubmit.setOnAction(event -> {
+                // when keyboard value changes, append new value to keyboard buffer
+                mKBBuffer.appendText(mKeyboard.getText());
+                mKeyboard.clear();
+            });
         }
         if (printer != null) {
             mConsolePrinter.textProperty().bindBidirectional(printer.textProperty());
@@ -186,9 +199,9 @@ public class MainPanelController {
         refreshRegisters(Simulator.getCpu().getRegisters());
     }
 
-    private void initCacheTable(){
-        mCacheAddr.setCellValueFactory(cellData->cellData.getValue().addrProperty());
-        mCacheData.setCellValueFactory(cellData->cellData.getValue().dataProperty());
+    private void initCacheTable() {
+        mCacheAddr.setCellValueFactory(cellData -> cellData.getValue().addrProperty());
+        mCacheData.setCellValueFactory(cellData -> cellData.getValue().dataProperty());
         mCache.setItems(helper.getCache());
     }
 
@@ -198,12 +211,13 @@ public class MainPanelController {
         MCU mcu = Simulator.getCpu().getMcu();
         Registers registers = Simulator.getCpu().getRegisters();
 
-        ArrayList<Instruction> instructions = ROM.getInstructions();
+        List<Instruction> instructions = ROM.getInstructions();
         // address of the program beginning
         int index = Const.ROM_ADDR;
         for (Instruction instruction : instructions) {
-            Objects.requireNonNull(instruction, "Invalid ROM");
-            mcu.storeWord(index++, instruction.toWord());
+            Objects.requireNonNull(instruction, "Invalid Instruction");
+            mcu.storeWord(index, instruction.toWord());
+            index++;
         }
 
         registers.setPC(Const.ROM_ADDR);

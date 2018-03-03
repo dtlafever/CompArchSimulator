@@ -6,27 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ROM {
-
     private ROM() {
-
     }
 
-    private static ArrayList<Instruction> instructions;
+    private static List<String> insts;
 
     static {
+        insts = new ArrayList<>();
+        // non-stop reading all buffered chars
+        insts.add("IN 1,0,0,0");
+        insts.add("OUT 1,0,0,1");
+        insts.add("JMA 0,0,0,10");
+    }
 
-        instructions = new ArrayList<>();
-        List<String> insts = new ArrayList<>();
+    public static List<Instruction> getInstructions() {
+        if (insts == null) {
+            return new ArrayList<>();
+        }
+        List<Instruction> instructions = new ArrayList<>();
         for (String inst : insts) {
             instructions.add(Instruction.build(inst));
         }
-        insts.add("IN 1,0,0,0");
-        insts.add("OUT 1,0,0,1");
-
-        // loop until 20
-    }
-
-    public static ArrayList<Instruction> getInstructions() {
         return instructions;
     }
 }

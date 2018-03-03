@@ -22,10 +22,8 @@ public class UIComponentUtil {
             bitLength) {
 
         List<RadioButton> bits = hBox.getChildren().stream().filter(it
-                -> it
-                instanceof RadioButton).map(it -> (RadioButton) it).collect
-                (Collectors.toList
-                        ());
+                -> it instanceof RadioButton).map(it -> (RadioButton) it).collect
+                (Collectors.toList());
         // convert value to boolean disableProperties
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {

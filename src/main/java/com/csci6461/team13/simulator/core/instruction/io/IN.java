@@ -12,6 +12,7 @@ import java.util.List;
 
 
 /**
+ * one execution of IN reads a single char from
  * @author zhiyuan
  */
 public class IN extends Instruction {
@@ -22,12 +23,11 @@ public class IN extends Instruction {
         int devId = this.getAddress();
         Device device = CoreUtil.findDevice(devices, devId);
         if(device != null && device instanceof Input){
-            Integer value = ((Input) device).read();
+            // read one from input buffer
+            Character value = ((Input) device).read();
             if(value != null){
                 registers.setR(this.getR(), value);
                 ((Input) device).waitingForInput.set(false);
-                // read one, then flush the buffer
-                ((Input) device).flush();
                 return ExecutionResult.CONTINUE;
             }else{
                 // no available value in buffer

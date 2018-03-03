@@ -8,6 +8,9 @@ import javafx.beans.property.StringProperty;
  */
 public class Printer extends Device{
 
+    /**
+     * out put history for binding usage
+     * */
     private StringProperty text;
 
     public Printer(int devId, String name) {
@@ -15,9 +18,12 @@ public class Printer extends Device{
         text = new SimpleStringProperty("");
     }
 
-    public synchronized boolean append(int character){
+    public synchronized void append(int character){
         text.set(text.get()+(char)character);
-        return true;
+    }
+
+    public synchronized void clear(){
+        text.set("");
     }
 
     public String getText() {
