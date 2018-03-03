@@ -262,7 +262,8 @@ public class MainPanelController {
     void nextHandler(MouseEvent event) {
         // execute one instruction under debug mode
         ExecutionResult executionResult = helper.execute(Simulator.getCpu());
-        updateHistory(helper.nextWord.get(), helper.nextAddr.get());
+        updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
+                executionResult.getMessage());
         boolean hasNext = false;
         switch (executionResult) {
             case CONTINUE:
@@ -319,7 +320,8 @@ public class MainPanelController {
                         mStart.setText("Retry");
                         break;
                 }
-                updateHistory(helper.nextWord.get(), helper.nextAddr.get());
+                updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
+                        executionResult.getMessage());
                 // refresh register values on the stage
                 refreshRegisters(Simulator.getCpu().getRegisters());
             }
@@ -443,10 +445,13 @@ public class MainPanelController {
         signals.loaded.set(false);
         signals.started.set(false);
 
-        // flush over texts
+        // flush texts
         helper.exec.set("");
         helper.consoleOutput.set("");
         helper.executedInstCount = 0;
+        mKeyboard.clear();
+        mKBBuffer.clear();
+        mConsolePrinter.clear();
         // flush mem control
         memControlController.reset();
 
@@ -476,10 +481,10 @@ public class MainPanelController {
         refreshText(mX3, regs.getX3());
     }
 
-    private void updateHistory(int word, int addr) {
+    private void updateHistory(int word, int addr, String msg) {
         String instStr = Instruction.build(word).toString();
-        String line = String.format("Executed: %s(%d)\t@ [%d]\nMSG: \n",
-                instStr, word, addr);
+        String line = String.format("Executed: %s(%d)\t@ [%d]\nMSG: %s\n",
+                instStr, word, addr, msg);
         // update execution consoleOutput
         mHistory.appendText(line);
     }

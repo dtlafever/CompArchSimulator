@@ -12,6 +12,9 @@ import static com.csci6461.team13.simulator.util.CoreUtil.int2FixedLenStr;
 
 public abstract class Instruction {
 
+    protected static final String SUCCESS_MSG = "Successfully Executed";
+    protected static final String FAILURE_MSG = "Unsuccessfully Executed";
+
     /**
      * 6 bits
      */
@@ -33,12 +36,18 @@ public abstract class Instruction {
      */
     private int address;
 
+    /**
+     * execution message
+     * */
+    protected String message;
+
     protected Instruction() {
         this.opcode = 0;
         this.r = 0;
         this.ix = 0;
         this.i = 0;
         this.address = 0;
+        this.message = SUCCESS_MSG;
     }
 
     /**
@@ -187,4 +196,8 @@ public abstract class Instruction {
      * return execution result
      */
     public abstract ExecutionResult execute(CPU cpu);
+
+    public String getMessage() {
+        return message;
+    }
 }

@@ -13,29 +13,34 @@ import java.util.List;
 
 /**
  * one execution of IN reads a single char from
+ *
  * @author zhiyuan
  */
 public class IN extends Instruction {
+
     @Override
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
         List<Device> devices = cpu.getDevices();
         int devId = this.getAddress();
         Device device = CoreUtil.findDevice(devices, devId);
-        if(device != null && device instanceof Input){
+        if (device != null && device instanceof Input) {
             // read one from input buffer
             Character value = ((Input) device).read();
-            if(value != null){
+            if (value != null) {
                 registers.setR(this.getR(), value);
                 ((Input) device).waitingForInput.set(false);
+                this.message = "Successfully fetched char: DevId=" + devId;
                 return ExecutionResult.CONTINUE;
-            }else{
+            } else {
                 // no available value in buffer
                 ((Input) device).waitingForInput.set(true);
+                this.message = "No available char in input buffer: DevId=" + devId;
                 return ExecutionResult.RETRY;
             }
-        }else{
+        } else {
             // no such device
+            this.message = "No such device: DevId=" + devId;
             return ExecutionResult.HALT;
         }
     }
