@@ -4,6 +4,9 @@ import com.csci6461.team13.simulator.core.instruction.io.IN;
 import com.csci6461.team13.simulator.core.instruction.io.OUT;
 import com.csci6461.team13.simulator.core.instruction.miscellaneous.HLT;
 import com.csci6461.team13.simulator.core.instruction.loadstore.*;
+import com.csci6461.team13.simulator.core.instruction.transfer.*;
+import com.csci6461.team13.simulator.core.instruction.arithmetic.*;
+import com.csci6461.team13.simulator.core.instruction.logical.*;
 
 public enum Inst {
 
@@ -18,7 +21,33 @@ public enum Inst {
     INST_STX(42, "STX", STX.class),
     // IO
     INST_IN(61, "IN", IN.class),
-    INST_OUT(62, "OUT", OUT.class)
+    INST_OUT(62, "OUT", OUT.class),
+    
+    //TRANSFER
+    INST_JZ(010, "JZ", JZ.class),
+    INST_JNE(011, "JNE", JNE.class),
+    INST_JCC(012, "JCC", JCC.class),
+    INST_JMA(013, "JMA", JMA.class),
+    INST_JSR(014, "JSR", JSR.class),
+    INST_RFS(015, "RFS", RFS.class),
+    INST_SOB(016, "SOB", SOB.class),
+    INST_JGE(017, "JGE", JGE.class),
+
+    //Arithmetic
+    INST_AMR(004, "AMR", AMR.class),
+    INST_SMR(005, "SMR", SMR.class),
+    INST_AIR(006, "AIR", AIR.class),
+    INST_SIR(007, "SIR", SIR.class),
+    INST_MLT(020, "MLT", MLT.class),
+    INST_DVD(021, "DVD", DVD.class),
+
+    //Logical
+    INST_TRR(022, "TRR", TRR.class),
+    INST_AND(023, "AND", AND.class),
+    INST_ORR(024, "ORR", ORR.class),
+    INST_NOT(025, "NOT", NOT.class),
+    INST_SRC(031, "SRC", SRC.class),
+    INST_RRC(032, "RRC", RRC.class),
     ;
 
     Inst(int opcode, String title, Class<? extends Instruction> instClass) {
