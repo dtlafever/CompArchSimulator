@@ -9,7 +9,7 @@ import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.CoreUtil;;
 
 public class MLT extends Instruction {
-    
+
     // Mltiply register by register
     // NOTE:
     // rx must be 0 or 2, contains high order bits
@@ -18,36 +18,37 @@ public class MLT extends Instruction {
     @Override
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
-		int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
-		int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);
+        int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
+        int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);
         int rx = this.getR();
         int ry = this.getIx();
 
         if ((rx == 0 || rx == 2) && (ry == 0 || ry == 2)) {
-			int result = registers.getR(rx) * registers.getR(ry);
+            int result = registers.getR(rx) * registers.getR(ry);
+            // overflow
+            if (result > max || result < min) {
+                registers.setCCByBit(Const.ConditionCode.OVERFLOW.getValue(), true);
+            } else {
+                // rx contains the high order bits of the result
+                registers.setR(rx, getHighOrderBits(result));
 
-			// overflow
-			if (result > max || result < min) {
-				registers.setCCByBit(Const.ConditionCode.OVERFLOW.getValue(), true);
-			} else {
-				// rx contains the high order bits of the result
-				registers.setR(rx, getHighOrderBits(result));
-
-				// rx+1 contains the low order bits of the result
-				registers.setR(rx + 1, getLowOrderBits(result));
-			}
-		}
+                // rx+1 contains the low order bits of the result
+                registers.setR(rx + 1, getLowOrderBits(result));
+            }
+        } else {
+            this.message = "Invalid R Number: rx=" + rx + ",ry=" + ry;
+        }
 
         return ExecutionResult.CONTINUE;
     }
 
     // getting the low 16 bits of an integer
-	public static int getLowOrderBits(int x) {
-		return (x & 0xFFFF);
-	}
+    public static int getLowOrderBits(int x) {
+        return (x & 0xFFFF);
+    }
 
-	// getting the high 16 bits of an integer
-	public static int getHighOrderBits(int x) {
-		return x >> 16;
-	}
+    // getting the high 16 bits of an integer
+    public static int getHighOrderBits(int x) {
+        return x >> 16;
+    }
 }

@@ -47,6 +47,8 @@ public enum Inst {
     INST_AND(23, "AND", AND.class),
     INST_ORR(24, "ORR", ORR.class),
     INST_NOT(25, "NOT", NOT.class),
+    INST_XOR(26, "XOR", XOR.class),
+    INST_ABS(27, "ABS", ABS.class),
     INST_SRC(31, "SRC", SRC.class),
     INST_RRC(32, "RRC", RRC.class),;
 

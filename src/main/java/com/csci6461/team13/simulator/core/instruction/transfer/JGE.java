@@ -15,7 +15,7 @@ public class JGE extends Instruction {
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
         MCU mcu = cpu.getMcu();
-        if (mcu.getWord(registers.getR(this.getR())) >= 0){
+        if (registers.getR(this.getR()) >= 0){
             registers.setPC(getEffectiveAddress(mcu, registers));
         }
 

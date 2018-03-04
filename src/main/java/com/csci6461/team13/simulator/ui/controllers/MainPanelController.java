@@ -3,7 +3,7 @@ package com.csci6461.team13.simulator.ui.controllers;
 import com.csci6461.team13.simulator.Simulator;
 import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.core.MCU;
-import com.csci6461.team13.simulator.core.ROM;
+import com.csci6461.team13.simulator.ROM;
 import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
@@ -26,7 +26,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
