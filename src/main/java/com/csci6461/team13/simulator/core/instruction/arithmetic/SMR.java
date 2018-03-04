@@ -15,14 +15,15 @@ public class SMR extends Instruction {
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
         MCU mcu = cpu.getMcu();
+        int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
+        int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);
         registers.setMAR(getEffectiveAddress(mcu, registers));
-
-        registers.setMBR(mcu.getFromCache(registers.getMAR()));
+        registers.setMBR(mcu.getWord(registers.getMAR()));
 
         int result = registers.getR(this.getR()) - registers.getMBR();
 
         //overflow
-        if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
+        if (result > max|| result < min) {
 			registers.setCCByBit(Const.ConditionCode.OVERFLOW.getValue(), true);
 		} else {
 			// if we do not have an overflow, we update the value of register

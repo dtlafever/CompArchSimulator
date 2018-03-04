@@ -3,6 +3,7 @@ package com.csci6461.team13.simulator.core.instruction;
 import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.Registers;
+import com.csci6461.team13.simulator.util.CoreUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.regex.Matcher;
@@ -101,6 +102,9 @@ public abstract class Instruction {
                 instruction.setIx(ix);
                 instruction.setR(r);
                 instruction.setAddress(address);
+                if(!isValid(instruction)){
+                    throw new InstantiationException("Invalid Instruction");
+                }
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 e.printStackTrace();
                 return null;
@@ -108,6 +112,38 @@ public abstract class Instruction {
         }
 
         return instruction;
+    }
+
+    public static boolean isValid(Instruction instruction){
+
+        boolean flag = true;
+        int opcode = instruction.getOpcode();
+        int r = instruction.getR();
+        int ix = instruction.getIx();
+        int i = instruction.getI();
+        int address = instruction.getAddress();
+
+        if(opcode > CoreUtil.maxOfBits(6)){
+            flag = false;
+        }
+
+        if(r > CoreUtil.maxOfBits(2)){
+            flag = false;
+        }
+
+        if(ix > CoreUtil.maxOfBits(2)){
+            flag = false;
+        }
+
+        if(i > CoreUtil.maxOfBits(1)){
+            flag = false;
+        }
+
+        if(address > CoreUtil.maxOfBits(5)){
+            flag = false;
+        }
+
+        return flag;
     }
 
     public Integer toWord() {

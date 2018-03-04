@@ -50,6 +50,7 @@ public abstract class Input extends Device {
 
     public synchronized boolean flush(){
         inputBuffer.clear();
+        waitingForInput.set(false);
         return true;
     }
 }

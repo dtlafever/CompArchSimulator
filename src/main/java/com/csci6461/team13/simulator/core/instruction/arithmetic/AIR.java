@@ -6,6 +6,7 @@ import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.util.Const;
+import com.csci6461.team13.simulator.util.CoreUtil;
 
 public class AIR extends Instruction {
     
@@ -16,6 +17,8 @@ public class AIR extends Instruction {
     @Override
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
+        int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
+        int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);
         if (this.getAddress() != 0){
             if (registers.getR(this.getR()) == 0){
                 registers.setR(this.getR(), this.getAddress());
@@ -23,7 +26,7 @@ public class AIR extends Instruction {
                 int result = registers.getR(this.getR()) + this.getAddress();
 
                 // Overflow check!
-                if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE){
+                if (result > max || result < min){
                     registers.setCCByBit(Const.ConditionCode.OVERFLOW.getValue(), true);
                 }else{
                     registers.setR(this.getR(), result);

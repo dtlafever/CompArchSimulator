@@ -84,4 +84,8 @@ public class CoreUtil {
         return null;
     }
 
+    public static int minOfBits(int length){
+        int max = maxOfBits(length);
+        return ~max>>1;
+    }
 }

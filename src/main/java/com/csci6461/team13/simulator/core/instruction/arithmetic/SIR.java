@@ -9,7 +9,7 @@ import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.CoreUtil;
 
 public class SIR extends Instruction {
-    
+
     // Subtract address from register, r (0 - 3)
     // NOTE:
     // if address = 0, dont do anything
@@ -17,19 +17,21 @@ public class SIR extends Instruction {
     @Override
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
-        if (this.getAddress() != 0){
-            if (registers.getR(this.getR()) == 0){
+        int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
+        int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);
+        if (this.getAddress() != 0) {
+            if (registers.getR(this.getR()) == 0) {
                 registers.setR1(~this.getAddress());
-            }else{
+            } else {
                 int result = registers.getR(this.getR()) - this.getAddress();
 
                 //overflow
-                if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
-					registers.setCCByBit(Const.ConditionCode.OVERFLOW.getValue(), true);
-				} else {
-					// updating the value of register if there is no overflow
-					registers.setR(this.getR(), registers.getR(this.getR()) - this.getAddress());
-				}
+                if (result > max || result < min) {
+                    registers.setCCByBit(Const.ConditionCode.OVERFLOW.getValue(), true);
+                } else {
+                    // updating the value of register if there is no overflow
+                    registers.setR(this.getR(), registers.getR(this.getR()) - this.getAddress());
+                }
             }
         }
 

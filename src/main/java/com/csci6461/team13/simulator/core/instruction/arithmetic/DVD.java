@@ -6,6 +6,7 @@ import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.util.Const;
+import com.csci6461.team13.simulator.util.CoreUtil;
 
 public class DVD extends Instruction {
     
@@ -16,6 +17,8 @@ public class DVD extends Instruction {
     @Override
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
+        int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
+        int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);
         int rx = this.getR();
         int ry = this.getIx();
 
@@ -27,7 +30,7 @@ public class DVD extends Instruction {
                 int result = registers.getR(rx) / registers.getR(ry);
 
                 //check if we have overflow
-                if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
+                if (result > max || result < min) {
 					registers.setCCByBit(Const.ConditionCode.OVERFLOW.getValue(), true);
 				} else {
 

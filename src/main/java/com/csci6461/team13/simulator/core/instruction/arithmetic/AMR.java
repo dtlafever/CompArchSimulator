@@ -16,13 +16,13 @@ public class AMR extends Instruction {
         Registers registers = cpu.getRegisters();
         MCU mcu = cpu.getMcu();
         int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
-        int min = 0;
+        int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);
 
         //store effective address in memory address register
         registers.setMAR(this.getEffectiveAddress(mcu, registers));
 
         //store what was fetched from memory into MBR
-        registers.setMBR(mcu.getFromCache(registers.getMAR()));
+        registers.setMBR(mcu.getWord(registers.getMAR()));
 
         int result = registers.getR(this.getR()) + registers.getMBR();
 

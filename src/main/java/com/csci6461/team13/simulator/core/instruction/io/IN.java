@@ -36,6 +36,7 @@ public class IN extends Instruction {
                 // no available value in buffer
                 ((Input) device).waitingForInput.set(true);
                 this.message = "No available char in input buffer: DevId=" + devId;
+                registers.setPC(registers.getPC()-1);
                 return ExecutionResult.RETRY;
             }
         } else {

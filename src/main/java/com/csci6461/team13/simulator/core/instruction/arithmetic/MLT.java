@@ -18,6 +18,8 @@ public class MLT extends Instruction {
     @Override
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
+		int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
+		int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);
         int rx = this.getR();
         int ry = this.getIx();
 
@@ -25,7 +27,7 @@ public class MLT extends Instruction {
 			int result = registers.getR(rx) * registers.getR(ry);
 
 			// overflow
-			if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
+			if (result > max || result < min) {
 				registers.setCCByBit(Const.ConditionCode.OVERFLOW.getValue(), true);
 			} else {
 				// rx contains the high order bits of the result

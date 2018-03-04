@@ -9,13 +9,14 @@ import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.CoreUtil;;
 
 public class JNE extends Instruction {
-    
+
     // Jump if not equal to
     @Override
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
         MCU mcu = cpu.getMcu();
-        if (mcu.getWord(registers.getR(this.getR())) != 0){
+        int rVal = registers.getR(this.getR());
+        if (rVal != 0) {
             registers.setPC(getEffectiveAddress(mcu, registers));
         }
 

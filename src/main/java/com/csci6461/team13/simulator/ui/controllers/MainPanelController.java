@@ -11,6 +11,7 @@ import com.csci6461.team13.simulator.core.io.Device;
 import com.csci6461.team13.simulator.core.io.Keyboard;
 import com.csci6461.team13.simulator.core.io.Printer;
 import com.csci6461.team13.simulator.ui.basic.CacheRow;
+import com.csci6461.team13.simulator.ui.basic.Program;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
 import com.csci6461.team13.simulator.util.*;
@@ -25,8 +26,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.IntConsumer;
 
@@ -211,17 +213,31 @@ public class MainPanelController {
         MCU mcu = Simulator.getCpu().getMcu();
         Registers registers = Simulator.getCpu().getRegisters();
 
-        List<Instruction> instructions = ROM.getInstructions();
-        // address of the program beginning
-        int index = Const.ROM_ADDR;
-        for (Instruction instruction : instructions) {
-            Objects.requireNonNull(instruction, "Invalid Instruction");
-            mcu.storeWord(index, instruction.toWord());
-            index++;
+        List<Program> programs = ROM.getPrograms();
+
+        for (Program program: programs){
+
+            Map<Integer, Integer> initData = program.getInitialData();
+            Map<Integer, List<String>> instLists = program.getInsts();
+
+            for (Integer key: initData.keySet()){
+                mcu.storeWord(key, initData.get(key));
+            }
+
+            for (Integer key: instLists.keySet()){
+                List<String> instructions = instLists.get(key);
+                int index = key;
+                for (String instStr: instructions){
+                    Instruction instruction = Instruction.build(instStr);
+                    Objects.requireNonNull(instruction, "Invalid " +
+                            "Instruction:"+instStr);
+                    mcu.storeWord(index, instruction.toWord());
+                    index++;
+                }
+            }
         }
 
         registers.setPC(Const.ROM_ADDR);
-
         refreshSimulator();
 
         // power on
@@ -322,15 +338,13 @@ public class MainPanelController {
                 }
                 updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
                         executionResult.getMessage());
-                // refresh register values on the stage
-                refreshRegisters(Simulator.getCpu().getRegisters());
+                refreshSimulator();
             }
             // flush started signal
             signals.started.set(false);
         } else {
             // debug mode
             helper.fetch(Simulator.getCpu());
-            refreshSimulator();
         }
     }
 
@@ -428,6 +442,7 @@ public class MainPanelController {
         Registers registers = cpu.getRegisters();
         // refresh registers
         refreshRegisters(registers);
+        mStart.setText("Start");
         // refresh cache table
         helper.refreshCache(cpu);
         // refresh mem control
@@ -451,6 +466,7 @@ public class MainPanelController {
         helper.executedInstCount = 0;
         mKeyboard.clear();
         mKBBuffer.clear();
+        helper.enableIOInput.set(false);
         mConsolePrinter.clear();
         // flush mem control
         memControlController.reset();

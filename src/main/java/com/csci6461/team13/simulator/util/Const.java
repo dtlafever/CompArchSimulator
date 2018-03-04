@@ -8,7 +8,7 @@ public class Const {
     }
 
     // The initial memory address to start our pre loaded program
-    public static int ROM_ADDR = 10;
+    public static int ROM_ADDR = 40;
 
     public static final int CPU_BIT_LENGTH = 16;
 
