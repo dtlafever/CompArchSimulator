@@ -209,8 +209,24 @@ public class MainPanelController {
     // Menu Buttons Handlers
     @FXML
     void iplHandler(MouseEvent event) {
-        MCU mcu = Simulator.getCpu().getMcu();
         Registers registers = Simulator.getCpu().getRegisters();
+        registers.setPC(Const.ROM_ADDR);
+
+        // power on
+        signals.on.set(true);
+        updateHistory("Computer Initialized");
+        // load program
+        loadHandler(event);
+        refreshSimulator();
+    }
+
+    @FXML
+    void loadHandler(MouseEvent event) {
+        // todo load program
+        // enable keyboard for program 1
+        helper.enableIOInput.set(true);
+        Registers registers = Simulator.getCpu().getRegisters();
+        MCU mcu = Simulator.getCpu().getMcu();
 
         List<Program> programs = ROM.getPrograms();
 
@@ -234,27 +250,15 @@ public class MainPanelController {
                     index++;
                 }
             }
+            // program loaded
+            updateHistory("New Program Loaded");
+            signals.loaded.set(true);
         }
 
-        registers.setPC(Const.ROM_ADDR);
+        if(programs.size() != 0){
+            registers.setPC(programs.get(0).getInitAddr());
+        }
         refreshSimulator();
-
-        // power on
-        signals.on.set(true);
-        updateHistory("Computer Initialized");
-        // load program
-        loadHandler(event);
-    }
-
-    @FXML
-    void loadHandler(MouseEvent event) {
-        // todo load program
-        // enable keyboard for program 1
-        helper.enableIOInput.set(true);
-
-        // program loaded
-        updateHistory("Loaded: Program 1");
-        signals.loaded.set(true);
     }
 
     @FXML
@@ -441,7 +445,6 @@ public class MainPanelController {
         Registers registers = cpu.getRegisters();
         // refresh registers
         refreshRegisters(registers);
-        mStart.setText("Start");
         // refresh cache table
         helper.refreshCache(cpu);
         // refresh mem control
@@ -469,6 +472,7 @@ public class MainPanelController {
         mConsolePrinter.clear();
         // flush mem control
         memControlController.reset();
+        mStart.setText("Start");
 
         // flush cpu
         Simulator.getCpu().reset();

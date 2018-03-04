@@ -10,12 +10,14 @@ import java.util.Map;
 public class Program {
 
 
+    private Integer initAddr;
     private Map<Integer, Integer> initialData;
     private Map<Integer, List<String>> insts;
 
     public Program(){
         initialData = new HashMap<>();
         insts = new HashMap<>();
+        initAddr = null;
     }
 
     public Map<Integer, Integer> getInitialData() {
@@ -32,5 +34,13 @@ public class Program {
 
     public void putInitData(Integer addr, Integer data){
         initialData.put(addr, data);
+    }
+
+    public Integer getInitAddr() {
+        return initAddr;
+    }
+
+    public void setInitAddr(Integer initAddr) {
+        this.initAddr = initAddr;
     }
 }

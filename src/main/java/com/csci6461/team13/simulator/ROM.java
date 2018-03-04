@@ -21,7 +21,7 @@ public class ROM {
     private static final int PROGRAM_1_STORAGE = 150;
     // char preset
     private static final int CHAR_0 = 48;
-    private static final int CHAR_GREATER = 62;
+    private static final int CHAR_EQUAL = 61;
 
     private ROM() {
     }
@@ -33,6 +33,7 @@ public class ROM {
         programs = new ArrayList<>();
 
         Program one = new Program();
+        one.setInitAddr(PROGRAM_1_INIT);
 
         // max count
         one.putInitData(30, PROGRAM_1_MAX);
@@ -53,7 +54,7 @@ public class ROM {
         one.putInitData(29, PROGRAM_1_REPLACE);
 
         one.putInitData(7, CHAR_0);
-        one.putInitData(8, CHAR_GREATER);
+        one.putInitData(8, CHAR_EQUAL);
         // 11 number storage index
         // 12 input count
         // 13 return address for reader
