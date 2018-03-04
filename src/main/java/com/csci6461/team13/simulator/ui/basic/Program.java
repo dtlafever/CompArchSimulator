@@ -13,11 +13,13 @@ public class Program {
     private Integer initAddr;
     private Map<Integer, Integer> initialData;
     private Map<Integer, List<String>> insts;
+    private String description;
 
     public Program(){
         initialData = new HashMap<>();
         insts = new HashMap<>();
         initAddr = null;
+        description = "";
     }
 
     public Map<Integer, Integer> getInitialData() {
@@ -42,5 +44,13 @@ public class Program {
 
     public void setInitAddr(Integer initAddr) {
         this.initAddr = initAddr;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -11,6 +11,7 @@ public class ROM {
     // use space to separate numbers
     private static final int PROGRAM_1_SEPARATOR = 32;
     private static final int PROGRAM_1_MAX = 20;
+    // module start addresses
     private static final int PROGRAM_1_INIT = 40;
     private static final int PROGRAM_1_LOOP = 50;
     private static final int PROGRAM_1_READER = 70;
@@ -34,6 +35,10 @@ public class ROM {
 
         Program one = new Program();
         one.setInitAddr(PROGRAM_1_INIT);
+        one.setDescription("Read 21 numbers from keyboard, compare the last " +
+                "one with previous 20 numbers, print the number closest the " +
+                "value of the last number. Input numbers are separated with " +
+                "one ' '(space)");
 
         // max count
         one.putInitData(30, PROGRAM_1_MAX);

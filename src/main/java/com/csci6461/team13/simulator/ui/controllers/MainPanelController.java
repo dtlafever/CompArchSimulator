@@ -252,6 +252,7 @@ public class MainPanelController {
             }
             // program loaded
             updateHistory("New Program Loaded");
+            updateHistory("Description: "+program.getDescription());
             signals.loaded.set(true);
         }
 
