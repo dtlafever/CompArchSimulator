@@ -110,8 +110,6 @@ public class ROM {
         loop.add("STR 0,0,0,11");
         // jump to replace
         loop.add("JMA 0,0,1,29");
-        // jump to comparator
-        loop.add("JMA 0,0,1,25");
 
         // reader, read a complete number
         reader.add("IN 0,0,0,0");

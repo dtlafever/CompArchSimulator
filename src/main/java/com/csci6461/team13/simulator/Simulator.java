@@ -13,8 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.util.Random;
-
 public class Simulator extends Application {
 
     private static CPU cpu;

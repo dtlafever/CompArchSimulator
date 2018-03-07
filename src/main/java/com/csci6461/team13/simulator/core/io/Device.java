@@ -5,7 +5,7 @@ package com.csci6461.team13.simulator.core.io;
  */
 public abstract class Device {
 
-    public Device(int devId, String name) {
+    Device(int devId, String name) {
         this.devId = devId;
         this.name = name;
     }

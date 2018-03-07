@@ -19,12 +19,6 @@ public class Keyboard extends Input {
         });
     }
 
-    public static void main(String[] args) {
-        Keyboard keyboard = new Keyboard(1, "2");
-        keyboard.buffer.set("12 13 14 1232 12352");
-        System.out.println(keyboard.buffer.toString());
-    }
-
     @Override
     public final synchronized Character read() {
         Character character = super.read();
