@@ -106,7 +106,6 @@ public abstract class Instruction {
                     throw new InstantiationException("Invalid Instruction");
                 }
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                e.printStackTrace();
                 return null;
             }
         }

@@ -32,6 +32,7 @@ public class MainPanelHelper {
     public IntegerProperty nextWord = new SimpleIntegerProperty();
     public IntegerProperty nextAddr = new SimpleIntegerProperty();
     public BooleanProperty enableIOInput = new SimpleBooleanProperty(true);
+    public boolean hasUnfinishedCycle = false;
 
     private InstEditController instEditController = null;
     private Stage instEditor = null;
@@ -56,6 +57,8 @@ public class MainPanelHelper {
         exec.set(String.format("%s(%d) @ [%d]", instruction.toString(), word, addr));
         nextWord.set(word);
         nextAddr.set(addr);
+        // unfinished cycle
+        hasUnfinishedCycle = true;
         return word;
     }
 
@@ -69,6 +72,8 @@ public class MainPanelHelper {
         ExecutionResult executionResult = cpu.decodeAndExecute();
         executedInstCount++;
         exec.set("");
+        // finish the cycle
+        hasUnfinishedCycle = false;
         return executionResult;
     }
 
@@ -77,12 +82,6 @@ public class MainPanelHelper {
         Cache cache = mcu.getCache();
         List<Cache.CacheLine> cacheLines = cache.getCacheLines();
         cacheRows.clear();
-//        String addr = String.valueOf(1);
-//        String data = String.valueOf(123);
-//        cacheRows.add(new CacheRow(addr, data));
-//        addr = String.valueOf(2);
-//        data = String.valueOf(345);
-//        cacheRows.add(new CacheRow(addr, data));
         for (Cache.CacheLine cacheLine : cacheLines) {
             String addr = String.valueOf(cacheLine.getAddr());
             String data = String.valueOf(cacheLine.getData());
@@ -137,8 +136,7 @@ public class MainPanelHelper {
         }
 
         String originalValue = register.getText();
-        FXMLLoadResult<RegisterEditPanelController> result = new
-                FXMLLoadResult<>();
+        FXMLLoadResult<RegisterEditPanelController> result = new FXMLLoadResult<>();
         result.setStage(this.registerEditor);
         result.setController(this.registerEditPanelController);
         this.registerEditPanelController.reset(name, originalValue);

@@ -56,7 +56,6 @@ public class CPU {
         int word = registers.getIR();
         //DECODE
         Instruction instruction = Instruction.build(word);
-
         if (instruction != null) {
             //EXECUTE
             executionResult = instruction.execute(this);

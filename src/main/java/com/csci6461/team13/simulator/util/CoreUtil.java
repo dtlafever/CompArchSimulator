@@ -74,13 +74,11 @@ public class CoreUtil {
     }
 
     public static Device findDevice(List<Device> devices, int devId){
-
         for (Device device: devices){
             if(device.getDevId() == devId){
                 return device;
             }
         }
-
         return null;
     }
 

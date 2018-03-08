@@ -15,9 +15,11 @@ import com.csci6461.team13.simulator.ui.basic.Program;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
 import com.csci6461.team13.simulator.util.*;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -29,7 +31,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 import java.util.function.IntConsumer;
+import java.util.function.IntFunction;
+import java.util.function.IntSupplier;
 
 public class MainPanelController {
 
@@ -159,12 +164,13 @@ public class MainPanelController {
         StringBinding modeText = Bindings.createStringBinding(() -> signals
                 .mode.get() ? "RUN" : "DEBUG", signals.mode);
         mMode.textProperty().bind(modeText);
-        mMode.disableProperty().bind(signals.loaded.not().or(signals.started));
+        mMode.disableProperty().bind(signals.loaded.not());
 
         mLoad.disableProperty().bind(signals.loaded.or(signals.on.not()));
         mReset.disableProperty().bind(signals.on.not());
 
-        mStart.disableProperty().bind(signals.loaded.not().or(signals.started));
+        mStart.disableProperty().bind(signals.loaded.not().or(signals.started
+                .and(signals.mode.not())));
         mNext.disableProperty().bind(signals.mode.or(signals.started.not()));
 
         // init io bindings
@@ -175,8 +181,6 @@ public class MainPanelController {
                 .DEVICE_ID_PRINTER);
         if (keyboard != null) {
             mKBBuffer.textProperty().bindBidirectional(keyboard.bufferProperty());
-//            mKeyboard.disableProperty().bind(helper.enableIOInput.and(keyboard
-//                    .waitingForInput).not());
             mKBSubmit.disableProperty().bind(helper.enableIOInput.and(keyboard
                     .waitingForInput).not());
             mKBSubmit.setOnAction(event -> {
@@ -230,33 +234,33 @@ public class MainPanelController {
 
         List<Program> programs = ROM.getPrograms();
 
-        for (Program program: programs){
+        for (Program program : programs) {
 
             Map<Integer, Integer> initData = program.getInitialData();
             Map<Integer, List<String>> instLists = program.getInsts();
 
-            for (Integer key: initData.keySet()){
+            for (Integer key : initData.keySet()) {
                 mcu.storeWord(key, initData.get(key));
             }
 
-            for (Integer key: instLists.keySet()){
+            for (Integer key : instLists.keySet()) {
                 List<String> instructions = instLists.get(key);
                 int index = key;
-                for (String instStr: instructions){
+                for (String instStr : instructions) {
                     Instruction instruction = Instruction.build(instStr);
                     Objects.requireNonNull(instruction, "Invalid " +
-                            "Instruction:"+instStr);
+                            "Instruction:" + instStr);
                     mcu.storeWord(index, instruction.toWord());
                     index++;
                 }
             }
             // program loaded
             updateHistory("New Program Loaded");
-            updateHistory("Description: "+program.getDescription());
+            updateHistory("Description: " + program.getDescription());
             signals.loaded.set(true);
         }
 
-        if(programs.size() != 0){
+        if (programs.size() != 0) {
             registers.setPC(programs.get(0).getInitAddr());
         }
         refreshSimulator();
@@ -284,23 +288,7 @@ public class MainPanelController {
         ExecutionResult executionResult = helper.execute(Simulator.getCpu());
         updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
                 executionResult.getMessage());
-        boolean hasNext = false;
-        switch (executionResult) {
-            case CONTINUE:
-                // continue next execution cycle
-                hasNext = true;
-                break;
-            case HALT:
-                // terminate the program
-                hasNext = false;
-                break;
-            case RETRY:
-                // reset PC to previous value
-                // then pause
-                hasNext = true;
-                break;
-        }
-        if (!hasNext) {
+        if (executionResult.equals(ExecutionResult.HALT)) {
             // if there is no more instructions
             // flush started signal
             signals.started.set(false);
@@ -315,41 +303,42 @@ public class MainPanelController {
         // setup the program started
         signals.started.set(true);
 
-        // run program according to different modes
-        if (signals.mode.get()) {
-            // run mode
-            boolean hasNext = true;
-            while (hasNext) {
-                helper.fetch(Simulator.getCpu());
-                ExecutionResult executionResult = helper.execute(Simulator.getCpu());
-                switch (executionResult) {
-                    case CONTINUE:
-                        // continue next execution cycle
-                        hasNext = true;
-                        mStart.setText("Start");
-                        break;
-                    case HALT:
-                        // terminate the program
-                        hasNext = false;
-                        mStart.setText("Start");
-                        break;
-                    case RETRY:
-                        // reset PC to previous value
-                        // then pause
-                        hasNext = false;
-                        mStart.setText("Retry");
-                        break;
+        Task task = new Task() {
+            @Override
+            protected Object call() {
+                // run program according to different modes
+                if (!signals.mode.get()) {
+                    // debug mode
+                    helper.fetch(Simulator.getCpu());
+                } else {
+                    // run mode
+                    Platform.runLater(() -> {
+                        ExecutionResult executionResult = ExecutionResult.CONTINUE;
+                        while (executionResult.equals(ExecutionResult.CONTINUE)) {
+                            // skip fetch operation if the previous cycle is
+                            // unfinished
+                            if(!helper.hasUnfinishedCycle){
+                                helper.fetch(Simulator.getCpu());
+                            }
+                            executionResult = helper.execute(Simulator.getCpu());
+                            updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
+                                    executionResult.getMessage());
+                            if (executionResult.equals(ExecutionResult.RETRY)) {
+                                mStart.setText("Retry");
+                            } else {
+                                mStart.setText("Start");
+                            }
+                            refreshSimulator();
+                        }
+                        // flush started signal
+                        signals.started.set(false);
+                    });
                 }
-                updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
-                        executionResult.getMessage());
-                refreshSimulator();
+                return true;
             }
-            // flush started signal
-            signals.started.set(false);
-        } else {
-            // debug mode
-            helper.fetch(Simulator.getCpu());
-        }
+        };
+
+        Executors.newSingleThreadExecutor().execute(task);
     }
 
     // tools panel handlers
@@ -485,20 +474,20 @@ public class MainPanelController {
      * refresh all register value to latest
      */
     public void refreshRegisters(Registers regs) {
-        refreshText(mPc, regs.getPC());
-        refreshText(mIr, regs.getIR());
-        refreshText(mMar, regs.getMAR());
-        refreshText(mMbr, regs.getMBR());
-        refreshText(mMsr, regs.getMSR());
-        refreshText(mCc, regs.getCC());
-        refreshText(mMfr, regs.getMFR());
-        refreshText(mR0, regs.getR0());
-        refreshText(mR1, regs.getR1());
-        refreshText(mR2, regs.getR2());
-        refreshText(mR3, regs.getR3());
-        refreshText(mX1, regs.getX1());
-        refreshText(mX2, regs.getX2());
-        refreshText(mX3, regs.getX3());
+        refreshText(mPc, regs::getPC);
+        refreshText(mIr, regs::getIR);
+        refreshText(mMar, regs::getMAR);
+        refreshText(mMbr, regs::getMBR);
+        refreshText(mMsr, regs::getMSR);
+        refreshText(mCc, regs::getCC);
+        refreshText(mMfr, regs::getMFR);
+        refreshText(mR0, regs::getR0);
+        refreshText(mR1, regs::getR1);
+        refreshText(mR2, regs::getR2);
+        refreshText(mR3, regs::getR3);
+        refreshText(mX1, regs::getX1);
+        refreshText(mX2, regs::getX2);
+        refreshText(mX3, regs::getX3);
     }
 
     private void updateHistory(int word, int addr, String msg) {
@@ -515,12 +504,12 @@ public class MainPanelController {
     }
 
     // utility methods
-    private static void refreshText(Label label, int regVal) {
-        label.setText(Integer.toString(regVal));
+    private static void refreshText(Label label, IntSupplier function) {
+        label.setText(Integer.toString(function.getAsInt()));
     }
 
-    private static void refreshText(TextField textField, int regVal) {
-        textField.setText(Integer.toString(regVal));
+    private static void refreshText(TextField textField, IntSupplier function) {
+        textField.setText(Integer.toString(function.getAsInt()));
     }
 
     private static void addRegListener(TextField textField, IntConsumer consumer) {
