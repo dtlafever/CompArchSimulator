@@ -7,7 +7,6 @@ import java.util.List;
 
 public class ROM {
 
-
     // use space to separate numbers
     private static final int PROGRAM_1_SEPARATOR = 32;
     private static final int PROGRAM_1_MAX = 20;

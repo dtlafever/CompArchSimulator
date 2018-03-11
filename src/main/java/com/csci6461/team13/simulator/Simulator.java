@@ -57,6 +57,7 @@ public class Simulator extends Application {
         primaryStage.getIcons().add(icon);
         primaryStage.setScene(new Scene(result.getNode()));
         primaryStage.setResizable(false);
+        primaryStage.setOnCloseRequest(event -> System.exit(0));
         primaryStage.show();
 
         Simulator.primaryStage = primaryStage;

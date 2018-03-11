@@ -78,9 +78,6 @@ public class MainPanelController {
     private HBox mMem;
 
     @FXML
-    private VBox mRegs;
-
-    @FXML
     private Button mIpl;
 
     @FXML
@@ -315,11 +312,7 @@ public class MainPanelController {
                     Platform.runLater(() -> {
                         ExecutionResult executionResult = ExecutionResult.CONTINUE;
                         while (executionResult.equals(ExecutionResult.CONTINUE)) {
-                            // skip fetch operation if the previous cycle is
-                            // unfinished
-                            if(!helper.hasUnfinishedCycle){
-                                helper.fetch(Simulator.getCpu());
-                            }
+                            helper.fetch(Simulator.getCpu());
                             executionResult = helper.execute(Simulator.getCpu());
                             updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
                                     executionResult.getMessage());

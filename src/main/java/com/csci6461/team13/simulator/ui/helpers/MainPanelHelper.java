@@ -32,7 +32,7 @@ public class MainPanelHelper {
     public IntegerProperty nextWord = new SimpleIntegerProperty();
     public IntegerProperty nextAddr = new SimpleIntegerProperty();
     public BooleanProperty enableIOInput = new SimpleBooleanProperty(true);
-    public boolean hasUnfinishedCycle = false;
+    private boolean hasUnfinishedCycle = false;
 
     private InstEditController instEditController = null;
     private Stage instEditor = null;
@@ -50,7 +50,11 @@ public class MainPanelHelper {
      * execute fetch operation in CPU
      * it will fetch a instruction from current PC
      */
-    public int fetch(CPU cpu) {
+    public void fetch(CPU cpu) {
+        if(hasUnfinishedCycle){
+            // skip fetch operation if the previous cycle is unfinished
+            return;
+        }
         int word = cpu.fetch();
         int addr = cpu.getRegisters().getMAR();
         Instruction instruction = Instruction.build(word);
@@ -59,7 +63,6 @@ public class MainPanelHelper {
         nextAddr.set(addr);
         // unfinished cycle
         hasUnfinishedCycle = true;
-        return word;
     }
 
     /**
@@ -72,7 +75,7 @@ public class MainPanelHelper {
         ExecutionResult executionResult = cpu.decodeAndExecute();
         executedInstCount++;
         exec.set("");
-        // finish the cycle
+        // finishing current execution cycle
         hasUnfinishedCycle = false;
         return executionResult;
     }
