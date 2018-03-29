@@ -46,6 +46,13 @@ public class MCU {
         }
     }
 
+    /**
+     * find a empty block, return the start address
+     * */
+    public int getBlockStart(int blockSize){
+        return 0;
+    }
+
     // return the word from memory at a particular address
     public int getWord(int addr) {
         return this.memory.get(addr);

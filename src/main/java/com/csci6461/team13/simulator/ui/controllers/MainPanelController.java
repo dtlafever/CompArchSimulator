@@ -178,8 +178,7 @@ public class MainPanelController {
                 .DEVICE_ID_PRINTER);
         if (keyboard != null) {
             mKBBuffer.textProperty().bindBidirectional(keyboard.bufferProperty());
-            mKBSubmit.disableProperty().bind(helper.enableIOInput.and(keyboard
-                    .waitingForInput).not());
+            mKBSubmit.disableProperty().bind(keyboard.waitingForInput.not());
             mKBSubmit.setOnAction(event -> {
                 // when keyboard value changes, append new value to keyboard buffer
                 mKBBuffer.appendText(mKeyboard.getText());
@@ -223,9 +222,7 @@ public class MainPanelController {
 
     @FXML
     void loadHandler(MouseEvent event) {
-        // todo load program
         // enable keyboard for program 1
-        helper.enableIOInput.set(true);
         Registers registers = Simulator.getCpu().getRegisters();
         MCU mcu = Simulator.getCpu().getMcu();
 
@@ -233,33 +230,18 @@ public class MainPanelController {
 
         for (Program program : programs) {
 
-            Map<Integer, Integer> initData = program.getInitialData();
-            Map<Integer, List<String>> instLists = program.getInsts();
+            Program.storeToMemory(program, mcu);
 
-            for (Integer key : initData.keySet()) {
-                mcu.storeWord(key, initData.get(key));
-            }
-
-            for (Integer key : instLists.keySet()) {
-                List<String> instructions = instLists.get(key);
-                int index = key;
-                for (String instStr : instructions) {
-                    Instruction instruction = Instruction.build(instStr);
-                    Objects.requireNonNull(instruction, "Invalid " +
-                            "Instruction:" + instStr);
-                    mcu.storeWord(index, instruction.toWord());
-                    index++;
-                }
-            }
             // program loaded
             updateHistory("New Program Loaded");
             updateHistory("Description: " + program.getDescription());
-            signals.loaded.set(true);
         }
 
-        if (programs.size() != 0) {
+        if(programs.size() != 0){
+            signals.loaded.set(true);
             registers.setPC(programs.get(0).getInitAddr());
         }
+
         refreshSimulator();
     }
 
@@ -451,7 +433,6 @@ public class MainPanelController {
         helper.executedInstCount = 0;
         mKeyboard.clear();
         mKBBuffer.clear();
-        helper.enableIOInput.set(false);
         mConsolePrinter.clear();
         // flush mem control
         memControlController.reset();

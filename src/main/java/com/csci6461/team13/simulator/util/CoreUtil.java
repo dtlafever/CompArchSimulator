@@ -55,7 +55,37 @@ public class CoreUtil {
         return Integer.parseInt(binaryString, 2);
     }
 
-    public static String int2FixedLenStr(int value, int length) {
+    public static String toFixedLenBinStr(String originStr, int length) {
+        char[] originString = originStr.toCharArray();
+        StringBuilder binaryBuider = new StringBuilder();
+        for (char c : originString) {
+            String binaryChar = CoreUtil.int2FixedLenBinStr(c, length);
+            binaryBuider.append(binaryChar);
+        }
+        return binaryBuider.toString();
+    }
+
+    public static String fromFixedLenBinStr(String binString, int length) {
+        char[] chars = binString.toCharArray();
+        StringBuilder destBuilder = new StringBuilder();
+        StringBuilder charBuilder = new StringBuilder();
+        for (int i = 0; i <= chars.length; i++) {
+            if(i % length == 0 && i / length >= 1){
+                Character character = (char)Integer.parseInt(charBuilder
+                        .toString(), 2);
+                destBuilder.append(character);
+                if(i < chars.length){
+                    charBuilder = new StringBuilder((int) chars[i]);
+                }
+            }else{
+                charBuilder.append(chars[i]);
+            }
+        }
+
+        return destBuilder.toString();
+    }
+
+    public static String int2FixedLenBinStr(int value, int length) {
         StringBuilder strWord = new StringBuilder(Integer.toBinaryString(value));
         while (strWord.length() < length) {
             strWord.insert(0, "0");
@@ -64,7 +94,7 @@ public class CoreUtil {
         return strWord.toString();
     }
 
-    public static int maxOfBits(int length){
+    public static int maxOfBits(int length) {
         StringBuilder strWord = new StringBuilder();
         while (strWord.length() < length) {
             strWord.insert(0, "1");
@@ -73,17 +103,17 @@ public class CoreUtil {
         return Integer.parseInt(strWord.toString(), 2);
     }
 
-    public static Device findDevice(List<Device> devices, int devId){
-        for (Device device: devices){
-            if(device.getDevId() == devId){
+    public static Device findDevice(List<Device> devices, int devId) {
+        for (Device device : devices) {
+            if (device.getDevId() == devId) {
                 return device;
             }
         }
         return null;
     }
 
-    public static int minOfBits(int length){
+    public static int minOfBits(int length) {
         int max = maxOfBits(length);
-        return ~max>>1;
+        return ~max >> 1;
     }
 }

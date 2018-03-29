@@ -19,6 +19,7 @@ public class ROM {
     private static final int PROGRAM_1_PRINTER = 130;
     private static final int PROGRAM_1_REPLACE = 140;
     private static final int PROGRAM_1_STORAGE = 150;
+
     // char preset
     private static final int CHAR_0 = 48;
     private static final int CHAR_EQUAL = 61;

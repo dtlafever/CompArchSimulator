@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.csci6461.team13.simulator.util.CoreUtil.int2FixedLenStr;
+import static com.csci6461.team13.simulator.util.CoreUtil.int2FixedLenBinStr;
 
 public abstract class Instruction {
 
@@ -78,7 +78,7 @@ public abstract class Instruction {
      * build an instruction from a integer word
      */
     public static Instruction build(int word) {
-        String strWord = int2FixedLenStr(word, 16);
+        String strWord = int2FixedLenBinStr(word, 16);
         int opcode = Integer.parseInt(strWord.substring(0, 6), 2);
         int r = Integer.parseInt(strWord.substring(6, 8), 2);
         int ix = Integer.parseInt(strWord.substring(8, 10), 2);
@@ -146,9 +146,9 @@ public abstract class Instruction {
     }
 
     public Integer toWord() {
-        String result = int2FixedLenStr(opcode, 6) + int2FixedLenStr(r, 2)
-                + int2FixedLenStr(ix, 2) + int2FixedLenStr(i, 1)
-                + int2FixedLenStr(address, 5);
+        String result = int2FixedLenBinStr(opcode, 6) + int2FixedLenBinStr(r, 2)
+                + int2FixedLenBinStr(ix, 2) + int2FixedLenBinStr(i, 1)
+                + int2FixedLenBinStr(address, 5);
         return Integer.parseInt(result, 2);
     }
 

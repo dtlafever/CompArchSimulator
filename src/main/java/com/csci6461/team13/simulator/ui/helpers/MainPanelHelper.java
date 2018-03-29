@@ -31,7 +31,6 @@ public class MainPanelHelper {
     public int executedInstCount = 0;
     public IntegerProperty nextWord = new SimpleIntegerProperty();
     public IntegerProperty nextAddr = new SimpleIntegerProperty();
-    public BooleanProperty enableIOInput = new SimpleBooleanProperty(true);
     private boolean hasUnfinishedCycle = false;
 
     private InstEditController instEditController = null;
