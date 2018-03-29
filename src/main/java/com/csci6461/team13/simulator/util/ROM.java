@@ -1,4 +1,4 @@
-package com.csci6461.team13.simulator;
+package com.csci6461.team13.simulator.util;
 
 import com.csci6461.team13.simulator.ui.basic.Program;
 
@@ -11,30 +11,18 @@ public class ROM {
     private static final int PROGRAM_1_SEPARATOR = 32;
     private static final int PROGRAM_1_MAX = 20;
     // module start addresses
-    private static final int PROGRAM_1_INIT = 40;
-    private static final int PROGRAM_1_LOOP = 50;
-    private static final int PROGRAM_1_READER = 70;
-    private static final int PROGRAM_1_ASSEMBLER = 90;
-    private static final int PROGRAM_1_COMPARATOR = 110;
-    private static final int PROGRAM_1_PRINTER = 130;
-    private static final int PROGRAM_1_REPLACE = 140;
-    private static final int PROGRAM_1_STORAGE = 150;
+
 
     // char preset
     private static final int CHAR_0 = 48;
     private static final int CHAR_EQUAL = 61;
+    public static Program one = new Program();
 
     private ROM() {
     }
 
-    private static List<Program> programs;
-
     static {
 
-        programs = new ArrayList<>();
-
-        Program one = new Program();
-        one.setInitAddr(PROGRAM_1_INIT);
         one.setDescription("Read 21 numbers from keyboard, compare the last " +
                 "one with previous 20 numbers, print the number closest the " +
                 "value of the last number. Input numbers are separated with " +
@@ -44,22 +32,10 @@ public class ROM {
         one.putInitData(30, PROGRAM_1_MAX);
         // ' '
         one.putInitData(17, PROGRAM_1_SEPARATOR);
-        // loop reader start
-        one.putInitData(18, PROGRAM_1_LOOP);
-        // reader start
-        one.putInitData(19, PROGRAM_1_READER);
-        // word assembler start
-        one.putInitData(27, PROGRAM_1_ASSEMBLER);
-        // comparer start
-        one.putInitData(25, PROGRAM_1_COMPARATOR);
-        // number storage start
-        one.putInitData(26, PROGRAM_1_STORAGE);
-        // printer start
-        one.putInitData(28, PROGRAM_1_PRINTER);
-        one.putInitData(29, PROGRAM_1_REPLACE);
-
         one.putInitData(7, CHAR_0);
         one.putInitData(8, CHAR_EQUAL);
+        // number storage start
+        one.putInitData(26, 500);
         // 11 number storage index
         // 12 input count
         // 13 return address for reader
@@ -75,13 +51,13 @@ public class ROM {
         List<String> replace = new ArrayList<>();
         List<String> printer = new ArrayList<>();
 
-        one.putInstructionList(PROGRAM_1_INIT, init);
-        one.putInstructionList(PROGRAM_1_LOOP, loop);
-        one.putInstructionList(PROGRAM_1_READER, reader);
-        one.putInstructionList(PROGRAM_1_ASSEMBLER, assembler);
-        one.putInstructionList(PROGRAM_1_COMPARATOR, comparator);
-        one.putInstructionList(PROGRAM_1_REPLACE, replace);
-        one.putInstructionList(PROGRAM_1_PRINTER, printer);
+        one.putInstructionList(9, init);
+        one.putInstructionList(18, loop);
+        one.putInstructionList(19, reader);
+        one.putInstructionList(27, assembler);
+        one.putInstructionList(25, comparator);
+        one.putInstructionList(29, replace);
+        one.putInstructionList(28, printer);
 
         // set return address of reader to loop start
         init.add("LDR 0,0,0,18");
@@ -199,13 +175,5 @@ public class ROM {
         printer.add("OUT 0,0,1,1");
         printer.add("HLT 0,0,0,0");
 
-        programs.add(one);
-    }
-
-    public static List<Program> getPrograms() {
-        if (programs == null) {
-            return new ArrayList<>();
-        }
-        return programs;
     }
 }

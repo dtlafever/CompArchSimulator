@@ -72,7 +72,7 @@ public class MCU {
                 this.memory.add(i, 0);
             }
         } else {
-            for (int i = 0; i < Const.MAX_MEMORY; i++) {
+            for (int i = 0; i < this.memory.size(); i++) {
                 this.memory.set(i, 0);
             }
         }

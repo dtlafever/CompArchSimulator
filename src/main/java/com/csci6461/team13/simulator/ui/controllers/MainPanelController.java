@@ -3,7 +3,6 @@ package com.csci6461.team13.simulator.ui.controllers;
 import com.csci6461.team13.simulator.Simulator;
 import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.core.MCU;
-import com.csci6461.team13.simulator.ROM;
 import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
@@ -24,16 +23,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.function.IntConsumer;
-import java.util.function.IntFunction;
 import java.util.function.IntSupplier;
 
 public class MainPanelController {
@@ -215,34 +213,34 @@ public class MainPanelController {
         // power on
         signals.on.set(true);
         updateHistory("Computer Initialized");
-        // load program
-        loadHandler(event);
         refreshSimulator();
     }
 
     @FXML
     void loadHandler(MouseEvent event) {
+
         // enable keyboard for program 1
         Registers registers = Simulator.getCpu().getRegisters();
         MCU mcu = Simulator.getCpu().getMcu();
 
-        List<Program> programs = ROM.getPrograms();
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(Simulator.getPrimaryStage());
+        if (file != null) {
+            Program program = null;
+            try {
+                program = ProgramUtil.readBinaryProgram(file);
+                Program.storeToMemory(program, mcu);
+                updateHistory("New Program Loaded");
+                updateHistory("Description: " + program.getDescription());
+                // program loaded
+                signals.loaded.set(true);
+                registers.setPC(mcu.getWord(program.getInitAddr()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        for (Program program : programs) {
-
-            Program.storeToMemory(program, mcu);
-
-            // program loaded
-            updateHistory("New Program Loaded");
-            updateHistory("Description: " + program.getDescription());
+            refreshSimulator();
         }
-
-        if(programs.size() != 0){
-            signals.loaded.set(true);
-            registers.setPC(programs.get(0).getInitAddr());
-        }
-
-        refreshSimulator();
     }
 
     @FXML
@@ -447,7 +445,7 @@ public class MainPanelController {
     /**
      * refresh all register value to latest
      */
-    public void refreshRegisters(Registers regs) {
+    void refreshRegisters(Registers regs) {
         refreshText(mPc, regs::getPC);
         refreshText(mIr, regs::getIR);
         refreshText(mMar, regs::getMAR);
