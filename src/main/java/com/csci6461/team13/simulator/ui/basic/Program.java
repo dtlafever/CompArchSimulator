@@ -160,15 +160,15 @@ public class Program {
 
     /**
      * build a program from a string consist of 0s and 1s
-     * */
-    public static Program fromBinaryString(String binaryString){
+     */
+    public static Program fromBinaryString(String binaryString) {
         String programString = CoreUtil.fromFixedLenBinStr(binaryString, BIT_LENGTH);
         return fromString(programString);
     }
 
     /**
      * build a program from a string
-     * */
+     */
     public static Program fromString(String programString) {
         Program program = null;
         Pattern pattern = Pattern.compile(PROGRAM_REGEX);
@@ -195,7 +195,7 @@ public class Program {
 
     /**
      * extract description from program string
-     * */
+     */
     private static String extractDescription(String programString) {
         Pattern pattern = Pattern.compile(DESCRIPTION_REGEX);
         Matcher matcher = pattern.matcher(programString);
@@ -212,7 +212,7 @@ public class Program {
 
     /**
      * extract init address storage address from program string
-     * */
+     */
     private static int extractInitAddrStorage(String programString) {
         Pattern pattern = Pattern.compile(INIT_ADDR_REGEX);
         Matcher matcher = pattern.matcher(programString);
@@ -227,7 +227,7 @@ public class Program {
 
     /**
      * extract init data from program string
-     * */
+     */
     private static Map<Integer, Integer> extractInitData(String programString) {
         Pattern pattern = Pattern.compile(INIT_DATA_INNER_REGEX);
         Matcher matcher = pattern.matcher(programString);
@@ -244,9 +244,9 @@ public class Program {
 
     /**
      * extract parts map from program string
-     *
+     * <p>
      * key of the map is the init address storage address of each parts
-     * */
+     */
     private static Map<Integer, List<String>> extractInstLists(String programString) {
         Map<Integer, List<String>> insts = new HashMap<>();
         Pattern pattern = Pattern.compile(PART_REGEX);
@@ -276,12 +276,22 @@ public class Program {
 
         return insts;
     }
-    
+
     public String toFixedLenBinaryString(int length) {
         return CoreUtil.toFixedLenBinStr(this.toString(), length);
     }
 
-    public byte[] getBinaryBytesFormat() {
-        return this.toFixedLenBinaryString(BIT_LENGTH).getBytes();
+    public byte[] getBinaryTextFormat() {
+        byte[] bytes = this.toFixedLenBinaryString(BIT_LENGTH).getBytes();
+        return bytes;
+    }
+
+    public byte[] getBinaryFormat() {
+        String binaryString = this.toFixedLenBinaryString(BIT_LENGTH);
+        byte[] bytes = new byte[binaryString.length()];
+        for (int i = 0; i < binaryString.length(); i++) {
+            bytes[i] = Integer.valueOf(String.valueOf(binaryString.charAt(i))).byteValue();
+        }
+        return bytes;
     }
 }
