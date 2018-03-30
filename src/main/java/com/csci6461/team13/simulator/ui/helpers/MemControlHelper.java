@@ -11,6 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+/**
+ * @author zhiyuan
+ * */
 public class MemControlHelper {
 
     // signals for MemControlPanel

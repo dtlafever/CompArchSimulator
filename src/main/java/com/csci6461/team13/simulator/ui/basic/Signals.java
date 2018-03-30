@@ -3,6 +3,10 @@ package com.csci6461.team13.simulator.ui.basic;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
+/**
+ * @author zhiyuan
+ *
+ * */
 public class Signals {
 
     public BooleanProperty mode = new SimpleBooleanProperty(true);

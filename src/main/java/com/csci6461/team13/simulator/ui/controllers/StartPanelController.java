@@ -5,7 +5,6 @@ import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -17,6 +16,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * @author zhiyuan
+ *
+ * */
 public class StartPanelController {
 
     private BooleanProperty isDracula = new SimpleBooleanProperty(false);

@@ -3,6 +3,9 @@ package com.csci6461.team13.simulator.util;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 
+/**
+ * @author zhiyuan
+ * */
 public class FXMLLoadResult<T> {
 
     private Parent node;

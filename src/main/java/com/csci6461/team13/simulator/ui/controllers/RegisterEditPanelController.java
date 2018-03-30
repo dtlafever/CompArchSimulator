@@ -13,6 +13,10 @@ import javafx.scene.layout.HBox;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author zhiyuan
+ *
+ * */
 public class RegisterEditPanelController {
 
     // property used to temporary bind register textfield in the main panel

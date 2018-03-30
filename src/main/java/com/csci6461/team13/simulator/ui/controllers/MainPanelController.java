@@ -207,9 +207,6 @@ public class MainPanelController {
     // Menu Buttons Handlers
     @FXML
     void iplHandler(MouseEvent event) {
-        Registers registers = Simulator.getCpu().getRegisters();
-        registers.setPC(Const.ROM_ADDR);
-
         // power on
         signals.on.set(true);
         updateHistory("Computer Initialized");
@@ -237,6 +234,7 @@ public class MainPanelController {
                 registers.setPC(mcu.getWord(program.getInitAddr()));
             } catch (IOException e) {
                 e.printStackTrace();
+                updateHistory("Invalid Program");
             }
 
             refreshSimulator();

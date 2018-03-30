@@ -16,6 +16,8 @@ public class Program {
 
     private static final byte BIT_LENGTH = Const.CPU_BIT_LENGTH;
 
+    private static final String DESCRIPTION_REGEX =
+            "\\{DESC:\\[.*\\]END-DESC\\}";
     private static final String INIT_ADDR_REGEX = "\\{INIT_ADDR=\\d+\\}";
     private static final String INIT_DATA_INNER_REGEX = "\\[\\d+\\|\\d+\\]";
     private static final String INIT_DATA_REGEX = String.format
@@ -25,10 +27,14 @@ public class Program {
     private static final String PART_ADDR_REGEX = "\\[ADDR=\\d+\\]";
 
     private static final String PART_REGEX = String.format
-            ("\\{%s:(%s)*\\}",PART_ADDR_REGEX, INST_REGEX);
-    private static final String DESCRIPTION_REGEX = "";
+            ("\\{%s:(%s)*\\}",
+                    PART_ADDR_REGEX,
+                    INST_REGEX);
     private static final String PROGRAM_REGEX = String.format
-            ("\\{PROGRAM\\}%s(%s){1}(%s)*",INIT_ADDR_REGEX, INIT_DATA_REGEX,
+            ("\\{PROGRAM\\}%s%s(%s){1}(%s)*",
+                    DESCRIPTION_REGEX,
+                    INIT_ADDR_REGEX,
+                    INIT_DATA_REGEX,
                     PART_REGEX);
 
     /**
@@ -37,13 +43,13 @@ public class Program {
     private Integer initAddr;
     /**
      * initial data
-     *
+     * <p>
      * format: [address, data]
      */
     private Map<Integer, Integer> initialData;
     /**
      * instructions
-     *
+     * <p>
      * format: [part_init_address_storage_address, instructions]
      */
     private Map<Integer, List<String>> insts;
@@ -93,14 +99,12 @@ public class Program {
 
     /**
      * store a program into mcu
-     *
-     * @return init address of the program
      */
     public static void storeToMemory(Program program, MCU mcu) {
         Map<Integer, Integer> initData = program.getInitialData();
         Map<Integer, List<String>> instLists = program.getInsts();
 
-        int curAddr = Const.ROM_ADDR;
+        int curAddr = Const.PROGRAM_STORAGE_ADDR;
         for (Integer key : instLists.keySet()) {
             List<String> instructions = instLists.get(key);
             // store part start address
@@ -112,7 +116,6 @@ public class Program {
                 mcu.storeWord(curAddr, instruction.toWord());
                 curAddr++;
             }
-            curAddr++;
         }
 
         for (Integer key : initData.keySet()) {
@@ -126,7 +129,8 @@ public class Program {
         Map<Integer, List<String>> instLists = this.getInsts();
         StringBuilder builder = new StringBuilder();
         builder.append("{PROGRAM}");
-        builder.append(String.format("{INIT_ADDR=%s}", 9));
+        builder.append(String.format("{DESC:[%s]END-DESC}", this.getDescription()));
+        builder.append(String.format("{INIT_ADDR=%s}", Const.PROG_INIT_STORAGE_ADDR));
         builder.append("{INIT_DATA:");
         for (Integer key : initData.keySet()) {
             builder.append(String.format("[%d|%d]",
@@ -154,6 +158,9 @@ public class Program {
         return builder.toString();
     }
 
+    /**
+     * build a program from a binary format
+     * */
     public static Program fromBinaryString(String binaryString) {
         Program program = null;
         String programString = CoreUtil.fromFixedLenBinStr(binaryString, BIT_LENGTH);
@@ -171,6 +178,7 @@ public class Program {
             Map<Integer, List<String>> instLists = extractInstLists(programString);
             instLists.forEach(program::putInstructionList);
             // extract description
+            program.setDescription(extractDescription(programString));
         } else {
             // not a valid program
             throw new IllegalArgumentException("Invalid Program:" + programString);
@@ -178,18 +186,41 @@ public class Program {
         return program;
     }
 
-    private static int extractInitAddrStorage(String programString){
+    /**
+     * extract description from program string
+     * */
+    private static String extractDescription(String programString) {
+        Pattern pattern = Pattern.compile(DESCRIPTION_REGEX);
+        Matcher matcher = pattern.matcher(programString);
+        StringBuilder builder = new StringBuilder();
+        while (matcher.find()) {
+            String desc = matcher.group().replaceFirst("\\{DESC:\\[", "")
+                    .replace("]END-DESC}",
+                            "");
+            builder.append(desc);
+        }
+
+        return builder.toString();
+    }
+
+    /**
+     * extract init address storage address from program string
+     * */
+    private static int extractInitAddrStorage(String programString) {
         Pattern pattern = Pattern.compile(INIT_ADDR_REGEX);
         Matcher matcher = pattern.matcher(programString);
         int addrIndex = 0;
-        while (matcher.find()){
+        while (matcher.find()) {
             String datString = matcher.group();
-            datString = datString.replace("{INIT_ADDR=","").replace("}","");
+            datString = datString.replace("{INIT_ADDR=", "").replace("}", "");
             addrIndex = Integer.valueOf(datString);
         }
         return addrIndex;
     }
 
+    /**
+     * extract init data from program string
+     * */
     private static Map<Integer, Integer> extractInitData(String programString) {
         Pattern pattern = Pattern.compile(INIT_DATA_INNER_REGEX);
         Matcher matcher = pattern.matcher(programString);
@@ -204,6 +235,11 @@ public class Program {
         return initData;
     }
 
+    /**
+     * extract parts map from program string
+     *
+     * key of the map is the init address storage address of each parts
+     * */
     private static Map<Integer, List<String>> extractInstLists(String programString) {
         Map<Integer, List<String>> insts = new HashMap<>();
         Pattern pattern = Pattern.compile(PART_REGEX);
@@ -215,15 +251,15 @@ public class Program {
         while (matcher.find()) {
             List<String> newPart = new ArrayList<>();
             Matcher partAddrMatcher = partAddrPattern.matcher(matcher.group());
-            if(!partAddrMatcher.find()){
+            if (!partAddrMatcher.find()) {
                 continue;
-            }else{
+            } else {
                 String partAddrStr = partAddrMatcher.group();
-                partAddr = Integer.valueOf(partAddrStr.replace("[ADDR=","").replace("]",""));
+                partAddr = Integer.valueOf(partAddrStr.replace("[ADDR=", "").replace("]", ""));
             }
             Matcher instMatcher = instPattern.matcher(matcher.group());
-            while (instMatcher.find()){
-                String dat = instMatcher.group().replace("[","").replace("]","");
+            while (instMatcher.find()) {
+                String dat = instMatcher.group().replace("[", "").replace("]", "");
                 int word = Integer.valueOf(dat);
                 Instruction instruction = Instruction.build(word);
                 newPart.add(instruction.toString());
@@ -233,12 +269,12 @@ public class Program {
 
         return insts;
     }
-
+    
     public String toFixedLenBinaryString(int length) {
         return CoreUtil.toFixedLenBinStr(this.toString(), length);
     }
 
-    public byte[] getByteFormat(){
+    public byte[] getByteFormat() {
         String binaryString = this.toFixedLenBinaryString(BIT_LENGTH);
         byte[] bytes = new byte[binaryString.length()];
         for (int i = 0; i < binaryString.length(); i++) {

@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * @author zhiyuan
+ * */
 public class FXMLUtil {
 
     public static final String UI_RESOURCE_PATH_PREFIX = "/";

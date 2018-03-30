@@ -16,6 +16,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
+/**
+ * @author zhiyuan
+ *
+ * */
 public class InstEditController {
 
     // signal a new valid instruction

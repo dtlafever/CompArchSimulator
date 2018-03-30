@@ -23,6 +23,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @author zhiyuan
+ * */
 public class MainPanelHelper {
 
     // console output history

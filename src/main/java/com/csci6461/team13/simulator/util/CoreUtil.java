@@ -5,6 +5,9 @@ import com.csci6461.team13.simulator.core.io.Device;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author zhiyuan
+ * */
 public class CoreUtil {
 
     private CoreUtil() {

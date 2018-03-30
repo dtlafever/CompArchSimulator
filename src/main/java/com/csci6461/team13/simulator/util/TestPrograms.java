@@ -5,20 +5,35 @@ import com.csci6461.team13.simulator.ui.basic.Program;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ROM {
+/**
+ * @author zhiyuan
+ *
+ * TestPrograms for test purpose only
+ *
+ * this file contains two programs that will be used for developing and
+ * testing programs, and then you can generate binary format of these programs
+ *
+ * Note: initial data can only stored in address under 32, any address above
+ * can not be directly accessed
+ * */
+public class TestPrograms {
 
     // use space to separate numbers
     private static final int PROGRAM_1_SEPARATOR = 32;
     private static final int PROGRAM_1_MAX = 20;
-    // module start addresses
-
 
     // char preset
     private static final int CHAR_0 = 48;
     private static final int CHAR_EQUAL = 61;
-    public static Program one = new Program();
 
-    private ROM() {
+    private static Program one = new Program();
+    private static Program two = new Program();
+
+    private TestPrograms() {
+    }
+
+    static {
+        two.setDescription("");
     }
 
     static {
@@ -51,7 +66,7 @@ public class ROM {
         List<String> replace = new ArrayList<>();
         List<String> printer = new ArrayList<>();
 
-        one.putInstructionList(9, init);
+        one.putInstructionList(Const.PROG_INIT_STORAGE_ADDR, init);
         one.putInstructionList(18, loop);
         one.putInstructionList(19, reader);
         one.putInstructionList(27, assembler);
@@ -175,5 +190,13 @@ public class ROM {
         printer.add("OUT 0,0,1,1");
         printer.add("HLT 0,0,0,0");
 
+    }
+
+    public static Program getOne() {
+        return one;
+    }
+
+    public static void setOne(Program one) {
+        TestPrograms.one = one;
     }
 }

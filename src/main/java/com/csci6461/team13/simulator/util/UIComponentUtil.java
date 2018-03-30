@@ -8,6 +8,9 @@ import javafx.scene.layout.HBox;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author zhiyuan
+ * */
 public class UIComponentUtil {
 
     private UIComponentUtil() {
