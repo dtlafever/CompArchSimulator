@@ -1,6 +1,7 @@
-package com.csci6461.team13.simulator.util;
+package com.csci6461.team13.simulator;
 
 import com.csci6461.team13.simulator.ui.basic.Program;
+import com.csci6461.team13.simulator.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * this file contains two programs that will be used for developing and
  * testing programs, and then you can generate binary format of these programs
  *
- * Note: initial data can only stored in address under 32, any address above
+ * Note: initial data can only be stored in addresses under 32, any address above
  * can not be directly accessed
  * */
 public class TestPrograms {
@@ -21,6 +22,11 @@ public class TestPrograms {
     // use space to separate numbers
     private static final int PROGRAM_1_SEPARATOR = 32;
     private static final int PROGRAM_1_MAX = 20;
+
+    // sentence separator .
+    private static final int PROGRAM_2_SEPARATOR = 46;
+    // max 6 sentences
+    private static final int PROGRAM_2_MAX = 6;
 
     // char preset
     private static final int CHAR_0 = 48;
@@ -34,6 +40,77 @@ public class TestPrograms {
 
     static {
         two.setDescription("");
+        two.setInitAddrIndex(Const.PROG_INIT_STORAGE_ADDR);
+        List<String> init = new ArrayList<>();
+        List<String> loop = new ArrayList<>();
+        List<String> reader = new ArrayList<>();
+
+        two.putInitData(30, PROGRAM_2_MAX);
+        two.putInitData(17, PROGRAM_2_SEPARATOR);
+        // storage start
+        two.putInitData(26, 500);
+        // 10 current char
+        // 11 number storage index
+        // 12 input count
+        // 13 return address for reader
+        // 14 storage index
+
+        two.putInstructionList(Const.PROG_INIT_STORAGE_ADDR, init);
+        two.putInstructionList(18, loop);
+        two.putInstructionList(19, reader);
+
+        // set return address of reader to loop start
+        init.add("LDR 0,0,0,18");
+        init.add("STR 0,0,0,13");
+        // set storage start value to 12
+        init.add("LDR 0,0,0,26");
+        init.add("STR 0,0,0,14");
+        // jump to reader
+        init.add("JMA 0,0,1,19");
+
+        // loop
+        // load current input number index
+        loop.add("LDR 0,0,0,12");
+        // check if input number index == Max
+        loop.add("SMR 0,0,0,30");
+        // not zero, jump to reader
+        loop.add("JNE 0,0,1,19");
+        // count reached max
+        loop.add("LDR 0,0,0,12");
+        loop.add("OUT 0,0,1,1");
+        loop.add("HLT 0,0,0,0");
+
+        // reader, read a complete sentence
+        reader.add("IN 0,0,0,0");
+        reader.add("OUT 0,0,0,1");
+        // store char to both 10 and storage index
+        reader.add("STR 0,0,0,10");
+        reader.add("STR 0,0,1,14");
+        // increase storage address
+        // load storage index
+        reader.add("LDR 0,0,0,14");
+        // increase index by 1
+        reader.add("AIR 0,0,0,1");
+        // store new storage index
+        reader.add("STR 0,0,0,14");
+        // load current char
+        reader.add("LDR 0,0,0,10");
+        // subtract separator, a constant
+        reader.add("SMR 0,0,0,17");
+        // if it's not a sentence end
+        // to reader start
+        reader.add("JNE 0,0,1,19");
+        // else
+        // increase input count by 1
+        // then return to stored address
+        // load input count
+        reader.add("LDR 0,0,0,12");
+        // increase count by 1
+        reader.add("AIR 0,0,0,1");
+        // store new input count
+        reader.add("STR 0,0,0,12");
+        // return to stored address
+        reader.add("JMA 0,0,1,13");
     }
 
     static {
@@ -109,26 +186,27 @@ public class TestPrograms {
         reader.add("STR 0,0,0,10");
         // subtract separator, a constant
         reader.add("SMR 0,0,0,17");
-        // if it's a valid char, to assembler
-        // else, return to loop start
+        // if it's a valid char
+        // to assembler
         reader.add("JNE 0,0,1,27");
-        // decrease input number index by 1
-        // then return to loop start
+        // else
+        // increase input count by 1
+        // then return to stored address
         // load input count
         reader.add("LDR 0,0,0,12");
         // increase count by 1
         reader.add("AIR 0,0,0,1");
-        // store updated input count
+        // store new input count
         reader.add("STR 0,0,0,12");
         // return to stored address
         reader.add("JMA 0,0,1,13");
 
         // word assembler
-        // get input number index
+        // get input count
         assembler.add("LDR 0,0,0,12");
         // get storage index = input count + start
         assembler.add("AMR 0,0,0,26");
-        // store number storage index
+        // store storage index
         assembler.add("STR 0,0,0,11");
         // get word
         assembler.add("LDR 0,0,1,11");
@@ -196,7 +274,8 @@ public class TestPrograms {
         return one;
     }
 
-    public static void setOne(Program one) {
-        TestPrograms.one = one;
+    public static Program getTwo() {
+        return two;
     }
+
 }

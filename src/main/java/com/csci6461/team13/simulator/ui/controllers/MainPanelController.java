@@ -1,6 +1,7 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.Simulator;
+import com.csci6461.team13.simulator.TestPrograms;
 import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.Registers;
@@ -215,10 +216,20 @@ public class MainPanelController {
 
     @FXML
     void loadHandler(MouseEvent event) {
-
         // enable keyboard for program 1
         Registers registers = Simulator.getCpu().getRegisters();
         MCU mcu = Simulator.getCpu().getMcu();
+
+/*        Program program = null;
+        program = TestPrograms.getTwo();
+        Program.storeToMemory(program, mcu);
+        updateHistory("New Program Loaded");
+        updateHistory("Description: " + program.getDescription());
+        // program loaded
+        signals.loaded.set(true);
+        registers.setPC(mcu.getWord(program.getInitAddrIndex()));
+
+        refreshSimulator();*/
 
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(Simulator.getPrimaryStage());
@@ -231,7 +242,7 @@ public class MainPanelController {
                 updateHistory("Description: " + program.getDescription());
                 // program loaded
                 signals.loaded.set(true);
-                registers.setPC(mcu.getWord(program.getInitAddr()));
+                registers.setPC(mcu.getWord(program.getInitAddrIndex()));
             } catch (IOException e) {
                 e.printStackTrace();
                 updateHistory("Invalid Program");

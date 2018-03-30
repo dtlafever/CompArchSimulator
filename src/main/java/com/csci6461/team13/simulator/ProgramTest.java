@@ -2,7 +2,6 @@ package com.csci6461.team13.simulator;
 
 import com.csci6461.team13.simulator.ui.basic.Program;
 import com.csci6461.team13.simulator.util.Const;
-import com.csci6461.team13.simulator.util.TestPrograms;
 
 import java.util.Random;
 
@@ -16,7 +15,7 @@ public class ProgramTest {
             System.out.print(Math.abs(new Random().nextInt(200))+" ");
         }
         System.out.println();
-        Program program = TestPrograms.getOne();
+        Program program = TestPrograms.getTwo();
         System.out.println(program.toString());
         String string = program.toFixedLenBinaryString(Const.CPU_BIT_LENGTH);
         Program program1 = Program.fromBinaryString(string);

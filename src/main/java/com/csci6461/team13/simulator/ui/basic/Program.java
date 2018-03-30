@@ -40,7 +40,7 @@ public class Program {
     /**
      * program start address
      */
-    private Integer initAddr;
+    private Integer initAddrIndex;
     /**
      * initial data
      * <p>
@@ -61,7 +61,7 @@ public class Program {
     public Program() {
         initialData = new LinkedHashMap<>();
         insts = new LinkedHashMap<>();
-        initAddr = null;
+        initAddrIndex = null;
         description = "";
     }
 
@@ -81,12 +81,12 @@ public class Program {
         initialData.put(addr, data);
     }
 
-    public Integer getInitAddr() {
-        return initAddr;
+    public Integer getInitAddrIndex() {
+        return initAddrIndex;
     }
 
-    public void setInitAddr(Integer initAddr) {
-        this.initAddr = initAddr;
+    public void setInitAddrIndex(Integer initAddrIndex) {
+        this.initAddrIndex = initAddrIndex;
     }
 
     public String getDescription() {
@@ -170,7 +170,7 @@ public class Program {
             program = new Program();
             // extract init addr
             int addrIndex = extractInitAddrStorage(programString);
-            program.setInitAddr(addrIndex);
+            program.setInitAddrIndex(addrIndex);
             // extract init data
             Map<Integer, Integer> initData = extractInitData(programString);
             initData.forEach(program::putInitData);
