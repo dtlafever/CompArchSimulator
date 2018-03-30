@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class Program {
 
-    private static final byte BIT_LENGTH = Const.CPU_BIT_LENGTH;
+    private static final byte BIT_LENGTH = Const.BIN_PROGRAM_BIT_LEN;
 
     private static final String DESCRIPTION_REGEX =
             "\\{DESC:\\[.*\\]END-DESC\\}";
@@ -159,11 +159,18 @@ public class Program {
     }
 
     /**
-     * build a program from a binary format
+     * build a program from a string consist of 0s and 1s
      * */
-    public static Program fromBinaryString(String binaryString) {
-        Program program = null;
+    public static Program fromBinaryString(String binaryString){
         String programString = CoreUtil.fromFixedLenBinStr(binaryString, BIT_LENGTH);
+        return fromString(programString);
+    }
+
+    /**
+     * build a program from a string
+     * */
+    public static Program fromString(String programString) {
+        Program program = null;
         Pattern pattern = Pattern.compile(PROGRAM_REGEX);
         Matcher matcher = pattern.matcher(programString);
         if (matcher.matches()) {
@@ -181,7 +188,7 @@ public class Program {
             program.setDescription(extractDescription(programString));
         } else {
             // not a valid program
-            throw new IllegalArgumentException("Invalid Program:" + programString);
+            throw new IllegalArgumentException("Invalid Program:\n" + programString);
         }
         return program;
     }
@@ -274,12 +281,7 @@ public class Program {
         return CoreUtil.toFixedLenBinStr(this.toString(), length);
     }
 
-    public byte[] getByteFormat() {
-        String binaryString = this.toFixedLenBinaryString(BIT_LENGTH);
-        byte[] bytes = new byte[binaryString.length()];
-        for (int i = 0; i < binaryString.length(); i++) {
-            bytes[i] = Integer.valueOf(String.valueOf(binaryString.charAt(i))).byteValue();
-        }
-        return bytes;
+    public byte[] getBinaryBytesFormat() {
+        return this.toFixedLenBinaryString(BIT_LENGTH).getBytes();
     }
 }

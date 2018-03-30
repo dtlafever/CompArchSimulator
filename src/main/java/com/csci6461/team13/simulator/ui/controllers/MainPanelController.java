@@ -147,6 +147,8 @@ public class MainPanelController {
     // tools panel
     @FXML
     private Button mIe;
+    @FXML
+    private Button mExport;
 
     @FXML
     void initialize() {
@@ -220,31 +222,23 @@ public class MainPanelController {
         Registers registers = Simulator.getCpu().getRegisters();
         MCU mcu = Simulator.getCpu().getMcu();
 
-/*        Program program = null;
-        program = TestPrograms.getTwo();
-        Program.storeToMemory(program, mcu);
-        updateHistory("New Program Loaded");
-        updateHistory("Description: " + program.getDescription());
-        // program loaded
-        signals.loaded.set(true);
-        registers.setPC(mcu.getWord(program.getInitAddrIndex()));
-
-        refreshSimulator();*/
-
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(Simulator.getPrimaryStage());
         if (file != null) {
             Program program = null;
             try {
                 program = ProgramUtil.readBinaryProgram(file);
+                if(program == null){
+                    // invalid program
+                    throw new IllegalArgumentException();
+                }
                 Program.storeToMemory(program, mcu);
                 updateHistory("New Program Loaded");
                 updateHistory("Description: " + program.getDescription());
                 // program loaded
                 signals.loaded.set(true);
                 registers.setPC(mcu.getWord(program.getInitAddrIndex()));
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException | IllegalArgumentException e) {
                 updateHistory("Invalid Program");
             }
 
@@ -327,6 +321,11 @@ public class MainPanelController {
     @FXML
     void ieHandler(MouseEvent event) {
         toInstEdit();
+    }
+
+    @FXML
+    void exportHandler(MouseEvent event){
+        ProgramUtil.exportToDesktop();
     }
 
     @FXML

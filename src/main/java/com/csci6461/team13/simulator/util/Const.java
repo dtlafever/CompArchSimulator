@@ -13,6 +13,7 @@ public class Const {
     public static int PROG_INIT_STORAGE_ADDR = 9;
 
     public static final int CPU_BIT_LENGTH = 16;
+    public static final int BIN_PROGRAM_BIT_LEN = 8;
 
     // Cache
     public static final int MAX_CACHE_LINES = 16;

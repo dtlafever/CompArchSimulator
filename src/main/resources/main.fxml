@@ -127,6 +127,17 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                               </Button>
+                              <Button fx:id="mExport" alignment="CENTER" layoutX="34.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#exportHandler" prefWidth="100.0" styleClass="success" text="Export" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </Button>
                            </children>
                         </VBox>
                      </content>
