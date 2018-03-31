@@ -2,7 +2,6 @@ package com.csci6461.team13.simulator.util;
 
 import com.csci6461.team13.simulator.TestPrograms;
 import com.csci6461.team13.simulator.ui.basic.Program;
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,32 +14,33 @@ import java.nio.file.Paths;
  */
 public class ProgramUtil {
 
-    public static Gson gson;
-
-    static {
-        gson = new Gson();
-    }
-
     public static Program readBinaryProgram(File file) throws IOException {
         return readBinaryProgram(file.getAbsolutePath());
     }
 
-    public static Program readBinaryProgram(Path path) throws IOException {
-        String programString = "";
+    private static Program readBinaryProgram(Path path) throws IOException {
+        String binaryString = "";
         byte[] bytes = Files.readAllBytes(path);
+        String name = path.getFileName().toString();
+        int i = name.lastIndexOf('.');
+        String ext = i > 0 ? name.substring(i + 1) : "";
 
-        if (path.endsWith(".txt")) {
-            programString = new String(bytes);
+        if (ext.equals("txt")) {
+            binaryString = new String(bytes);
         }
 
-        if (path.endsWith(".bin")) {
+        if (ext.equals("bin")) {
             StringBuilder builder = new StringBuilder();
             for (byte aByte : bytes) {
                 builder.append(String.valueOf(aByte));
             }
-            programString = builder.toString();
+            binaryString = builder.toString();
         }
-        return Program.fromBinaryString(programString);
+
+        if (binaryString.equals("")) {
+            return null;
+        }
+        return Program.fromBinaryString(binaryString);
     }
 
     public static Program readBinaryProgram(String path) throws IOException {
@@ -48,21 +48,29 @@ public class ProgramUtil {
     }
 
     /**
-     * create two files of the programs in the desktops
-     * these files are binary format of programs
+     * create files of the programs in the desktops
      */
     public static void exportToDesktop() {
         Program programOne = TestPrograms.getOne();
         Program programTwo = TestPrograms.getTwo();
         try {
             String userHome = System.getProperty("user.home");
-            String targetFolder = String.format("%s%s", userHome, "/Desktop");
+            String targetFolder = String.format("%s%s", userHome, "/Desktop/progs");
+            Path folderPath = Paths.get(targetFolder);
+            if (!Files.exists(folderPath)) {
+                Files.createDirectory(folderPath);
+            }
             String onePath = String.format("%s%s", targetFolder, "/one");
             String twoPath = String.format("%s%s", targetFolder, "/two");
             Files.write(Paths.get(onePath + ".bin"), programOne.getBinaryFormat());
             Files.write(Paths.get(onePath + ".txt"), programOne.getBinaryTextFormat());
             Files.write(Paths.get(twoPath + ".bin"), programTwo.getBinaryFormat());
             Files.write(Paths.get(twoPath + ".txt"), programTwo.getBinaryTextFormat());
+
+            Program one = readBinaryProgram(onePath + ".bin");
+            Program two = readBinaryProgram(twoPath + ".bin");
+            System.out.println(one.toString());
+            System.out.println(two.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
