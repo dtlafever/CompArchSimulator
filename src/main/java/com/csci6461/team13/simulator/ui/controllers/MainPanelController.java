@@ -1,12 +1,12 @@
 package com.csci6461.team13.simulator.ui.controllers;
 
 import com.csci6461.team13.simulator.Simulator;
-import com.csci6461.team13.simulator.TestPrograms;
 import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
+import com.csci6461.team13.simulator.core.io.CardReader;
 import com.csci6461.team13.simulator.core.io.Device;
 import com.csci6461.team13.simulator.core.io.Keyboard;
 import com.csci6461.team13.simulator.core.io.Printer;
@@ -149,6 +149,8 @@ public class MainPanelController {
     private Button mIe;
     @FXML
     private Button mExport;
+    @FXML
+    private Button mCardReader;
 
     @FXML
     void initialize() {
@@ -326,6 +328,26 @@ public class MainPanelController {
     @FXML
     void exportHandler(MouseEvent event){
         ProgramUtil.exportToDesktop();
+    }
+
+    @FXML
+    void cardReaderHandler(MouseEvent event){
+        List<Device> devices = Simulator.getCpu().getDevices();
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(Simulator.getPrimaryStage());
+        if (file != null) {
+            try {
+                Device device = CoreUtil.findDevice(devices, Const
+                        .DEVICE_ID_CARD_READER);
+                if(device instanceof CardReader){
+                    ((CardReader) device).write(file);
+                }
+            } catch (IOException | IllegalArgumentException e) {
+                updateHistory("Invalid File");
+            }
+
+            refreshSimulator();
+        }
     }
 
     @FXML

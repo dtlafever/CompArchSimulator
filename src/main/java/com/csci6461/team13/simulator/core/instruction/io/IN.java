@@ -24,8 +24,8 @@ public class IN extends Instruction {
         List<Device> devices = cpu.getDevices();
         int devId = this.getAddress();
         Device device = CoreUtil.findDevice(devices, devId);
-        if (device != null && device instanceof Input) {
-            // read one from input buffer
+        if (device instanceof Input) {
+            // read one from write buffer
             Character value = ((Input) device).read();
             if (value != null) {
                 registers.setR(this.getR(), value);

@@ -62,15 +62,13 @@ public class ProgramUtil {
             }
             String onePath = String.format("%s%s", targetFolder, "/one");
             String twoPath = String.format("%s%s", targetFolder, "/two");
+            String twoParaPath = String.format("%s%s", targetFolder,
+                    "/paragraph");
             Files.write(Paths.get(onePath + ".bin"), programOne.getBinaryFormat());
             Files.write(Paths.get(onePath + ".txt"), programOne.getBinaryTextFormat());
             Files.write(Paths.get(twoPath + ".bin"), programTwo.getBinaryFormat());
             Files.write(Paths.get(twoPath + ".txt"), programTwo.getBinaryTextFormat());
-
-            Program one = readBinaryProgram(onePath + ".bin");
-            Program two = readBinaryProgram(twoPath + ".bin");
-            System.out.println(one.toString());
-            System.out.println(two.toString());
+            Files.write(Paths.get(twoParaPath + ".txt"), Const.PROG_2_PARAGRAPH.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

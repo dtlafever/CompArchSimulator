@@ -18,15 +18,24 @@ public abstract class Input extends Device {
         inputBuffer = new LinkedList<>();
     }
 
+    /**
+     * read one from buffer
+     * */
     public synchronized Character read() {
         return inputBuffer.pollFirst();
     }
 
+    /**
+     * put a character into buffer
+     * */
     public final synchronized boolean write(char character) {
         inputBuffer.offer(character);
         return true;
     }
 
+    /**
+     * put characters into buffer
+     * */
     public synchronized boolean write(char[] characters) {
         for (char character: characters){
             inputBuffer.offer(character);
