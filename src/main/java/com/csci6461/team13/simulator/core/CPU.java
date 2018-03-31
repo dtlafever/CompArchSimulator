@@ -47,7 +47,7 @@ public class CPU {
         registers.setMAR(registers.getPC());
         registers.setMBR(mcu.getFromCache(registers.getMAR()));
         registers.setMBR(mcu.getWord(registers.MAR));
-        registers.incrementPC(); // we have a seperate adder for PC
+        registers.incrementPC(); // we have a separate adder for PC
         registers.setIR(registers.getMBR());
         return registers.getIR();
     }
@@ -56,7 +56,7 @@ public class CPU {
      * Decode the current instruction in IR and execute it.
      */
     public ExecutionResult decodeAndExecute() {
-        ExecutionResult executionResult = ExecutionResult.CONTINUE;
+        ExecutionResult executionResult;
         int word = registers.getIR();
         //DECODE
         Instruction instruction = Instruction.build(word);
@@ -66,7 +66,7 @@ public class CPU {
                 executionResult = instruction.execute(this);
                 executionResult.setMessage(instruction.getMessage());
             } else {
-                // This instruction doesnt exist
+                // This instruction doesn't exist
                 throw new MachineFaultException(Const.FaultCode.ILL_OPRC.getValue());
             }
         } catch (MachineFaultException t) {
