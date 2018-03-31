@@ -72,16 +72,13 @@ public class CoreUtil {
         char[] chars = binString.toCharArray();
         StringBuilder destBuilder = new StringBuilder();
         StringBuilder charBuilder = new StringBuilder();
-        for (int i = 0; i <= chars.length; i++) {
-            if(i % length == 0 && i / length >= 1){
+        for (int i = 0; i < chars.length; i++) {
+            charBuilder.append(chars[i]);
+            if((i+1) % length == 0){
                 Character character = (char)Integer.parseInt(charBuilder
                         .toString(), 2);
                 destBuilder.append(character);
-                if(i < chars.length){
-                    charBuilder = new StringBuilder((int) chars[i]);
-                }
-            }else{
-                charBuilder.append(chars[i]);
+                charBuilder = new StringBuilder();
             }
         }
 
