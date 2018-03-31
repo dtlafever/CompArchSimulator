@@ -44,4 +44,27 @@ public class Const {
         }
     }
 
+    
+	public enum FaultCode {
+        ILL_MEM_RSV(0, "Illegal Memory Address to Reserved Locations"), 
+        ILL_TRPC(1, "Illegal TRAP"), 
+        ILL_OPRC(2, "Illegal Operation"), 
+        ILL_MEM_BYD(3, "Illegal Memory Address beyond max size");
+		int value;
+		String messsage;
+
+		private FaultCode(int value, String message) {
+			this.value = value;
+			this.messsage = message;
+		}
+
+		public int getValue() {
+			return this.value;
+		}
+
+		public String getMessage() {
+			return this.messsage;
+		}
+	}
+
 }

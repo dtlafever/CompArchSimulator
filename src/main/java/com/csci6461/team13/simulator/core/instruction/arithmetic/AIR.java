@@ -15,7 +15,7 @@ public class AIR extends Instruction {
     // if address is 0, nothing happens
     // if c(r) = 0, load r with address
     @Override
-    public ExecutionResult execute(CPU cpu) {
+    public ExecutionResult execute(CPU cpu){
         Registers registers = cpu.getRegisters();
         int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
         int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);

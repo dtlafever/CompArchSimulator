@@ -16,7 +16,7 @@ public class MLT extends Instruction {
     // rx+1 contains low order bits
     // ry must be 0 or 2
     @Override
-    public ExecutionResult execute(CPU cpu) {
+    public ExecutionResult execute(CPU cpu){
         Registers registers = cpu.getRegisters();
         int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
         int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);

@@ -2,7 +2,7 @@ package com.csci6461.team13.simulator.core.instruction;
 
 import com.csci6461.team13.simulator.core.instruction.io.IN;
 import com.csci6461.team13.simulator.core.instruction.io.OUT;
-import com.csci6461.team13.simulator.core.instruction.miscellaneous.HLT;
+import com.csci6461.team13.simulator.core.instruction.miscellaneous.*;
 import com.csci6461.team13.simulator.core.instruction.loadstore.*;
 import com.csci6461.team13.simulator.core.instruction.transfer.*;
 import com.csci6461.team13.simulator.core.instruction.arithmetic.*;
@@ -12,6 +12,7 @@ public enum Inst {
 
     // miscellaneous instructions
     INST_HLT(0, "HLT", HLT.class),
+    INST_TRAP(36, "TRAP", TRAP.class),
 
     // load and store instructions
     INST_LDR(1, "LDR", LDR.class),

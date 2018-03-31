@@ -4,6 +4,7 @@ import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.util.CoreUtil;
+import com.csci6461.team13.simulator.util.MachineFaultException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.regex.Matcher;
@@ -230,7 +231,7 @@ public abstract class Instruction {
      * <p>
      * return execution result
      */
-    public abstract ExecutionResult execute(CPU cpu);
+    public abstract ExecutionResult execute(CPU cpu) throws MachineFaultException;
 
     public String getMessage() {
         return message;

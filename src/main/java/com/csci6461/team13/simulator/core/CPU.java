@@ -3,6 +3,8 @@ package com.csci6461.team13.simulator.core;
 import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.core.io.Device;
+import com.csci6461.team13.simulator.util.Const;
+import com.csci6461.team13.simulator.util.MachineFaultException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,9 @@ public class CPU {
 
     // Grab the instruction at the PC location
     public int fetch() {
+        //mcu.storeIntoCache(registers.getPC(), );
         registers.setMAR(registers.getPC());
+        registers.setMBR(mcu.getFromCache(registers.getMAR()));
         registers.setMBR(mcu.getWord(registers.MAR));
         registers.incrementPC(); // we have a seperate adder for PC
         registers.setIR(registers.getMBR());
@@ -56,15 +60,41 @@ public class CPU {
         int word = registers.getIR();
         //DECODE
         Instruction instruction = Instruction.build(word);
-        if (instruction != null) {
-            //EXECUTE
-            executionResult = instruction.execute(this);
-            executionResult.setMessage(instruction.getMessage());
-        } else {
-            //TODO: add machine fault if not a good instruction
+        try{
+            if (instruction != null) {
+                //EXECUTE
+                executionResult = instruction.execute(this);
+                executionResult.setMessage(instruction.getMessage());
+            } else {
+                // This instruction doesnt exist
+                throw new MachineFaultException(Const.FaultCode.ILL_OPRC.getValue());
+            }
+        } catch (MachineFaultException t) {
+            executionResult = ExecutionResult.HALT;
+            t.printStackTrace();
+
         }
         return executionResult;
     }
+
+    private void handleMachineFault(int faultCode, String message) {
+		// when a machine fault occurs, we should save current values of PC and
+		// MSR into reserved locations in memory.
+		registers.setMAR(4);
+		registers.setMBR(registers.getPC());
+		mcu.storeToCache(registers.getMAR(), registers.getMBR());
+
+        // using location 5 (since it is not used)
+		registers.setMAR(5);
+		registers.setMBR(registers.getMSR());
+		mcu.storeToCache(registers.getMAR(), registers.getMBR()); 
+
+		registers.setMFR(faultCode);
+
+		// now we should fetch from location 1 into the PC
+		registers.setPC(mcu.getFromCache(1));
+
+	}
 
     //----------------------
     //      GETTERS/SETTERS
