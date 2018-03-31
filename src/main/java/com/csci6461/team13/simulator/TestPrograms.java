@@ -8,15 +8,15 @@ import java.util.List;
 
 /**
  * @author zhiyuan
- *
+ * <p>
  * TestPrograms for test purpose only
- *
+ * <p>
  * this file contains two programs that will be used for developing and
  * testing programs, and then you can generate binary format of these programs
- *
+ * <p>
  * Note: initial data can only be stored in addresses under 32, any address above
  * can not be directly accessed
- * */
+ */
 public class TestPrograms {
 
     // use space to separate numbers
@@ -24,7 +24,11 @@ public class TestPrograms {
     private static final int PROGRAM_1_MAX = 20;
 
     // sentence separator .
-    private static final int PROGRAM_2_SEPARATOR = 46;
+    private static final int PROGRAM_2_SEN_SEPARATOR = 46;
+    // word seperator blank space
+    private static final int WORD_SEPARATOR_BLANK = 32;
+    // word seperator comma
+    private static final int WORD_SEPARATOR_COMMA = 44;
     // max 6 sentences
     private static final int PROGRAM_2_MAX = 6;
 
@@ -43,74 +47,222 @@ public class TestPrograms {
         two.setInitAddrIndex(Const.PROG_INIT_STORAGE_ADDR);
         List<String> init = new ArrayList<>();
         List<String> loop = new ArrayList<>();
-        List<String> reader = new ArrayList<>();
+        List<String> sentenceReader = new ArrayList<>();
+        List<String> wordReader = new ArrayList<>();
+        List<String> comparator = new ArrayList<>();
+        List<String> wordFinder = new ArrayList<>();
+        List<String> equalComparator = new ArrayList<>();
+        List<String> printer = new ArrayList<>();
+        List<String> period = new ArrayList<>();
 
         two.putInitData(30, PROGRAM_2_MAX);
-        two.putInitData(17, PROGRAM_2_SEPARATOR);
+        two.putInitData(6, WORD_SEPARATOR_BLANK);
+        two.putInitData(7, PROGRAM_2_SEN_SEPARATOR);
+        two.putInitData(8, WORD_SEPARATOR_COMMA);
         // storage start
-        two.putInitData(26, 500);
-        // 10 current char
-        // 11 number storage index
-        // 12 input count
-        // 13 return address for reader
-        // 14 storage index
+        two.putInitData(31, 500);
+        // 6 word separator
+        // 7 sentence separator
+        // 10 current char, and word char address pointer for comparator
+        // 11 storage pointer, current store address
+        // 12 sentence count, a variable
+        // 13 return address pointer for reader
+        // 14 word count
+        // 15 word start pointer, a constant
+        // 30 max sentence count, a constant
+        // 31 storage begin address constant
 
         two.putInstructionList(Const.PROG_INIT_STORAGE_ADDR, init);
         two.putInstructionList(18, loop);
-        two.putInstructionList(19, reader);
+        two.putInstructionList(19, sentenceReader);
+        two.putInstructionList(20, wordReader);
+        two.putInstructionList(21, wordFinder);
+        two.putInstructionList(22, comparator);
+        two.putInstructionList(23, equalComparator);
+        two.putInstructionList(24, printer);
+        two.putInstructionList(25, period);
 
         // set return address of reader to loop start
         init.add("LDR 0,0,0,18");
         init.add("STR 0,0,0,13");
-        // set storage start value to 12
-        init.add("LDR 0,0,0,26");
-        init.add("STR 0,0,0,14");
+        // init storage index variable
+        init.add("LDR 0,0,0,31");
+        init.add("STR 0,0,0,11");
         // jump to reader
         init.add("JMA 0,0,1,19");
 
         // loop
-        // load current input number index
+        // load sentence count
         loop.add("LDR 0,0,0,12");
-        // check if input number index == Max
+        // check if count == Max
         loop.add("SMR 0,0,0,30");
         // not zero, jump to reader
         loop.add("JNE 0,0,1,19");
         // count reached max
-        loop.add("LDR 0,0,0,12");
-        loop.add("OUT 0,0,1,1");
-        loop.add("HLT 0,0,0,0");
+        // store the word address to 15
+        loop.add("LDR 0,0,0,11");
+        loop.add("STR 0,0,0,15");
+        // read one word
+        loop.add("JSR 0,0,1,20");
+        // reset sentence count to 0
+        loop.add("LDA 0,0,0,0");
+        loop.add("STR 0,0,0,12");
+        // init word count to 0
+        loop.add("LDA 0,0,0,0");
+        loop.add("STR 0,0,0,14");
+        // reset storage index variable to init value
+        loop.add("LDR 0,0,0,31");
+        loop.add("STR 0,0,0,11");
+        // init r2 with sentence word begin address
+        loop.add("LDR 2,0,0,31");
+        // reset word char address pointer to word begin address
+        loop.add("LDR 0,0,0,15");
+        loop.add("STR 0,0,0,10");
+        // jump to word finder
+        loop.add("JMA 0,0,1,21");
 
         // reader, read a complete sentence
-        reader.add("IN 0,0,0,0");
-        reader.add("OUT 0,0,0,1");
-        // store char to both 10 and storage index
-        reader.add("STR 0,0,0,10");
-        reader.add("STR 0,0,1,14");
-        // increase storage address
+        sentenceReader.add("IN 0,0,0,2");
+        sentenceReader.add("OUT 0,0,0,1");
+        // store char to both 10 and storage
+        sentenceReader.add("STR 0,0,0,10");
+        sentenceReader.add("STR 0,0,1,11");
+        // increase storage index by 1
         // load storage index
-        reader.add("LDR 0,0,0,14");
+        sentenceReader.add("LDR 0,0,0,11");
         // increase index by 1
-        reader.add("AIR 0,0,0,1");
+        sentenceReader.add("AIR 0,0,0,1");
         // store new storage index
-        reader.add("STR 0,0,0,14");
+        sentenceReader.add("STR 0,0,0,11");
+        // check if this is an sentence end
         // load current char
-        reader.add("LDR 0,0,0,10");
+        sentenceReader.add("LDR 0,0,0,10");
         // subtract separator, a constant
-        reader.add("SMR 0,0,0,17");
+        sentenceReader.add("SMR 0,0,0,7");
         // if it's not a sentence end
-        // to reader start
-        reader.add("JNE 0,0,1,19");
+        // read next char
+        sentenceReader.add("JNE 0,0,1,19");
         // else
-        // increase input count by 1
+        // increase write count by 1
         // then return to stored address
-        // load input count
-        reader.add("LDR 0,0,0,12");
+        // load sentence count
+        sentenceReader.add("LDR 0,0,0,12");
         // increase count by 1
-        reader.add("AIR 0,0,0,1");
-        // store new input count
-        reader.add("STR 0,0,0,12");
+        sentenceReader.add("AIR 0,0,0,1");
+        // store new sentence count
+        sentenceReader.add("STR 0,0,0,12");
         // return to stored address
-        reader.add("JMA 0,0,1,13");
+        sentenceReader.add("JMA 0,0,1,13");
+
+        // read a char
+        wordReader.add("IN 0,0,0,0");
+        // print the char
+        wordReader.add("OUT 0,0,0,1");
+        // store char to both 10 and storage index
+        wordReader.add("STR 0,0,0,10");
+        wordReader.add("STR 0,0,1,11");
+        // increase storage index
+        // load storage index
+        wordReader.add("LDR 0,0,0,11");
+        // increase index by 1
+        wordReader.add("AIR 0,0,0,1");
+        // store new storage index
+        wordReader.add("STR 0,0,0,11");
+        // load current char
+        wordReader.add("LDR 0,0,0,10");
+        // subtract separator, a constant
+        wordReader.add("SMR 0,0,0,6");
+        // if it's not a word end
+        // read next char
+        wordReader.add("JNE 0,0,1,20");
+        // return
+        wordReader.add("RFS 0,0,0,0");
+
+        // load next char in original word
+        comparator.add("LDR 0,0,1,10");
+        // load next char in sentence word
+        comparator.add("LDR 1,0,1,11");
+        // test equality
+        comparator.add("TRR 0,1,0,0");
+        // jump if equal
+        comparator.add("JCC 0,0,1,23");
+        // if c(r1) = '.', then this is both a word end and a sentence end
+        comparator.add("SMR 1,0,0,7");
+        // jump if equal
+        comparator.add("JZ 1,0,1,23");
+        // load next char in sentence word
+        comparator.add("LDR 1,0,1,11");
+        // if c(r1) = ',', then this is both a word end and a sentence end
+        comparator.add("SMR 1,0,0,8");
+        // jump if equal
+        comparator.add("JZ 1,0,1,23");
+        // not equal, to next word
+        // increase storage index by 1
+        comparator.add("LDR 0,0,0,11");
+        comparator.add("AIR 0,0,0,1");
+        comparator.add("STR 0,0,0,11");
+        // reset word index to begin
+        comparator.add("LDR 0,0,0,15");
+        comparator.add("STR 0,0,0,10");
+        // find next word's begin address
+        comparator.add("JMA 0,0,1,21");
+
+        // check blank
+        // load next char in storage
+        wordFinder.add("LDR 0,0,1,11");
+        // check if it's a blank space
+        wordFinder.add("SMR 0,0,0,6");
+        // jump if equal
+        wordFinder.add("JZ 0,0,1,25");
+        // check period
+        // load next char in storage
+        wordFinder.add("LDR 1,0,1,11");
+        // check if it's a period
+        wordFinder.add("SMR 1,0,0,7");
+        // jump if equal
+        wordFinder.add("JZ 1,0,1,25");
+        // check comma
+        // load next char in storage
+        wordFinder.add("LDR 2,0,1,11");
+        // check if it's a comma
+        wordFinder.add("SMR 2,0,0,8");
+        // jump if equal
+        wordFinder.add("JZ 2,0,1,25");
+        wordFinder.add("STR 0,0,0,11");
+        wordFinder.add("JMA 0,0,1,22");
+
+        // if the char is a word end
+        equalComparator.add("LDR 1,0,0,6");
+        equalComparator.add("TRR 0,1,0,0");
+        // found one, jump to printer
+        equalComparator.add("JCC 0,0,1,24");
+        // else, find next word
+        equalComparator.add("LDA 0,0,0,15");
+        equalComparator.add("STR 0,0,0,10");
+        equalComparator.add("JMA 0,0,1,22");
+
+        // increase sentence count by 1
+        period.add("LDR 0,0,0,12");
+        period.add("AIR 0,0,0,1");
+        period.add("STR 0,0,0,12");
+        // if sentence count reached max
+        // to finish, found none
+        period.add("SMR 0,0,0,31");
+        period.add("JZ 0,0,1,24");
+        // reset word count to 0
+        period.add("LDA 0,0,0,0");
+        period.add("STR 0,0,0,14");
+        // try next char
+        period.add("JMA 0,0,1,21");
+
+        // print sentence count
+        printer.add("LDR 0,0,0,12");
+        printer.add("OUT 0,0,0,1");
+        printer.add("LDR 0,0,0,8");
+        printer.add("OUT 0,0,0,1");
+        // print word count
+        printer.add("LDR 0,0,0,14");
+        printer.add("OUT 0,0,0,1");
     }
 
     static {
@@ -127,9 +279,9 @@ public class TestPrograms {
         one.putInitData(7, CHAR_0);
         one.putInitData(8, CHAR_EQUAL);
         // number storage start
-        one.putInitData(26, 500);
-        // 11 number storage index
-        // 12 input count
+        one.putInitData(31, 500);
+        // 11 storage index
+        // 12 write count
         // 13 return address for reader
         // 14 a single number
         // 15 current closest
@@ -162,9 +314,9 @@ public class TestPrograms {
         init.add("JMA 0,0,1,19");
 
         // loop
-        // load current input number index
+        // load current write number index
         loop.add("LDR 0,0,0,12");
-        // check if input number index == Max
+        // check if write number index == Max
         loop.add("SMR 0,0,0,30");
         // not zero, jump to reader
         loop.add("JNE 0,0,1,19");
@@ -172,7 +324,7 @@ public class TestPrograms {
         // put last one into 14
         loop.add("LDR 0,0,1,11");
         loop.add("STR 0,0,0,14");
-        // decrease number storage index by one
+        // decrease storage index by one
         loop.add("LDR 0,0,0,11");
         loop.add("SIR 0,0,0,1");
         loop.add("STR 0,0,0,11");
@@ -190,21 +342,21 @@ public class TestPrograms {
         // to assembler
         reader.add("JNE 0,0,1,27");
         // else
-        // increase input count by 1
+        // increase write count by 1
         // then return to stored address
-        // load input count
+        // load write count
         reader.add("LDR 0,0,0,12");
         // increase count by 1
         reader.add("AIR 0,0,0,1");
-        // store new input count
+        // store new write count
         reader.add("STR 0,0,0,12");
         // return to stored address
         reader.add("JMA 0,0,1,13");
 
         // word assembler
-        // get input count
+        // get write count
         assembler.add("LDR 0,0,0,12");
-        // get storage index = input count + start
+        // get storage index = write count + start
         assembler.add("AMR 0,0,0,26");
         // store storage index
         assembler.add("STR 0,0,0,11");
@@ -225,7 +377,7 @@ public class TestPrograms {
         assembler.add("JMA 0,0,1,19");
 
         //comparator
-        // load current input number index
+        // load current write number index
         comparator.add("LDR 0,0,0,11");
         // check if number storage index == Max
         comparator.add("SMR 0,0,0,26");

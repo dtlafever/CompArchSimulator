@@ -27,6 +27,10 @@ public class Const {
     public static StringBinding UNIVERSAL_STYLESHEET_URL;
     public static String ICON_URL = "static/icon_x.jpg";
 
+    // program 2 paragraph
+    public final static String PROG_2_PARAGRAPH = "This is the first sentence." +
+            " This is the first part of the second sentence, second part of the second sentence. Third sentence. Fourth sentence. Fifth sentence. Sixth sentence.";
+
     public final static int DEVICE_ID_KEYBOARD = 0;
     public final static int DEVICE_ID_PRINTER = 1;
     public final static int DEVICE_ID_CARD_READER = 2;

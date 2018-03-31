@@ -116,7 +116,7 @@
                      <content>
                         <VBox alignment="TOP_CENTER">
                            <children>
-                              <Button fx:id="mIe" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#ieHandler" prefWidth="100.0" styleClass="success" text="Inst Editor" textAlignment="CENTER">
+                              <Button fx:id="mIe" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#ieHandler" prefWidth="150.0" styleClass="success" text="Inst Editor" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -127,7 +127,18 @@
                                     <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button fx:id="mExport" alignment="CENTER" layoutX="34.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#exportHandler" prefWidth="100.0" styleClass="success" text="Export" textAlignment="CENTER">
+                              <Button fx:id="mExport" alignment="CENTER" layoutX="34.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#exportHandler" prefWidth="150.0" styleClass="success" text="Export" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button fx:id="mCardReader" alignment="CENTER" layoutX="34.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#cardReaderHandler" prefWidth="150.0" styleClass="success" text="Card Reader" textAlignment="CENTER">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>

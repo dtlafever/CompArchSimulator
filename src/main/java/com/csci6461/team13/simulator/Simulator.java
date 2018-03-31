@@ -1,6 +1,7 @@
 package com.csci6461.team13.simulator;
 
 import com.csci6461.team13.simulator.core.CPU;
+import com.csci6461.team13.simulator.core.io.CardReader;
 import com.csci6461.team13.simulator.core.io.Device;
 import com.csci6461.team13.simulator.core.io.Keyboard;
 import com.csci6461.team13.simulator.core.io.Printer;
@@ -15,8 +16,7 @@ import javafx.stage.Stage;
 
 /**
  * @author zhiyuan
- *
- * */
+ */
 public class Simulator extends Application {
 
     private static CPU cpu;
@@ -43,10 +43,13 @@ public class Simulator extends Application {
         // create devices
         String keyboardName = "keyboard";
         Device keyboard = new Keyboard(Const.DEVICE_ID_KEYBOARD, keyboardName);
+        String cardReaderName = "card reader";
+        Device cardReader = new CardReader(Const.DEVICE_ID_CARD_READER, cardReaderName);
         String printerName = "printer";
         Device printer = new Printer(Const.DEVICE_ID_PRINTER, printerName);
         cpu.getDevices().add(keyboard);
         cpu.getDevices().add(printer);
+        cpu.getDevices().add(cardReader);
 
         // main csci6461.team13.ui settings
 
