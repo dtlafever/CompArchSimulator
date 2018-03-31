@@ -12,7 +12,7 @@ public class AMR extends Instruction {
     
     // Add Memory to Register r (0 - 3)
     @Override
-    public ExecutionResult execute(CPU cpu) {
+    public ExecutionResult execute(CPU cpu){
         Registers registers = cpu.getRegisters();
         MCU mcu = cpu.getMcu();
         int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);

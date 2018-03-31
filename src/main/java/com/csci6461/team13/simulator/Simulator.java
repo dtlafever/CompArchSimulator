@@ -7,6 +7,7 @@ import com.csci6461.team13.simulator.core.io.Keyboard;
 import com.csci6461.team13.simulator.core.io.Printer;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.util.Const;
+import com.csci6461.team13.simulator.util.MachineFaultException;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.application.Application;

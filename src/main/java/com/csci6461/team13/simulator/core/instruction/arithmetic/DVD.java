@@ -15,7 +15,7 @@ public class DVD extends Instruction {
     // rx must be 0 or 2
     // rx contains the high order bits, rx+1 contains the lower order bits
     @Override
-    public ExecutionResult execute(CPU cpu) {
+    public ExecutionResult execute(CPU cpu){
         Registers registers = cpu.getRegisters();
         int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);
         int min = CoreUtil.minOfBits(Const.CPU_BIT_LENGTH);
