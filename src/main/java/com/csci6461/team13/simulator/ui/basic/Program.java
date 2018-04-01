@@ -113,13 +113,13 @@ public class Program {
                 Instruction instruction = Instruction.build(instStr);
                 Objects.requireNonNull(instruction, "Invalid " +
                         "Instruction:" + instStr);
-                mcu.storeWord(curAddr, instruction.toWord());
+                mcu.storeToCache(curAddr, instruction.toWord());
                 curAddr++;
             }
         }
 
         for (Integer key : initData.keySet()) {
-            mcu.storeWord(key, initData.get(key));
+            mcu.storeToCache(key, initData.get(key));
         }
     }
 
