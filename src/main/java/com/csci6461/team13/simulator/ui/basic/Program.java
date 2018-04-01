@@ -52,7 +52,7 @@ public class Program {
      * <p>
      * format: [part_init_address_storage_address, instructions]
      */
-    private Map<Integer, List<String>> insts;
+    private Map<Integer, List<String>> modules;
     /**
      * description of the program
      */
@@ -60,7 +60,7 @@ public class Program {
 
     public Program() {
         initialData = new LinkedHashMap<>();
-        insts = new LinkedHashMap<>();
+        modules = new LinkedHashMap<>();
         initAddrIndex = null;
         description = "";
     }
@@ -69,12 +69,12 @@ public class Program {
         return initialData;
     }
 
-    public Map<Integer, List<String>> getInsts() {
-        return insts;
+    public Map<Integer, List<String>> getModules() {
+        return modules;
     }
 
-    public void putInstructionList(Integer key, List<String> list) {
-        insts.put(key, list);
+    public void putModule(Integer key, List<String> module) {
+        modules.put(key, module);
     }
 
     public void putInitData(Integer addr, Integer data) {
@@ -102,7 +102,7 @@ public class Program {
      */
     public static void storeToMemory(Program program, MCU mcu) {
         Map<Integer, Integer> initData = program.getInitialData();
-        Map<Integer, List<String>> instLists = program.getInsts();
+        Map<Integer, List<String>> instLists = program.getModules();
 
         int curAddr = Const.PROGRAM_STORAGE_ADDR;
         for (Integer key : instLists.keySet()) {
@@ -126,11 +126,11 @@ public class Program {
     @Override
     public String toString() {
         Map<Integer, Integer> initData = this.getInitialData();
-        Map<Integer, List<String>> instLists = this.getInsts();
+        Map<Integer, List<String>> instLists = this.getModules();
         StringBuilder builder = new StringBuilder();
         builder.append("{PROGRAM}");
         builder.append(String.format("{DESC:[%s]END-DESC}", this.getDescription()));
-        builder.append(String.format("{INIT_ADDR=%s}", Const.PROG_INIT_STORAGE_ADDR));
+        builder.append(String.format("{INIT_ADDR=%s}", Const.PROG_ADDR_POINTER));
         builder.append("{INIT_DATA:");
         for (Integer key : initData.keySet()) {
             builder.append(String.format("[%d|%d]",
@@ -181,9 +181,9 @@ public class Program {
             // extract init data
             Map<Integer, Integer> initData = extractInitData(programString);
             initData.forEach(program::putInitData);
-            // extract insts
+            // extract modules
             Map<Integer, List<String>> instLists = extractInstLists(programString);
-            instLists.forEach(program::putInstructionList);
+            instLists.forEach(program::putModule);
             // extract description
             program.setDescription(extractDescription(programString));
         } else {
@@ -231,7 +231,7 @@ public class Program {
     private static Map<Integer, Integer> extractInitData(String programString) {
         Pattern pattern = Pattern.compile(INIT_DATA_INNER_REGEX);
         Matcher matcher = pattern.matcher(programString);
-        Map<Integer, Integer> initData = new HashMap<>();
+        Map<Integer, Integer> initData = new LinkedHashMap<>();
         while (matcher.find()) {
             String dataStr = matcher.group();
             String[] dat = dataStr.replace("[", "").replace("]", "").split("\\|");
@@ -248,7 +248,7 @@ public class Program {
      * key of the map is the init address storage address of each parts
      */
     private static Map<Integer, List<String>> extractInstLists(String programString) {
-        Map<Integer, List<String>> insts = new HashMap<>();
+        Map<Integer, List<String>> insts = new LinkedHashMap<>();
         Pattern pattern = Pattern.compile(PART_REGEX);
         Matcher matcher = pattern.matcher(programString);
         Pattern partAddrPattern = Pattern.compile(PART_ADDR_REGEX);
@@ -282,8 +282,7 @@ public class Program {
     }
 
     public byte[] getBinaryTextFormat() {
-        byte[] bytes = this.toFixedLenBinaryString(BIT_LENGTH).getBytes();
-        return bytes;
+        return this.toFixedLenBinaryString(BIT_LENGTH).getBytes();
     }
 
     public byte[] getBinaryFormat() {

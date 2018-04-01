@@ -24,7 +24,6 @@ public class MCU {
     // initialize all memory to 0 with a size of 2048
     public MCU() {
         reset();
-        this.cache = new Cache();
     }
 
     // Expand memory to 4096
@@ -79,6 +78,7 @@ public class MCU {
                 this.memory.set(i, 0);
             }
         }
+        this.cache = new Cache();
     }
 
     public Cache getCache(){

@@ -239,7 +239,7 @@ public class MainPanelController {
                 updateHistory("Description: " + program.getDescription());
                 // program loaded
                 signals.loaded.set(true);
-                registers.setPC(mcu.getWord(program.getInitAddrIndex()));
+                registers.setPC(mcu.getFromCache(program.getInitAddrIndex()));
             } catch (IOException | IllegalArgumentException e) {
                 updateHistory("Invalid Program");
             }
@@ -262,6 +262,7 @@ public class MainPanelController {
     @FXML
     void exitHandler(MouseEvent event) {
         Simulator.getPrimaryStage().close();
+        System.exit(0);
     }
 
     @FXML

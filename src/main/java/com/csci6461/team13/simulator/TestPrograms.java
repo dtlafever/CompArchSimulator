@@ -17,17 +17,17 @@ import java.util.List;
  * Note: initial data can only be stored in addresses under 32, any address above
  * can not be directly accessed
  */
-public class TestPrograms {
+public final class TestPrograms {
 
     // use space to separate numbers
     private static final int PROGRAM_1_SEPARATOR = 32;
     private static final int PROGRAM_1_MAX = 20;
 
-    // sentence separator .
+    // sentence separator: period
     private static final int PROGRAM_2_SEN_SEPARATOR = 46;
-    // word seperator blank space
+    // word separator: blank space
     private static final int WORD_SEPARATOR_BLANK = 32;
-    // word seperator comma
+    // word separator: comma
     private static final int WORD_SEPARATOR_COMMA = 44;
     // max 6 sentences
     private static final int PROGRAM_2_MAX = 6;
@@ -36,15 +36,15 @@ public class TestPrograms {
     private static final int CHAR_0 = 48;
     private static final int CHAR_EQUAL = 61;
 
-    private static Program one = new Program();
-    private static Program two = new Program();
+    private static final Program one = new Program();
+    private static final Program two = new Program();
 
     private TestPrograms() {
     }
 
     static {
         two.setDescription("A program that reads a set of a paragraph of 6 sentences from a file into memory. It prints the sentences on the console printer. It then asks the user for a word. It searches the paragraph to see if it contains the word. If so, it prints out the word, the sentence number, and the word number in the sentence.");
-        two.setInitAddrIndex(Const.PROG_INIT_STORAGE_ADDR);
+        two.setInitAddrIndex(Const.PROG_ADDR_POINTER);
         List<String> init = new ArrayList<>();
         List<String> loop = new ArrayList<>();
         List<String> sentenceReader = new ArrayList<>();
@@ -77,19 +77,19 @@ public class TestPrograms {
         // 30 max sentence count, a constant
         // 31 storage begin address constant
 
-        two.putInstructionList(Const.PROG_INIT_STORAGE_ADDR, init);
-        two.putInstructionList(18, loop);
-        two.putInstructionList(19, sentenceReader);
-        two.putInstructionList(20, wordReader);
-        two.putInstructionList(21, wordFinder);
-        two.putInstructionList(22, comparator);
-        two.putInstructionList(23, equal);
-        two.putInstructionList(24, printer);
-        two.putInstructionList(25, period);
-        two.putInstructionList(26, comma);
-        two.putInstructionList(27, blank);
-        two.putInstructionList(28, errorPrinter);
-        two.putInstructionList(29, skipper);
+        two.putModule(Const.PROG_ADDR_POINTER, init);
+        two.putModule(18, loop);
+        two.putModule(19, sentenceReader);
+        two.putModule(20, wordReader);
+        two.putModule(21, wordFinder);
+        two.putModule(22, comparator);
+        two.putModule(23, equal);
+        two.putModule(24, printer);
+        two.putModule(25, period);
+        two.putModule(26, comma);
+        two.putModule(27, blank);
+        two.putModule(28, errorPrinter);
+        two.putModule(29, skipper);
 
         // set return address of reader to loop start
         init.add("LDR 0,0,0,18");
@@ -373,13 +373,13 @@ public class TestPrograms {
         List<String> replace = new ArrayList<>();
         List<String> printer = new ArrayList<>();
 
-        one.putInstructionList(Const.PROG_INIT_STORAGE_ADDR, init);
-        one.putInstructionList(18, loop);
-        one.putInstructionList(19, reader);
-        one.putInstructionList(27, assembler);
-        one.putInstructionList(25, comparator);
-        one.putInstructionList(29, replace);
-        one.putInstructionList(28, printer);
+        one.putModule(Const.PROG_ADDR_POINTER, init);
+        one.putModule(18, loop);
+        one.putModule(19, reader);
+        one.putModule(27, assembler);
+        one.putModule(25, comparator);
+        one.putModule(29, replace);
+        one.putModule(28, printer);
 
         // set return address of reader to loop start
         init.add("LDR 0,0,0,18");
