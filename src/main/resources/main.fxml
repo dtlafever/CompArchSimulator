@@ -176,7 +176,10 @@
                                                 <Font name="System Bold" size="16.0" />
                                              </font>
                                           </Text>
-                                          <TextArea fx:id="mHistory" editable="false" prefWidth="400.0" promptText="N/A" wrapText="true" VBox.vgrow="ALWAYS" />
+                                          <TextArea fx:id="mHistory" editable="false" prefWidth="400.0" promptText="N/A" wrapText="true" VBox.vgrow="ALWAYS">
+                                             <font>
+                                                <Font name="Consolas" size="13.0" />
+                                             </font></TextArea>
                                           <HBox alignment="CENTER">
                                              <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fetched">
@@ -186,7 +189,7 @@
                                                 </Text>
                                                 <TextField id="mExec" fx:id="mExec" editable="false" promptText="N/A" HBox.hgrow="ALWAYS">
                                                    <font>
-                                                      <Font name="Courier Bold" size="14.0" />
+                                                      <Font name="Consolas Bold" size="14.0" />
                                                    </font>
                                                    <HBox.margin>
                                                       <Insets left="20.0" />
@@ -243,7 +246,14 @@
                                                 <Insets bottom="10.0" top="10.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <TextArea fx:id="mConsolePrinter" editable="false" prefWidth="300.0" promptText="N/A" wrapText="true" VBox.vgrow="ALWAYS" />
+                                          <TextArea fx:id="mConsolePrinter"
+                                                    editable="false"
+                                                    prefWidth="300.0" promptText="N/A" wrapText="true" VBox.vgrow="ALWAYS" >
+                                              <font>
+                                                  <Font name="Consolas"
+                                                        size="13.0" />
+                                              </font>
+                                          </TextArea>
                                           <VBox alignment="TOP_CENTER">
                                              <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Keyboard Buffer">
@@ -254,7 +264,12 @@
                                                       <Insets bottom="10.0" top="10.0" />
                                                    </VBox.margin>
                                                 </Text>
-                                                <TextArea fx:id="mKBBuffer" editable="false" prefHeight="150.0" prefWidth="300.0" promptText="N/A" />
+                                                <TextArea fx:id="mKBBuffer" editable="false" prefHeight="150.0" prefWidth="300.0" promptText="N/A" wrapText="true" >
+                                                    <font>
+                                                    <Font name="Consolas"
+                                                          size="13.0" />
+                                                </font>
+                                                </TextArea>
                                              </children>
                                           </VBox>
                                           <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="239.0">
@@ -269,7 +284,10 @@
                                                 </Text>
                                                 <HBox alignment="CENTER_LEFT">
                                                    <children>
-                                                      <TextField fx:id="mKeyboard" promptText="N/A" HBox.hgrow="ALWAYS" />
+                                                      <TextField fx:id="mKeyboard" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                         <font>
+                                                            <Font name="Consolas" size="13.0" />
+                                                         </font></TextField>
                                                       <Button fx:id="mKBSubmit" alignment="CENTER" mnemonicParsing="false" styleClass="danger" text="Submit">
                                                          <HBox.margin>
                                                             <Insets left="20.0" />
