@@ -14,12 +14,17 @@ public class Registers {
 
     //--- 12 bits ---
 
-    // The register that holds the next address 
-    // to be processed for execution
-    int PC;
+    public int OVERFLOW = 0;
 
     //--- 4 bits ---
+    public int UNDERFLOW = 1;
+    public int DIVZERO = 2;
 
+    //--- 16 bits ---
+    public int EQUALORNOT = 3;
+    // The register that holds the next address
+    // to be processed for execution
+    int PC;
     // Condition Code: setup when arithmetic/logical
     // operations are executed;
     // overflow   = 0
@@ -27,7 +32,6 @@ public class Registers {
     // DivZero    = 2
     // EqualOrNot = 3
     int CC;
-
     // Machine Fault Register: contains the ID code if
     // a machine fault after it occurs
     // Illegal Memory Address to Reserved Locations = 0
@@ -35,44 +39,31 @@ public class Registers {
     // Illegal Operation Code                       = 2
     // Illegal Memory Address beyond 2048 (memory)  = 3
     int MFR;
-
-    //--- 16 bits ---
-
     // current address to fetch
     int MAR;
-
-    // Memory Buffer Register: holds the word just fetched 
+    // Memory Buffer Register: holds the word just fetched
     // from or the word to be /last stored into memory
     int MBR;
-
-    //Instruction Register: holds the instruction 
+    //Instruction Register: holds the instruction
     // to be executed
     int IR;
-
     // Machine Status Register: certain bits
     // record the status of the health of the machine
     int MSR;
-
     // General Purpose Registers
     int R0;
     int R1;
     int R2;
-    int R3;
 
+    //----------------------
+    //      CONSTANTS 
+    //----------------------
+    int R3;
     // Index Register: contains a base address that
     // supports base register addressing of memory.
     int X1;
     int X2;
     int X3;
-
-    //----------------------
-    //      CONSTANTS 
-    //----------------------
-
-    public int OVERFLOW = 0;
-    public int UNDERFLOW = 1;
-    public int DIVZERO = 2;
-    public int EQUALORNOT = 3;
 
     //----------------------
     //    BASIC FUNCTIONS
@@ -114,6 +105,10 @@ public class Registers {
         return this.CC;
     }
 
+    public void setCC(int cc) {
+        this.CC = cc;
+    }
+
     // Returns true if the specified bit is setup to true
     // OVERFLOW   = 0
     // UNDERFLOW  = 1
@@ -121,10 +116,6 @@ public class Registers {
     // EQUALORNOT = 3
     public boolean getCCByBit(int bit) {
         return ((this.CC & (1 << bit)) != 0);
-    }
-
-    public void setCC(int cc) {
-        this.CC = cc;
     }
 
     // Set CC to a certain bit

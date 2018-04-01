@@ -12,7 +12,10 @@ import com.csci6461.team13.simulator.ui.controllers.RegisterEditPanelController;
 import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -25,7 +28,7 @@ import java.util.List;
 
 /**
  * @author zhiyuan
- * */
+ */
 public class MainPanelHelper {
 
     // console output history
@@ -53,7 +56,7 @@ public class MainPanelHelper {
      * it will fetch a instruction from current PC
      */
     public void fetch(CPU cpu) {
-        if(hasUnfinishedCycle){
+        if (hasUnfinishedCycle) {
             // skip fetch operation if the previous cycle is unfinished
             return;
         }
@@ -82,7 +85,7 @@ public class MainPanelHelper {
         return executionResult;
     }
 
-    public void refreshCache(CPU cpu){
+    public void refreshCache(CPU cpu) {
         MCU mcu = cpu.getMcu();
         Cache cache = mcu.getCache();
         List<Cache.CacheLine> cacheLines = cache.getCacheLines();

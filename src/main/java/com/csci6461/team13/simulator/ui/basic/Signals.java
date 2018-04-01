@@ -5,8 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  * @author zhiyuan
- *
- * */
+ */
 public class Signals {
 
     public BooleanProperty mode = new SimpleBooleanProperty(true);

@@ -11,7 +11,7 @@ public class CacheRow {
     private final StringProperty addr;
     private final StringProperty data;
 
-    public CacheRow(){
+    public CacheRow() {
         this.addr = null;
         this.data = null;
     }
@@ -25,6 +25,10 @@ public class CacheRow {
         return addr.get();
     }
 
+    public void setAddr(String addr) {
+        this.addr.set(addr);
+    }
+
     public StringProperty addrProperty() {
         return addr;
     }
@@ -33,15 +37,11 @@ public class CacheRow {
         return data.get();
     }
 
-    public StringProperty dataProperty() {
-        return data;
-    }
-
-    public void setAddr(String addr) {
-        this.addr.set(addr);
-    }
-
     public void setData(String data) {
         this.data.set(data);
+    }
+
+    public StringProperty dataProperty() {
+        return data;
     }
 }

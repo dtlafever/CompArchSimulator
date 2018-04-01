@@ -2,7 +2,7 @@ package com.csci6461.team13.simulator.util;
 
 /**
  * @author zhiyuan
- * */
+ */
 public enum Register {
     PC(12),
     IR(16),

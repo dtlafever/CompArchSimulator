@@ -15,7 +15,10 @@ import com.csci6461.team13.simulator.ui.basic.Program;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MainPanelHelper;
 import com.csci6461.team13.simulator.util.*;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
+import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,7 +26,8 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -37,11 +41,9 @@ import java.util.function.IntSupplier;
 
 public class MainPanelController {
 
+    private static String REGISTER_PROPERTY_NAME = "regName";
     private MemControlController memControlController = null;
     private MainPanelHelper helper = null;
-
-    private static String REGISTER_PROPERTY_NAME = "regName";
-
     /**
      * signals - states of different parts of simulator
      */
@@ -152,6 +154,24 @@ public class MainPanelController {
     @FXML
     private Button mCardReader;
 
+    // utility methods
+    private static void refreshText(Label label, IntSupplier function) {
+        label.setText(Integer.toString(function.getAsInt()));
+    }
+
+    private static void refreshText(TextField textField, IntSupplier function) {
+        textField.setText(Integer.toString(function.getAsInt()));
+    }
+
+    private static void addRegListener(TextField textField, IntConsumer consumer) {
+        textField.textProperty().addListener((observable, oldValue, newValue)
+                -> consumer.accept(Integer.valueOf(newValue)));
+    }
+
+    private static void putRegProperty(TextField textField, Register register) {
+        textField.getProperties().put(REGISTER_PROPERTY_NAME, register.name());
+    }
+
     @FXML
     void initialize() {
         helper = new MainPanelHelper();
@@ -161,9 +181,20 @@ public class MainPanelController {
         mIpl.disableProperty().bind(signals.on);
         mOverview.disableProperty().bind(signals.on.not());
 
+        FontAwesomeIconView runGraphic = new FontAwesomeIconView
+                (FontAwesomeIcon.FAST_FORWARD, "18.0");
+        FontAwesomeIconView debugGraphic = new FontAwesomeIconView
+                (FontAwesomeIcon.STEP_FORWARD, "18.0");
+
+        runGraphic.setFill(Paint.valueOf("WHITE"));
+        debugGraphic.setFill(Paint.valueOf("WHITE"));
+
         StringBinding modeText = Bindings.createStringBinding(() -> signals
                 .mode.get() ? "RUN" : "DEBUG", signals.mode);
+        Binding<FontAwesomeIconView> modeGraphicBinding = Bindings
+                .createObjectBinding(() -> signals.mode.get() ? runGraphic : debugGraphic, signals.mode);
         mMode.textProperty().bind(modeText);
+        mMode.graphicProperty().bind(modeGraphicBinding);
         mMode.disableProperty().bind(signals.loaded.not());
 
         mLoad.disableProperty().bind(signals.loaded.or(signals.on.not()));
@@ -230,7 +261,7 @@ public class MainPanelController {
             Program program = null;
             try {
                 program = ProgramUtil.readBinaryProgram(file);
-                if(program == null){
+                if (program == null) {
                     // invalid program
                     throw new IllegalArgumentException();
                 }
@@ -327,12 +358,12 @@ public class MainPanelController {
     }
 
     @FXML
-    void exportHandler(MouseEvent event){
+    void exportHandler(MouseEvent event) {
         ProgramUtil.exportToDesktop();
     }
 
     @FXML
-    void cardReaderHandler(MouseEvent event){
+    void cardReaderHandler(MouseEvent event) {
         List<Device> devices = Simulator.getCpu().getDevices();
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(Simulator.getPrimaryStage());
@@ -340,7 +371,7 @@ public class MainPanelController {
             try {
                 Device device = CoreUtil.findDevice(devices, Const
                         .DEVICE_ID_CARD_READER);
-                if(device instanceof CardReader){
+                if (device instanceof CardReader) {
                     ((CardReader) device).write(file);
                 }
             } catch (IOException | IllegalArgumentException e) {
@@ -504,24 +535,6 @@ public class MainPanelController {
     private void updateHistory(String line) {
         // update execution consoleOutput
         mHistory.appendText(String.format("[%s]\n", line));
-    }
-
-    // utility methods
-    private static void refreshText(Label label, IntSupplier function) {
-        label.setText(Integer.toString(function.getAsInt()));
-    }
-
-    private static void refreshText(TextField textField, IntSupplier function) {
-        textField.setText(Integer.toString(function.getAsInt()));
-    }
-
-    private static void addRegListener(TextField textField, IntConsumer consumer) {
-        textField.textProperty().addListener((observable, oldValue, newValue)
-                -> consumer.accept(Integer.valueOf(newValue)));
-    }
-
-    private static void putRegProperty(TextField textField, Register register) {
-        textField.getProperties().put(REGISTER_PROPERTY_NAME, register.name());
     }
 
 }

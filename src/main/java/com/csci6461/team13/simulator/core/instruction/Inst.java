@@ -1,12 +1,13 @@
 package com.csci6461.team13.simulator.core.instruction;
 
+import com.csci6461.team13.simulator.core.instruction.arithmetic.*;
 import com.csci6461.team13.simulator.core.instruction.io.IN;
 import com.csci6461.team13.simulator.core.instruction.io.OUT;
-import com.csci6461.team13.simulator.core.instruction.miscellaneous.*;
 import com.csci6461.team13.simulator.core.instruction.loadstore.*;
-import com.csci6461.team13.simulator.core.instruction.transfer.*;
-import com.csci6461.team13.simulator.core.instruction.arithmetic.*;
 import com.csci6461.team13.simulator.core.instruction.logical.*;
+import com.csci6461.team13.simulator.core.instruction.miscellaneous.HLT;
+import com.csci6461.team13.simulator.core.instruction.miscellaneous.TRAP;
+import com.csci6461.team13.simulator.core.instruction.transfer.*;
 
 public enum Inst {
 
@@ -20,7 +21,7 @@ public enum Inst {
     INST_LDA(3, "LDA", LDA.class),
     INST_LDX(41, "LDX", LDX.class),
     INST_STX(42, "STX", STX.class),
-    
+
     // IO
     INST_IN(61, "IN", IN.class),
     INST_OUT(62, "OUT", OUT.class),
@@ -51,6 +52,10 @@ public enum Inst {
     INST_ABS(27, "ABS", ABS.class),
     INST_SRC(31, "SRC", SRC.class),
     INST_RRC(32, "RRC", RRC.class),;
+
+    private int opcode;
+    private String title;
+    private Class<? extends Instruction> instClass;
 
     Inst(int opcode, String title, Class<? extends Instruction> instClass) {
         this.opcode = opcode;
@@ -84,10 +89,6 @@ public enum Inst {
         }
         return null;
     }
-
-    private int opcode;
-    private String title;
-    private Class<? extends Instruction> instClass;
 
     public int getOpcode() {
         return opcode;

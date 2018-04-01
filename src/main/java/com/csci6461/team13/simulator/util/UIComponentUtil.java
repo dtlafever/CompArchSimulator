@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author zhiyuan
- * */
+ */
 public class UIComponentUtil {
 
     private UIComponentUtil() {

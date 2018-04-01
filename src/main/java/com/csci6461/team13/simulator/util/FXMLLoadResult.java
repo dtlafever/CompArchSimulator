@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 
 /**
  * @author zhiyuan
- * */
+ */
 public class FXMLLoadResult<T> {
 
     private Parent node;

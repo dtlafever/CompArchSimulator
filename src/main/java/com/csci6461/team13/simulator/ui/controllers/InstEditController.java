@@ -18,8 +18,7 @@ import javafx.scene.text.Text;
 
 /**
  * @author zhiyuan
- *
- * */
+ */
 public class InstEditController {
 
     // signal a new valid instruction
@@ -115,7 +114,7 @@ public class InstEditController {
 
     /**
      * flush the whole panel
-     * */
+     */
     public void reset() {
         ieVal.setText("0");
     }

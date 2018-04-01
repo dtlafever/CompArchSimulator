@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author zhiyuan
- *
- * */
+ */
 public class RegisterEditPanelController {
 
     // property used to temporary bind register textfield in the main panel
@@ -56,7 +55,7 @@ public class RegisterEditPanelController {
         reName.setText(name);
         reVal.setText(value);
 
-        List<RadioButton> bits = reBits.getChildren().stream().filter(it -> it instanceof RadioButton).map(it -> (RadioButton)it).collect(Collectors.toList());
+        List<RadioButton> bits = reBits.getChildren().stream().filter(it -> it instanceof RadioButton).map(it -> (RadioButton) it).collect(Collectors.toList());
         int bitLength = Register.valueOf(name).getBitLength();
         this.bitLength = bitLength;
         for (int i = 0; i < bits.size(); i++) {

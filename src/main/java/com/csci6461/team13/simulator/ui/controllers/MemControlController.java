@@ -5,25 +5,15 @@ import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MemControlHelper;
 import com.csci6461.team13.simulator.util.UIComponentUtil;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 /**
  * @author zhiyuan
- *
- * */
+ */
 public class MemControlController {
 
     @FXML
@@ -145,7 +135,6 @@ public class MemControlController {
         mcNval.clear();
         mcMemAddr.setText(mcMemAddr.getText());
     }
-
 
 
 }

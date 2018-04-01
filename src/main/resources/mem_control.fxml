@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -127,7 +128,7 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="347.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button fx:id="mcStore" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#storeHandler" prefWidth="60.0" styleClass="danger" text="Store" textAlignment="CENTER">
+                        <Button fx:id="mcStore" alignment="CENTER" layoutX="134.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#storeHandler" prefWidth="80.0" styleClass="danger" text="Store" textAlignment="CENTER">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -137,8 +138,15 @@
                            <HBox.margin>
                               <Insets right="20.0" />
                            </HBox.margin>
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="ARCHIVE" size="18" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </FontAwesomeIconView>
+                           </graphic>
                         </Button>
-                        <Button fx:id="mcClear" mnemonicParsing="false" onMouseClicked="#clearHandler" prefWidth="60.0" styleClass="danger" text="Clear" textAlignment="CENTER" HBox.hgrow="NEVER">
+                        <Button fx:id="mcClear" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#clearHandler" prefWidth="80.0" styleClass="danger" text="Clear" textAlignment="CENTER" HBox.hgrow="NEVER">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -148,14 +156,20 @@
                            <HBox.margin>
                               <Insets right="20.0" />
                            </HBox.margin>
+                           <graphic>
+                              <FontAwesomeIconView fill="#fff3f3" glyphName="ERASER" size="18" />
+                           </graphic>
                         </Button>
-                        <Button fx:id="mcSettopc" layoutX="43.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#setToPCHandler" styleClass="danger" text="Set To PC" textAlignment="CENTER">
+                        <Button fx:id="mcSettopc" alignment="CENTER" layoutX="43.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#setToPCHandler" styleClass="danger" text="Set To PC" textAlignment="CENTER">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
+                           <graphic>
+                              <FontAwesomeIconView fill="#fff3f3" glyphName="ARROW_CIRCLE_RIGHT" size="18" />
+                           </graphic>
                         </Button>
                      </children>
                      <VBox.margin>

@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author zhiyuan
- * */
+ */
 public class CoreUtil {
 
     private CoreUtil() {
@@ -74,8 +74,8 @@ public class CoreUtil {
         StringBuilder charBuilder = new StringBuilder();
         for (int i = 0; i < chars.length; i++) {
             charBuilder.append(chars[i]);
-            if((i+1) % length == 0){
-                Character character = (char)Integer.parseInt(charBuilder
+            if ((i + 1) % length == 0) {
+                Character character = (char) Integer.parseInt(charBuilder
                         .toString(), 2);
                 destBuilder.append(character);
                 charBuilder = new StringBuilder();

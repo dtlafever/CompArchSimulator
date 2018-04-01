@@ -6,12 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- *
  * this device reads all bytes from a file
  *
  * @author zhiyuan
  */
-public class CardReader extends Input{
+public class CardReader extends Input {
 
     public CardReader(int devId, String name) {
         super(devId, name);
@@ -19,7 +18,7 @@ public class CardReader extends Input{
 
     public synchronized boolean write(File file) throws IOException {
         String string = "";
-        if(file.canRead()){
+        if (file.canRead()) {
             byte[] bytes = Files.readAllBytes(Paths.get(file.getAbsolutePath()));
             string = new String(bytes);
         }

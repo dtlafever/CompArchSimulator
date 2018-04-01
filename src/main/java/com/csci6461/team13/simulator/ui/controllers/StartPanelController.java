@@ -18,8 +18,7 @@ import java.io.IOException;
 
 /**
  * @author zhiyuan
- *
- * */
+ */
 public class StartPanelController {
 
     private BooleanProperty isDracula = new SimpleBooleanProperty(false);

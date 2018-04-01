@@ -7,7 +7,6 @@ import com.csci6461.team13.simulator.core.io.Keyboard;
 import com.csci6461.team13.simulator.core.io.Printer;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.util.Const;
-import com.csci6461.team13.simulator.util.MachineFaultException;
 import com.csci6461.team13.simulator.util.FXMLLoadResult;
 import com.csci6461.team13.simulator.util.FXMLUtil;
 import javafx.application.Application;
@@ -31,6 +30,29 @@ public class Simulator extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    /**
+     * fetch primary stage of the simulator
+     */
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public static CPU getCpu() {
+        return cpu;
+    }
+
+    private static void initCPU() {
+        cpu = new CPU();
+    }
+
+    public static Signals getSignals() {
+        if (signals == null) {
+            signals = new Signals();
+        }
+
+        return signals;
     }
 
     @Override
@@ -69,28 +91,5 @@ public class Simulator extends Application {
         primaryStage.show();
 
         Simulator.primaryStage = primaryStage;
-    }
-
-    /**
-     * fetch primary stage of the simulator
-     */
-    public static Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public static CPU getCpu() {
-        return cpu;
-    }
-
-    private static void initCPU() {
-        cpu = new CPU();
-    }
-
-    public static Signals getSignals() {
-        if (signals == null) {
-            signals = new Signals();
-        }
-
-        return signals;
     }
 }

@@ -8,7 +8,7 @@ import com.csci6461.team13.simulator.core.instruction.Instruction;
 /**
  * @author zhiyuan
  */
-public class ABS extends Instruction{
+public class ABS extends Instruction {
     // get absolute value of c(r)
     @Override
     public ExecutionResult execute(CPU cpu) {

@@ -1,10 +1,10 @@
 package com.csci6461.team13.simulator.core.instruction.io;
 
 import com.csci6461.team13.simulator.core.CPU;
-import com.csci6461.team13.simulator.core.io.Device;
 import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
+import com.csci6461.team13.simulator.core.io.Device;
 import com.csci6461.team13.simulator.core.io.Input;
 import com.csci6461.team13.simulator.util.CoreUtil;
 
@@ -36,7 +36,7 @@ public class IN extends Instruction {
                 // no available value in buffer
                 ((Input) device).waitingForInput.set(true);
                 this.message = "No available char in input buffer: DevId=" + devId;
-                registers.setPC(registers.getPC()-1);
+                registers.setPC(registers.getPC() - 1);
                 return ExecutionResult.RETRY;
             }
         } else {

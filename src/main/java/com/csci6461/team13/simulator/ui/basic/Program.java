@@ -65,38 +65,6 @@ public class Program {
         description = "";
     }
 
-    public Map<Integer, Integer> getInitialData() {
-        return initialData;
-    }
-
-    public Map<Integer, List<String>> getModules() {
-        return modules;
-    }
-
-    public void putModule(Integer key, List<String> module) {
-        modules.put(key, module);
-    }
-
-    public void putInitData(Integer addr, Integer data) {
-        initialData.put(addr, data);
-    }
-
-    public Integer getInitAddrIndex() {
-        return initAddrIndex;
-    }
-
-    public void setInitAddrIndex(Integer initAddrIndex) {
-        this.initAddrIndex = initAddrIndex;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     /**
      * store a program into mcu
      */
@@ -121,41 +89,6 @@ public class Program {
         for (Integer key : initData.keySet()) {
             mcu.storeToCache(key, initData.get(key));
         }
-    }
-
-    @Override
-    public String toString() {
-        Map<Integer, Integer> initData = this.getInitialData();
-        Map<Integer, List<String>> instLists = this.getModules();
-        StringBuilder builder = new StringBuilder();
-        builder.append("{PROGRAM}");
-        builder.append(String.format("{DESC:[%s]END-DESC}", this.getDescription()));
-        builder.append(String.format("{INIT_ADDR=%s}", Const.PROG_ADDR_POINTER));
-        builder.append("{INIT_DATA:");
-        for (Integer key : initData.keySet()) {
-            builder.append(String.format("[%d|%d]",
-                    key, initData.get(key)));
-        }
-        builder.append("}");
-
-        Set<Integer> keys = instLists.keySet();
-        for (Integer key : keys) {
-            List<String> instList = instLists.get(key);
-            builder.append("{[ADDR=").append(key).append("]:");
-            for (String instStr : instList) {
-                Instruction instruction = Instruction.build(instStr);
-                if (instruction != null) {
-                    Integer word = instruction.toWord();
-                    builder.append(String.format("[%d]", word));
-                } else {
-                    throw new IllegalArgumentException("Invalid Instruction:"
-                            + instStr);
-                }
-            }
-            builder.append("}");
-        }
-
-        return builder.toString();
     }
 
     /**
@@ -275,6 +208,73 @@ public class Program {
         }
 
         return insts;
+    }
+
+    public Map<Integer, Integer> getInitialData() {
+        return initialData;
+    }
+
+    public Map<Integer, List<String>> getModules() {
+        return modules;
+    }
+
+    public void putModule(Integer key, List<String> module) {
+        modules.put(key, module);
+    }
+
+    public void putInitData(Integer addr, Integer data) {
+        initialData.put(addr, data);
+    }
+
+    public Integer getInitAddrIndex() {
+        return initAddrIndex;
+    }
+
+    public void setInitAddrIndex(Integer initAddrIndex) {
+        this.initAddrIndex = initAddrIndex;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        Map<Integer, Integer> initData = this.getInitialData();
+        Map<Integer, List<String>> instLists = this.getModules();
+        StringBuilder builder = new StringBuilder();
+        builder.append("{PROGRAM}");
+        builder.append(String.format("{DESC:[%s]END-DESC}", this.getDescription()));
+        builder.append(String.format("{INIT_ADDR=%s}", Const.PROG_ADDR_POINTER));
+        builder.append("{INIT_DATA:");
+        for (Integer key : initData.keySet()) {
+            builder.append(String.format("[%d|%d]",
+                    key, initData.get(key)));
+        }
+        builder.append("}");
+
+        Set<Integer> keys = instLists.keySet();
+        for (Integer key : keys) {
+            List<String> instList = instLists.get(key);
+            builder.append("{[ADDR=").append(key).append("]:");
+            for (String instStr : instList) {
+                Instruction instruction = Instruction.build(instStr);
+                if (instruction != null) {
+                    Integer word = instruction.toWord();
+                    builder.append(String.format("[%d]", word));
+                } else {
+                    throw new IllegalArgumentException("Invalid Instruction:"
+                            + instStr);
+                }
+            }
+            builder.append("}");
+        }
+
+        return builder.toString();
     }
 
     public String toFixedLenBinaryString(int length) {

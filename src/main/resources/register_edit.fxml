@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -57,21 +58,33 @@
                   </HBox>
                   <HBox layoutX="229.0" layoutY="257.0">
                      <children>
-                        <Button fx:id="reSave" mnemonicParsing="false" onMouseClicked="#saveHandler" prefWidth="60.0" styleClass="primary" text="Save" textAlignment="CENTER">
+                        <Button fx:id="reSave" mnemonicParsing="false" onMouseClicked="#saveHandler" styleClass="primary" text="Save" textAlignment="CENTER">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="ARCHIVE" size="18" />
+                           </graphic>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
                         </Button>
-                        <Button fx:id="reExit" mnemonicParsing="false" onMouseClicked="#exitHandler" prefWidth="60.0" styleClass="danger" text="Exit" textAlignment="CENTER">
+                        <Button fx:id="reExit" mnemonicParsing="false" onMouseClicked="#exitHandler" styleClass="danger" text="Exit" textAlignment="CENTER">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="TIMES" size="18" />
+                           </graphic>
                         </Button>
                      </children>
                   </HBox>

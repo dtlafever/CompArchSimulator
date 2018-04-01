@@ -16,7 +16,10 @@ public abstract class Instruction {
 
     protected static final String SUCCESS_MSG = "Successfully Executed";
     protected static final String FAILURE_MSG = "Unsuccessfully Executed";
-
+    /**
+     * execution message
+     */
+    protected String message;
     /**
      * 6 bits
      */
@@ -37,11 +40,6 @@ public abstract class Instruction {
      * 5 bits
      */
     private int address;
-
-    /**
-     * execution message
-     * */
-    protected String message;
 
     protected Instruction() {
         this.opcode = 0;
@@ -103,7 +101,7 @@ public abstract class Instruction {
                 instruction.setIx(ix);
                 instruction.setR(r);
                 instruction.setAddress(address);
-                if(!isValid(instruction)){
+                if (!isValid(instruction)) {
                     throw new InstantiationException("Invalid Instruction");
                 }
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -114,7 +112,7 @@ public abstract class Instruction {
         return instruction;
     }
 
-    public static boolean isValid(Instruction instruction){
+    public static boolean isValid(Instruction instruction) {
 
         boolean flag = true;
         int opcode = instruction.getOpcode();
@@ -123,23 +121,23 @@ public abstract class Instruction {
         int i = instruction.getI();
         int address = instruction.getAddress();
 
-        if(opcode > CoreUtil.maxOfBits(6)){
+        if (opcode > CoreUtil.maxOfBits(6)) {
             flag = false;
         }
 
-        if(r > CoreUtil.maxOfBits(2)){
+        if (r > CoreUtil.maxOfBits(2)) {
             flag = false;
         }
 
-        if(ix > CoreUtil.maxOfBits(2)){
+        if (ix > CoreUtil.maxOfBits(2)) {
             flag = false;
         }
 
-        if(i > CoreUtil.maxOfBits(1)){
+        if (i > CoreUtil.maxOfBits(1)) {
             flag = false;
         }
 
-        if(address > CoreUtil.maxOfBits(5)){
+        if (address > CoreUtil.maxOfBits(5)) {
             flag = false;
         }
 

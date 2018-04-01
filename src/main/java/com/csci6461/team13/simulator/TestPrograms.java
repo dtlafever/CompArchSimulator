@@ -39,9 +39,6 @@ public final class TestPrograms {
     private static final Program one = new Program();
     private static final Program two = new Program();
 
-    private TestPrograms() {
-    }
-
     static {
         two.setDescription("A program that reads a set of a paragraph of 6 sentences from a file into memory. It prints the sentences on the console printer. It then asks the user for a word. It searches the paragraph to see if it contains the word. If so, it prints out the word, the sentence number, and the word number in the sentence.");
         two.setInitAddrIndex(Const.PROG_ADDR_POINTER);
@@ -498,6 +495,9 @@ public final class TestPrograms {
         printer.add("OUT 0,0,1,1");
         printer.add("HLT 0,0,0,0");
 
+    }
+
+    private TestPrograms() {
     }
 
     public static Program getOne() {

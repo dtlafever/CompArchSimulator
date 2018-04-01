@@ -18,6 +18,12 @@ public class Printer extends Device {
         text = new SimpleStringProperty("");
     }
 
+    public static void main(String[] args) {
+        Printer printer = new Printer(1, "printer");
+        printer.appendAsChar(65);
+        System.out.println(printer.text.get());
+    }
+
     public synchronized void appendAsChar(int character) {
         text.set(text.get() + (char) character);
     }
@@ -36,11 +42,5 @@ public class Printer extends Device {
 
     public StringProperty textProperty() {
         return text;
-    }
-
-    public static void main(String[] args) {
-        Printer printer = new Printer(1, "printer");
-        printer.appendAsChar(65);
-        System.out.println(printer.text.get());
     }
 }

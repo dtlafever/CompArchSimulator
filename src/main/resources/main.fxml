@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -37,65 +38,80 @@
          <buttons>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="mIpl" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#iplHandler" prefWidth="80.0" styleClass="warning" text="IPL" textAlignment="CENTER">
+                  <Button fx:id="mIpl" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#iplHandler" prefWidth="100.0" styleClass="warning" text="IPL" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <graphic>
+                        <FontAwesomeIconView fill="#fcf6f6" glyphName="POWER_OFF" size="18" />
+                     </graphic>
                   </Button>
                   <Label text="Init" />
                </children>
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="mMode" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#modeHandler" prefWidth="80.0" styleClass="success" text="RUN" textAlignment="CENTER">
+                  <Button fx:id="mMode" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#modeHandler" prefWidth="100.0" styleClass="success" text="RUN" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <graphic>
+                        <FontAwesomeIconView fill="#fcf6f6" glyphName="FAST_FORWARD" size="18" />
+                     </graphic>
                   </Button>
                   <Label text="Mode" />
                </children>
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="mLoad" mnemonicParsing="false" onMouseClicked="#loadHandler" prefWidth="80.0" styleClass="primary" text="Load" textAlignment="CENTER">
+                  <Button fx:id="mLoad" mnemonicParsing="false" onMouseClicked="#loadHandler" prefWidth="100.0" styleClass="primary" text="Load" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <graphic>
+                        <FontAwesomeIconView fill="#fcf6f6" glyphName="UPLOAD" />
+                     </graphic>
                   </Button>
                   <Label text="New Program" />
                </children>
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="mReset" mnemonicParsing="false" onMouseClicked="#resetHandler" prefWidth="80.0" styleClass="info" text="Reset" textAlignment="CENTER">
+                  <Button fx:id="mReset" mnemonicParsing="false" onMouseClicked="#resetHandler" prefWidth="100.0" styleClass="info" text="Reset" textAlignment="CENTER">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="#fcf6f6" glyphName="UNDO" size="18" />
+                     </graphic>
                   </Button>
                   <Label text="Reset" />
                </children>
             </VBox>
             <VBox alignment="CENTER" layoutX="891.0" layoutY="10.0">
                <children>
-                  <Button fx:id="mExit" mnemonicParsing="false" onMouseClicked="#exitHandler" prefWidth="80.0" styleClass="danger" text="Exit" textAlignment="CENTER">
+                  <Button fx:id="mExit" mnemonicParsing="false" onMouseClicked="#exitHandler" prefWidth="100.0" styleClass="danger" text="Exit" textAlignment="CENTER">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="#fcf6f6" glyphName="TIMES" size="18" />
+                     </graphic>
                   </Button>
                   <Label text="Terminate" />
                </children>
@@ -155,6 +171,9 @@
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="WRENCH" size="14" />
+                     </graphic>
                   </TitledPane>
                </children>
             </VBox>
@@ -212,6 +231,9 @@
                                                    <HBox.margin>
                                                       <Insets right="20.0" />
                                                    </HBox.margin>
+                                                   <graphic>
+                                                      <FontAwesomeIconView fill="WHITE" glyphName="PLAY" size="18" />
+                                                   </graphic>
                                                 </Button>
                                                 <Button fx:id="mNext" mnemonicParsing="false" onMouseClicked="#nextHandler" styleClass="danger" text="Step" textAlignment="CENTER" HBox.hgrow="NEVER">
                                                    <cursor>
@@ -223,6 +245,9 @@
                                                    <HBox.margin>
                                                       <Insets left="20.0" />
                                                    </HBox.margin>
+                                                   <graphic>
+                                                      <FontAwesomeIconView fill="WHITE" glyphName="STEP_FORWARD" size="18" />
+                                                   </graphic>
                                                 </Button>
                                              </children>
                                              <VBox.margin>
@@ -246,12 +271,9 @@
                                                 <Insets bottom="10.0" top="10.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <TextArea fx:id="mConsolePrinter"
-                                                    editable="false"
-                                                    prefWidth="300.0" promptText="N/A" wrapText="true" VBox.vgrow="ALWAYS" >
+                                          <TextArea fx:id="mConsolePrinter" editable="false" prefWidth="300.0" promptText="N/A" wrapText="true" VBox.vgrow="ALWAYS">
                                               <font>
-                                                  <Font name="Consolas"
-                                                        size="13.0" />
+                                                  <Font name="Consolas" size="13.0" />
                                               </font>
                                           </TextArea>
                                           <VBox alignment="TOP_CENTER">
@@ -264,10 +286,9 @@
                                                       <Insets bottom="10.0" top="10.0" />
                                                    </VBox.margin>
                                                 </Text>
-                                                <TextArea fx:id="mKBBuffer" editable="false" prefHeight="150.0" prefWidth="300.0" promptText="N/A" wrapText="true" >
+                                                <TextArea fx:id="mKBBuffer" editable="false" prefHeight="150.0" prefWidth="300.0" promptText="N/A" wrapText="true">
                                                     <font>
-                                                    <Font name="Consolas"
-                                                          size="13.0" />
+                                                    <Font name="Consolas" size="13.0" />
                                                 </font>
                                                 </TextArea>
                                              </children>
@@ -292,6 +313,9 @@
                                                          <HBox.margin>
                                                             <Insets left="20.0" />
                                                          </HBox.margin>
+                                                         <graphic>
+                                                            <FontAwesomeIconView fill="WHITE" glyphName="CHECK_CIRCLE" size="18" />
+                                                         </graphic>
                                                       </Button>
                                                    </children>
                                                 </HBox>

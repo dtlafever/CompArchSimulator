@@ -1,8 +1,9 @@
 package com.csci6461.team13.simulator.core;
 
-import java.util.ArrayList;
-import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.core.Cache.CacheLine;
+import com.csci6461.team13.simulator.util.Const;
+
+import java.util.ArrayList;
 
 /**
  * Memory Control Unit
@@ -13,7 +14,7 @@ import com.csci6461.team13.simulator.core.Cache.CacheLine;
  * 3 - Not Used
  * 4 - Store PC for Machine Fault
  * 5 - Not Used
- * */
+ */
 public class MCU {
     // 16 bit words, so be careful
     private ArrayList<Integer> memory = null;
@@ -47,8 +48,8 @@ public class MCU {
 
     /**
      * find a empty block, return the start address
-     * */
-    public int getBlockStart(int blockSize){
+     */
+    public int getBlockStart(int blockSize) {
         return 0;
     }
 
@@ -60,7 +61,7 @@ public class MCU {
     // setup a word in memory to a particular value
     public void storeWord(int addr, int value) {
         if (this.memory != null) {
-            if(addr >= this.memory.size()){
+            if (addr >= this.memory.size()) {
                 expandMemorySize();
             }
             this.memory.set(addr, value);
@@ -81,16 +82,16 @@ public class MCU {
         this.cache = new Cache();
     }
 
-    public Cache getCache(){
+    public Cache getCache() {
         return this.cache;
     }
 
     // Checks to see if the address exists in cache and if so, return the value.
     // Otherwise, fetch it from memory and store to cache.
-    public int getFromCache(int addr){
+    public int getFromCache(int addr) {
         // Let us first see if the block is already in cache
-        for (CacheLine line : cache.getCacheLines()){
-            if (addr == line.getAddr()){
+        for (CacheLine line : cache.getCacheLines()) {
+            if (addr == line.getAddr()) {
                 return line.getData();
             }
         }
@@ -102,12 +103,12 @@ public class MCU {
     }
 
     // store into cache and memory, replacing values in cache if they already exists.
-    public void storeToCache(int addr, int value){
+    public void storeToCache(int addr, int value) {
         storeWord(addr, value);
-        
+
         // check if block exists already
-        for (CacheLine line : cache.getCacheLines()){
-            if (addr == line.getAddr()){
+        for (CacheLine line : cache.getCacheLines()) {
+            if (addr == line.getAddr()) {
                 // We should replace the block
                 line.setData(value);
                 return;

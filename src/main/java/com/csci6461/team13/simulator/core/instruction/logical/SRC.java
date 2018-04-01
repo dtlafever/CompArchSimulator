@@ -1,13 +1,15 @@
 package com.csci6461.team13.simulator.core.instruction.logical;
 
-import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.CPU;
 import com.csci6461.team13.simulator.core.Registers;
+import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
-import com.csci6461.team13.simulator.util.CoreUtil;;
+import com.csci6461.team13.simulator.util.CoreUtil;
+
+;
 
 public class SRC extends Instruction {
-    
+
     // Shift Register by Count
     // NOTE: we have to do some finagling for this instruction for AL and LR
     @Override

@@ -10,7 +10,7 @@ public class HLT extends Instruction {
     @Override
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
-        registers.setPC(registers.getPC()-1);
+        registers.setPC(registers.getPC() - 1);
         return ExecutionResult.HALT;
     }
 }

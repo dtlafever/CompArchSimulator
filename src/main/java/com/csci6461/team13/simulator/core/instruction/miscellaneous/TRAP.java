@@ -1,16 +1,15 @@
 package com.csci6461.team13.simulator.core.instruction.miscellaneous;
 
 import com.csci6461.team13.simulator.core.CPU;
+import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.Registers;
 import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
-import com.csci6461.team13.simulator.util.MachineFaultException;
 import com.csci6461.team13.simulator.util.Const;
-import com.csci6461.team13.simulator.core.MCU;
+import com.csci6461.team13.simulator.util.MachineFaultException;
 
 public class TRAP extends Instruction {
 
-    
 
     @Override
     public ExecutionResult execute(CPU cpu) throws MachineFaultException {
@@ -18,7 +17,7 @@ public class TRAP extends Instruction {
         MCU mcu = cpu.getMcu();
         int trapCode = this.getAddress();
 
-        if(trapCode > 15 || trapCode < 0){
+        if (trapCode > 15 || trapCode < 0) {
             throw new MachineFaultException(Const.FaultCode.ILL_TRPC.getValue(), Const.FaultCode.ILL_TRPC.getMessage());
         }
 

@@ -60,7 +60,7 @@ public class CPU {
         int word = registers.getIR();
         //DECODE
         Instruction instruction = Instruction.build(word);
-        try{
+        try {
             if (instruction != null) {
                 //EXECUTE
                 executionResult = instruction.execute(this);
@@ -78,23 +78,23 @@ public class CPU {
     }
 
     private void handleMachineFault(int faultCode, String message) {
-		// when a machine fault occurs, we should save current values of PC and
-		// MSR into reserved locations in memory.
-		registers.setMAR(4);
-		registers.setMBR(registers.getPC());
-		mcu.storeToCache(registers.getMAR(), registers.getMBR());
+        // when a machine fault occurs, we should save current values of PC and
+        // MSR into reserved locations in memory.
+        registers.setMAR(4);
+        registers.setMBR(registers.getPC());
+        mcu.storeToCache(registers.getMAR(), registers.getMBR());
 
         // using location 5 (since it is not used)
-		registers.setMAR(5);
-		registers.setMBR(registers.getMSR());
-		mcu.storeToCache(registers.getMAR(), registers.getMBR()); 
+        registers.setMAR(5);
+        registers.setMBR(registers.getMSR());
+        mcu.storeToCache(registers.getMAR(), registers.getMBR());
 
-		registers.setMFR(faultCode);
+        registers.setMFR(faultCode);
 
-		// now we should fetch from location 1 into the PC
-		registers.setPC(mcu.getFromCache(1));
+        // now we should fetch from location 1 into the PC
+        registers.setPC(mcu.getFromCache(1));
 
-	}
+    }
 
     //----------------------
     //      GETTERS/SETTERS
