@@ -279,7 +279,7 @@ public class TestPrograms {
         one.putInitData(7, CHAR_0);
         one.putInitData(8, CHAR_EQUAL);
         // number storage start
-        one.putInitData(31, 500);
+        one.putInitData(26, 500);
         // 11 storage index
         // 12 write count
         // 13 return address for reader
