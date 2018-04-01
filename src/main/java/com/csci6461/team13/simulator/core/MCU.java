@@ -61,6 +61,9 @@ public class MCU {
     // setup a word in memory to a particular value
     public void storeWord(int addr, int value) {
         if (this.memory != null) {
+            if(addr >= this.memory.size()){
+                expandMemorySize();
+            }
             this.memory.set(addr, value);
         }
     }

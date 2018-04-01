@@ -43,7 +43,7 @@ public class TestPrograms {
     }
 
     static {
-        two.setDescription("");
+        two.setDescription("A program that reads a set of a paragraph of 6 sentences from a file into memory. It prints the sentences on the console printer. It then asks the user for a word. It searches the paragraph to see if it contains the word. If so, it prints out the word, the sentence number, and the word number in the sentence.");
         two.setInitAddrIndex(Const.PROG_INIT_STORAGE_ADDR);
         List<String> init = new ArrayList<>();
         List<String> loop = new ArrayList<>();
@@ -51,9 +51,13 @@ public class TestPrograms {
         List<String> wordReader = new ArrayList<>();
         List<String> comparator = new ArrayList<>();
         List<String> wordFinder = new ArrayList<>();
-        List<String> equalComparator = new ArrayList<>();
+        List<String> equal = new ArrayList<>();
         List<String> printer = new ArrayList<>();
         List<String> period = new ArrayList<>();
+        List<String> comma = new ArrayList<>();
+        List<String> blank = new ArrayList<>();
+        List<String> errorPrinter = new ArrayList<>();
+        List<String> skipper = new ArrayList<>();
 
         two.putInitData(30, PROGRAM_2_MAX);
         two.putInitData(6, WORD_SEPARATOR_BLANK);
@@ -61,8 +65,9 @@ public class TestPrograms {
         two.putInitData(8, WORD_SEPARATOR_COMMA);
         // storage start
         two.putInitData(31, 500);
-        // 6 word separator
+        // 6 blank separator
         // 7 sentence separator
+        // 8 comma separator
         // 10 current char, and word char address pointer for comparator
         // 11 storage pointer, current store address
         // 12 sentence count, a variable
@@ -78,9 +83,13 @@ public class TestPrograms {
         two.putInstructionList(20, wordReader);
         two.putInstructionList(21, wordFinder);
         two.putInstructionList(22, comparator);
-        two.putInstructionList(23, equalComparator);
+        two.putInstructionList(23, equal);
         two.putInstructionList(24, printer);
         two.putInstructionList(25, period);
+        two.putInstructionList(26, comma);
+        two.putInstructionList(27, blank);
+        two.putInstructionList(28, errorPrinter);
+        two.putInstructionList(29, skipper);
 
         // set return address of reader to loop start
         init.add("LDR 0,0,0,18");
@@ -119,7 +128,7 @@ public class TestPrograms {
         loop.add("LDR 0,0,0,15");
         loop.add("STR 0,0,0,10");
         // jump to word finder
-        loop.add("JMA 0,0,1,21");
+        loop.add("JMA 0,0,1,22");
 
         // reader, read a complete sentence
         sentenceReader.add("IN 0,0,0,2");
@@ -180,66 +189,73 @@ public class TestPrograms {
 
         // load next char in original word
         comparator.add("LDR 0,0,1,10");
-        // load next char in sentence word
-        comparator.add("LDR 1,0,1,11");
         // test equality
-        comparator.add("TRR 0,1,0,0");
-        // jump if equal
-        comparator.add("JCC 0,0,1,23");
+        comparator.add("SMR 0,0,1,11");
+        // jump to equal if equal
+        comparator.add("JZ 0,0,1,23");
+        // load next char in original word
+        comparator.add("LDR 0,0,1,11");
         // if c(r1) = '.', then this is both a word end and a sentence end
-        comparator.add("SMR 1,0,0,7");
-        // jump if equal
-        comparator.add("JZ 1,0,1,23");
+        comparator.add("SMR 0,0,0,7");
+        // jump to equal if equal
+        comparator.add("JZ 0,0,1,23");
         // load next char in sentence word
-        comparator.add("LDR 1,0,1,11");
+        comparator.add("LDR 0,0,1,11");
         // if c(r1) = ',', then this is both a word end and a sentence end
-        comparator.add("SMR 1,0,0,8");
-        // jump if equal
-        comparator.add("JZ 1,0,1,23");
+        comparator.add("SMR 0,0,0,8");
+        // jump to equal if equal
+        comparator.add("JZ 0,0,1,23");
         // not equal, to next word
-        // increase storage index by 1
-        comparator.add("LDR 0,0,0,11");
-        comparator.add("AIR 0,0,0,1");
-        comparator.add("STR 0,0,0,11");
         // reset word index to begin
         comparator.add("LDR 0,0,0,15");
         comparator.add("STR 0,0,0,10");
-        // find next word's begin address
-        comparator.add("JMA 0,0,1,21");
+        // to skipper
+        comparator.add("JMA 0,0,1,29");
 
+        // increase storage index by 1
+        wordFinder.add("LDR 0,0,0,11");
+        wordFinder.add("AIR 0,0,0,1");
+        wordFinder.add("STR 0,0,0,11");
         // check blank
         // load next char in storage
         wordFinder.add("LDR 0,0,1,11");
         // check if it's a blank space
         wordFinder.add("SMR 0,0,0,6");
         // jump if equal
-        wordFinder.add("JZ 0,0,1,25");
+        wordFinder.add("JZ 0,0,1,27");
         // check period
         // load next char in storage
-        wordFinder.add("LDR 1,0,1,11");
+        wordFinder.add("LDR 0,0,1,11");
         // check if it's a period
-        wordFinder.add("SMR 1,0,0,7");
+        wordFinder.add("SMR 0,0,0,7");
         // jump if equal
-        wordFinder.add("JZ 1,0,1,25");
+        wordFinder.add("JZ 0,0,1,25");
         // check comma
         // load next char in storage
-        wordFinder.add("LDR 2,0,1,11");
+        wordFinder.add("LDR 0,0,1,11");
         // check if it's a comma
-        wordFinder.add("SMR 2,0,0,8");
-        // jump if equal
-        wordFinder.add("JZ 2,0,1,25");
-        wordFinder.add("STR 0,0,0,11");
+        wordFinder.add("SMR 0,0,0,8");
+        // try next char
+        wordFinder.add("JZ 0,0,1,21");
+        // found one, return
         wordFinder.add("JMA 0,0,1,22");
 
-        // if the char is a word end
-        equalComparator.add("LDR 1,0,0,6");
-        equalComparator.add("TRR 0,1,0,0");
+        // check the original char is a blank
+        equal.add("LDR 0,0,1,10");
+        equal.add("SMR 0,0,0,6");
         // found one, jump to printer
-        equalComparator.add("JCC 0,0,1,24");
-        // else, find next word
-        equalComparator.add("LDA 0,0,0,15");
-        equalComparator.add("STR 0,0,0,10");
-        equalComparator.add("JMA 0,0,1,22");
+        equal.add("JZ 0,0,1,24");
+        // else, return to comparator
+        // increase storage index by 1
+        equal.add("LDR 0,0,0,11");
+        equal.add("AIR 0,0,0,1");
+        equal.add("STR 0,0,0,11");
+        // increase word char index by 1
+        equal.add("LDR 0,0,0,10");
+        equal.add("AIR 0,0,0,1");
+        equal.add("STR 0,0,0,10");
+        // return
+        equal.add("JMA 0,0,1,22");
 
         // increase sentence count by 1
         period.add("LDR 0,0,0,12");
@@ -247,22 +263,84 @@ public class TestPrograms {
         period.add("STR 0,0,0,12");
         // if sentence count reached max
         // to finish, found none
-        period.add("SMR 0,0,0,31");
-        period.add("JZ 0,0,1,24");
+        period.add("SMR 0,0,0,30");
+        period.add("JZ 0,0,1,28");
         // reset word count to 0
         period.add("LDA 0,0,0,0");
         period.add("STR 0,0,0,14");
-        // try next char
+        // increase storage index by 1
+        period.add("LDR 0,0,0,11");
+        period.add("AIR 0,0,0,1");
+        period.add("STR 0,0,0,11");
+        // skip if next char is blank
+        period.add("LDR 0,0,1,11");
+        period.add("SMR 0,0,0,6");
+        period.add("JZ 0,0,1,21");
+        // else reset to previous next char
+        period.add("LDR 0,0,0,11");
+        period.add("SIR 0,0,0,1");
+        period.add("STR 0,0,0,11");
         period.add("JMA 0,0,1,21");
+
+        // increase word count by 1
+        blank.add("LDR 0,0,0,14");
+        blank.add("AIR 0,0,0,1");
+        blank.add("STR 0,0,0,14");
+        blank.add("JMA 0,0,1,21");
 
         // print sentence count
         printer.add("LDR 0,0,0,12");
-        printer.add("OUT 0,0,0,1");
+        printer.add("AIR 0,0,0,1");
+        printer.add("STR 0,0,0,12");
+        printer.add("LDR 0,0,0,12");
+        printer.add("OUT 0,0,1,1");
         printer.add("LDR 0,0,0,8");
         printer.add("OUT 0,0,0,1");
         // print word count
         printer.add("LDR 0,0,0,14");
-        printer.add("OUT 0,0,0,1");
+        printer.add("AIR 0,0,0,1");
+        printer.add("STR 0,0,0,14");
+        printer.add("LDR 0,0,0,14");
+        printer.add("OUT 0,0,1,1");
+        printer.add("HLT 0,0,0,0");
+
+        // '0'
+        errorPrinter.add("LDA 0,0,0,0");
+        errorPrinter.add("OUT 0,0,1,1");
+        // ','
+        errorPrinter.add("LDR 0,0,0,8");
+        errorPrinter.add("OUT 0,0,0,1");
+        // '0'
+        errorPrinter.add("LDA 0,0,0,0");
+        errorPrinter.add("OUT 0,0,1,1");
+        errorPrinter.add("HLT 0,0,0,0");
+
+        // increase storage index by 1
+        skipper.add("LDR 0,0,0,11");
+        skipper.add("AIR 0,0,0,1");
+        skipper.add("STR 0,0,0,11");
+        // check blank
+        // load next char in storage
+        skipper.add("LDR 0,0,1,11");
+        // check if it's a blank space
+        skipper.add("SMR 0,0,0,6");
+        // jump if equal
+        skipper.add("JZ 0,0,1,27");
+        // check period
+        // load next char in storage
+        skipper.add("LDR 0,0,1,11");
+        // check if it's a period
+        skipper.add("SMR 0,0,0,7");
+        // jump if equal
+        skipper.add("JZ 0,0,1,25");
+        // check comma
+        // load next char in storage
+        skipper.add("LDR 0,0,1,11");
+        // check if it's a comma
+        skipper.add("SMR 0,0,0,8");
+        // try next char
+        skipper.add("JZ 0,0,1,21");
+        skipper.add("JMA 0,0,1,29");
     }
 
     static {
