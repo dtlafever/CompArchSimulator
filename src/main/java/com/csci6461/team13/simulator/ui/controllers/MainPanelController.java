@@ -44,6 +44,20 @@ public class MainPanelController {
     private static String REGISTER_PROPERTY_NAME = "regName";
     private MemControlController memControlController = null;
     private MainPanelHelper helper = null;
+    private static final FontAwesomeIconView runGraphic;
+    private static final FontAwesomeIconView debugGraphic;
+
+    static {
+
+        runGraphic = new FontAwesomeIconView
+                (FontAwesomeIcon.FAST_FORWARD, "18.0");
+        debugGraphic = new FontAwesomeIconView
+                (FontAwesomeIcon.STEP_FORWARD, "18.0");
+
+        runGraphic.setFill(Paint.valueOf("WHITE"));
+        debugGraphic.setFill(Paint.valueOf("WHITE"));
+    }
+
     /**
      * signals - states of different parts of simulator
      */
@@ -181,18 +195,10 @@ public class MainPanelController {
         mIpl.disableProperty().bind(signals.on);
         mOverview.disableProperty().bind(signals.on.not());
 
-        FontAwesomeIconView runGraphic = new FontAwesomeIconView
-                (FontAwesomeIcon.FAST_FORWARD, "18.0");
-        FontAwesomeIconView debugGraphic = new FontAwesomeIconView
-                (FontAwesomeIcon.STEP_FORWARD, "18.0");
-
-        runGraphic.setFill(Paint.valueOf("WHITE"));
-        debugGraphic.setFill(Paint.valueOf("WHITE"));
-
-        StringBinding modeText = Bindings.createStringBinding(() -> signals
-                .mode.get() ? "RUN" : "DEBUG", signals.mode);
+        StringBinding modeText = Bindings.createStringBinding(() ->
+                signals.mode.get() ? "RUN" : "DEBUG", signals.mode);
         Binding<FontAwesomeIconView> modeGraphicBinding = Bindings
-                .createObjectBinding(() -> signals.mode.get() ? runGraphic : debugGraphic, signals.mode);
+                .createObjectBinding(this::getModeIcon, signals.mode);
         mMode.textProperty().bind(modeText);
         mMode.graphicProperty().bind(modeGraphicBinding);
         mMode.disableProperty().bind(signals.loaded.not());
@@ -232,6 +238,10 @@ public class MainPanelController {
         initRegiseterProperties();
         initRegisterListeners();
         refreshRegisters(Simulator.getCpu().getRegisters());
+    }
+
+    private FontAwesomeIconView getModeIcon() {
+        return signals.mode.get() ? runGraphic: debugGraphic;
     }
 
     private void initCacheTable() {
