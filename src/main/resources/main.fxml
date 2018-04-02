@@ -78,7 +78,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <graphic>
-                        <FontAwesomeIconView fill="#fcf6f6" glyphName="UPLOAD" />
+                        <FontAwesomeIconView fill="#fcf6f6" glyphName="UPLOAD" size="18" />
                      </graphic>
                   </Button>
                   <Label text="New Program" />
@@ -316,6 +316,9 @@
                                                          <graphic>
                                                             <FontAwesomeIconView fill="WHITE" glyphName="CHECK_CIRCLE" size="18" />
                                                          </graphic>
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font>
                                                       </Button>
                                                    </children>
                                                 </HBox>

@@ -50,9 +50,12 @@ public class MainPanelController {
     static {
 
         runGraphic = new FontAwesomeIconView
-                (FontAwesomeIcon.FAST_FORWARD, "18.0");
+                (FontAwesomeIcon.FAST_FORWARD);
         debugGraphic = new FontAwesomeIconView
-                (FontAwesomeIcon.STEP_FORWARD, "18.0");
+                (FontAwesomeIcon.STEP_FORWARD);
+
+        runGraphic.setSize("18.0");
+        debugGraphic.setSize("18.0");
 
         runGraphic.setFill(Paint.valueOf("WHITE"));
         debugGraphic.setFill(Paint.valueOf("WHITE"));
