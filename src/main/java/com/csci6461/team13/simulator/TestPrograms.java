@@ -51,7 +51,6 @@ public final class TestPrograms {
         List<String> equal = new ArrayList<>();
         List<String> printer = new ArrayList<>();
         List<String> period = new ArrayList<>();
-        List<String> comma = new ArrayList<>();
         List<String> blank = new ArrayList<>();
         List<String> errorPrinter = new ArrayList<>();
         List<String> skipper = new ArrayList<>();
@@ -83,7 +82,6 @@ public final class TestPrograms {
         two.putModule(23, equal);
         two.putModule(24, printer);
         two.putModule(25, period);
-        two.putModule(26, comma);
         two.putModule(27, blank);
         two.putModule(28, errorPrinter);
         two.putModule(29, skipper);
