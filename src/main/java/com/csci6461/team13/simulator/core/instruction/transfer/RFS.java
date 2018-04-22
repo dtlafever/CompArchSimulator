@@ -14,10 +14,8 @@ public class RFS extends Instruction {
     @Override
     public ExecutionResult execute(CPU cpu) {
         Registers registers = cpu.getRegisters();
-        MCU mcu = cpu.getMcu();
         registers.setR0(this.getAddress());
         registers.setPC(registers.getR3());
-
         return ExecutionResult.CONTINUE;
     }
 }

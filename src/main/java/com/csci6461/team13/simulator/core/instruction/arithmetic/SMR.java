@@ -7,12 +7,13 @@ import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.CoreUtil;
+import com.csci6461.team13.simulator.util.MachineFaultException;
 
 public class SMR extends Instruction {
 
     // Subtract memory from register
     @Override
-    public ExecutionResult execute(CPU cpu) {
+    public ExecutionResult execute(CPU cpu) throws MachineFaultException {
         Registers registers = cpu.getRegisters();
         MCU mcu = cpu.getMcu();
         int max = CoreUtil.maxOfBits(Const.CPU_BIT_LENGTH);

@@ -4,6 +4,7 @@ import com.csci6461.team13.simulator.Simulator;
 import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.ui.basic.Signals;
 import com.csci6461.team13.simulator.ui.helpers.MemControlHelper;
+import com.csci6461.team13.simulator.util.MachineFaultException;
 import com.csci6461.team13.simulator.util.UIComponentUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -53,7 +54,11 @@ public class MemControlController {
             String memAddrStr = mcMemAddr.getText();
             if (!memAddrStr.isEmpty()) {
                 // flush current value
-                mcCval.setText(Integer.toString(mcu.getWord(Integer.valueOf(memAddrStr))));
+                try {
+                    mcCval.setText(Integer.toString(mcu.getWord(Integer.valueOf(memAddrStr))));
+                } catch (MachineFaultException e) {
+                    // skip
+                }
                 // new valid value
                 helper.memaddr.set(true);
             } else {
@@ -116,12 +121,16 @@ public class MemControlController {
             memAddr = Integer.valueOf(memAddrStr);
         }
 
-        Simulator.getCpu().getMcu().storeWord(memAddr, inst);
-        mcNval.clear();
-        helper.stored.set(true);
-        // flush new value signal to disable store button
-        helper.nval.set(false);
-        mcCval.setText(Integer.toString(Simulator.getCpu().getMcu().getWord(memAddr)));
+        try {
+            Simulator.getCpu().getMcu().storeWord(memAddr, inst);
+            mcNval.clear();
+            helper.stored.set(true);
+            // flush new value signal to disable store button
+            helper.nval.set(false);
+            mcCval.setText(Integer.toString(Simulator.getCpu().getMcu().getWord(memAddr)));
+        } catch (MachineFaultException e) {
+            // skip
+        }
     }
 
     // clear all values
