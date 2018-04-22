@@ -4,6 +4,7 @@ import com.csci6461.team13.simulator.core.MCU;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.CoreUtil;
+import com.csci6461.team13.simulator.util.MachineFaultException;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -68,7 +69,7 @@ public class Program {
     /**
      * store a program into mcu
      */
-    public static void storeToMemory(Program program, MCU mcu) {
+    public static void storeToMemory(Program program, MCU mcu) throws MachineFaultException {
         Map<Integer, Integer> initData = program.getInitialData();
         Map<Integer, List<String>> instLists = program.getModules();
 

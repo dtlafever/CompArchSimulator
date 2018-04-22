@@ -194,7 +194,7 @@ public abstract class Instruction {
     /**
      * get the effective address
      */
-    public int getEffectiveAddress(MCU mcu, Registers registers) {
+    public int getEffectiveAddress(MCU mcu, Registers registers) throws MachineFaultException {
         if (this.i == 0) {
             // NO indirect addressing
             if (this.ix == 0) {
@@ -230,6 +230,10 @@ public abstract class Instruction {
      * return execution result
      */
     public abstract ExecutionResult execute(CPU cpu) throws MachineFaultException;
+
+    public boolean mem(CPU cpu) throws MachineFaultException {
+        return true;
+    }
 
     public String getMessage() {
         return message;

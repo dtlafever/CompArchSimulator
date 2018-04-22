@@ -41,7 +41,6 @@ import java.util.function.IntSupplier;
 
 public class MainPanelController {
 
-    private static String REGISTER_PROPERTY_NAME = "regName";
     private MemControlController memControlController = null;
     private MainPanelHelper helper = null;
     private static final FontAwesomeIconView runGraphic;
@@ -49,6 +48,7 @@ public class MainPanelController {
 
     static {
 
+        // initialize mode icons
         runGraphic = new FontAwesomeIconView
                 (FontAwesomeIcon.FAST_FORWARD);
         debugGraphic = new FontAwesomeIconView
@@ -171,24 +171,6 @@ public class MainPanelController {
     @FXML
     private Button mCardReader;
 
-    // utility methods
-    private static void refreshText(Label label, IntSupplier function) {
-        label.setText(Integer.toString(function.getAsInt()));
-    }
-
-    private static void refreshText(TextField textField, IntSupplier function) {
-        textField.setText(Integer.toString(function.getAsInt()));
-    }
-
-    private static void addRegListener(TextField textField, IntConsumer consumer) {
-        textField.textProperty().addListener((observable, oldValue, newValue)
-                -> consumer.accept(Integer.valueOf(newValue)));
-    }
-
-    private static void putRegProperty(TextField textField, Register register) {
-        textField.getProperties().put(REGISTER_PROPERTY_NAME, register.name());
-    }
-
     @FXML
     void initialize() {
         helper = new MainPanelHelper();
@@ -244,7 +226,7 @@ public class MainPanelController {
     }
 
     private FontAwesomeIconView getModeIcon() {
-        return signals.mode.get() ? runGraphic: debugGraphic;
+        return signals.mode.get() ? runGraphic : debugGraphic;
     }
 
     private void initCacheTable() {
@@ -264,7 +246,6 @@ public class MainPanelController {
 
     @FXML
     void loadHandler(MouseEvent event) {
-        // enable keyboard for program 1
         Registers registers = Simulator.getCpu().getRegisters();
         MCU mcu = Simulator.getCpu().getMcu();
 
@@ -286,6 +267,9 @@ public class MainPanelController {
                 registers.setPC(mcu.getFromCache(program.getInitAddrIndex()));
             } catch (IOException | IllegalArgumentException e) {
                 updateHistory("Invalid Program");
+            } catch (MachineFaultException e) {
+                FXMLLoadResult result =  helper.showMachineFault(e.getFaultCode(), e.getMessage());
+                result.getStage().show();
             }
 
             refreshSimulator();
@@ -342,8 +326,12 @@ public class MainPanelController {
                     Platform.runLater(() -> {
                         ExecutionResult executionResult = ExecutionResult.CONTINUE;
                         while (executionResult.equals(ExecutionResult.CONTINUE)) {
-                            helper.fetch(Simulator.getCpu());
-                            executionResult = helper.execute(Simulator.getCpu());
+//                            helper.fetch(Simulator.getCpu());
+                            try {
+                                executionResult = helper.tick(Simulator.getCpu());
+                            } catch (MachineFaultException e) {
+                                e.printStackTrace();
+                            }
                             updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
                                     executionResult.getMessage());
                             if (executionResult.equals(ExecutionResult.RETRY)) {
@@ -398,8 +386,7 @@ public class MainPanelController {
     @FXML
     void registerHandler(MouseEvent event) {
         TextField register = (TextField) event.getSource();
-        toRegisterEdit(register, (String) register.getProperties().get
-                (REGISTER_PROPERTY_NAME));
+        toRegisterEdit(register);
     }
 
     private void addMemControlPanel() {
@@ -417,10 +404,8 @@ public class MainPanelController {
     /**
      * registerEditor is a Singleton object
      */
-    private void toRegisterEdit(TextField register, String name) {
-
-        FXMLLoadResult editorResult = helper.getRegisterEditor(register,
-                name);
+    private void toRegisterEdit(TextField register) {
+        FXMLLoadResult editorResult = helper.toRegisterEditor(register);
         Stage registerEditor = editorResult.getStage();
         RegisterEditPanelController controller = (RegisterEditPanelController) editorResult.getController();
         registerEditor.showAndWait();
@@ -428,8 +413,7 @@ public class MainPanelController {
     }
 
     private void toInstEdit() {
-        FXMLLoadResult editorResult = helper.getInstEditor(Simulator.getPrimaryStage(),
-                Modality.NONE);
+        FXMLLoadResult editorResult = helper.toInstEditor(Simulator.getPrimaryStage());
         Stage registerEditor = editorResult.getStage();
         InstEditController controller = (InstEditController) editorResult.getController();
         controller.reset();
@@ -548,6 +532,24 @@ public class MainPanelController {
     private void updateHistory(String line) {
         // update execution consoleOutput
         mHistory.appendText(String.format("[%s]\n", line));
+    }
+
+    // utility methods
+    private static void refreshText(Label label, IntSupplier function) {
+        label.setText(Integer.toString(function.getAsInt()));
+    }
+
+    private static void refreshText(TextField textField, IntSupplier function) {
+        textField.setText(Integer.toString(function.getAsInt()));
+    }
+
+    private static void addRegListener(TextField textField, IntConsumer consumer) {
+        textField.textProperty().addListener((observable, oldValue, newValue)
+                -> consumer.accept(Integer.valueOf(newValue)));
+    }
+
+    private static void putRegProperty(TextField textField, Register register) {
+        textField.getProperties().put(MainPanelHelper.REGISTER_PROPERTY_NAME, register.name());
     }
 
 }

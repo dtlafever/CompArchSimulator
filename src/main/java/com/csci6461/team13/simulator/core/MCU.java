@@ -2,6 +2,7 @@ package com.csci6461.team13.simulator.core;
 
 import com.csci6461.team13.simulator.core.Cache.CacheLine;
 import com.csci6461.team13.simulator.util.Const;
+import com.csci6461.team13.simulator.util.MachineFaultException;
 
 import java.util.ArrayList;
 
@@ -54,15 +55,21 @@ public class MCU {
     }
 
     // return the word from memory at a particular address
-    public int getWord(int addr) {
+    public int getWord(int addr) throws MachineFaultException {
+        if (addr >= this.memory.size()) {
+            throw new MachineFaultException(Const.FaultCode.ILL_MEM_BYD.getValue(), Const.FaultCode.ILL_MEM_BYD.getMessage());
+        }
         return this.memory.get(addr);
     }
 
     // setup a word in memory to a particular value
-    public void storeWord(int addr, int value) {
+    public void storeWord(int addr, int value) throws MachineFaultException {
         if (this.memory != null) {
             if (addr >= this.memory.size()) {
                 expandMemorySize();
+            }
+            if (addr >= this.memory.size()) {
+                throw new MachineFaultException(Const.FaultCode.ILL_MEM_BYD.getValue(), Const.FaultCode.ILL_MEM_BYD.getMessage());
             }
             this.memory.set(addr, value);
         }
@@ -88,7 +95,7 @@ public class MCU {
 
     // Checks to see if the address exists in cache and if so, return the value.
     // Otherwise, fetch it from memory and store to cache.
-    public int getFromCache(int addr) {
+    public int getFromCache(int addr) throws MachineFaultException {
         // Let us first see if the block is already in cache
         for (CacheLine line : cache.getCacheLines()) {
             if (addr == line.getAddr()) {
@@ -103,7 +110,7 @@ public class MCU {
     }
 
     // store into cache and memory, replacing values in cache if they already exists.
-    public void storeToCache(int addr, int value) {
+    public void storeToCache(int addr, int value) throws MachineFaultException {
         storeWord(addr, value);
 
         // check if block exists already

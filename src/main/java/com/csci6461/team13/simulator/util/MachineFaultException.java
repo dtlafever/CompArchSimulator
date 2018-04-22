@@ -2,8 +2,8 @@ package com.csci6461.team13.simulator.util;
 
 public class MachineFaultException extends Exception {
 
-    int faultCode;
-    String message;
+    private int faultCode;
+    private String message;
 
     public MachineFaultException(int faultCode, String message) {
         this.faultCode = faultCode;
