@@ -205,8 +205,10 @@ public abstract class Instruction {
         } else if (this.i == 1) {
             // indirect addressing, but NO indexing
             if (this.ix == 0) {
+                registers.setMAR(this.address);
                 return mcu.getWord(this.address);
             } else {
+                registers.setMAR(this.address + registers.getX(this.ix));
                 return mcu.getWord(this.address + registers.getX(this.ix));
             }
         }
