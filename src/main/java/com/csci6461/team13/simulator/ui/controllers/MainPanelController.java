@@ -330,6 +330,8 @@ public class MainPanelController {
                             try {
                                 executionResult = helper.tick(Simulator.getCpu());
                             } catch (MachineFaultException e) {
+                                executionResult = ExecutionResult.HALT;
+                                executionResult.setMessage(e.getMessage());
                                 e.printStackTrace();
                             }
                             updateHistory(helper.nextWord.get(), helper.nextAddr.get(),

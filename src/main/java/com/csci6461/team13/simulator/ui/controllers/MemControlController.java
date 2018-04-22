@@ -57,7 +57,7 @@ public class MemControlController {
                 try {
                     mcCval.setText(Integer.toString(mcu.getWord(Integer.valueOf(memAddrStr))));
                 } catch (MachineFaultException e) {
-                    e.printStackTrace();
+                    // skip
                 }
                 // new valid value
                 helper.memaddr.set(true);

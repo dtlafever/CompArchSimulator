@@ -56,7 +56,7 @@ public class CPU {
         Instruction instruction = EXs.poll();
         ExecutionResult executionResult = null;
         if(instruction != null){
-            //DECODE
+            // do memory access
             instruction.mem(this);
         }
 
@@ -69,9 +69,9 @@ public class CPU {
                 // move to next stage
                 EXs.offer(instruction);
             } catch (MachineFaultException t) {
-                executionResult = ExecutionResult.HALT;
                 // set machine fault code to register MFR
                 registers.MFR = t.getFaultCode();
+                throw t;
             }
         }
 

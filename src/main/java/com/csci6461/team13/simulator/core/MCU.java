@@ -43,7 +43,8 @@ public class MCU {
         if (this.memory != null) {
             return this.memory.size();
         } else {
-            return 0;
+            this.memory = new ArrayList<>();
+            return this.memory.size();
         }
     }
 
