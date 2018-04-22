@@ -9,6 +9,8 @@ public enum Register {
     MAR(16),
     MBR(16),
     MSR(16),
+    FR0(16),
+    FR1(16),
     CC(4),
     MFR(4),
     R0(16),

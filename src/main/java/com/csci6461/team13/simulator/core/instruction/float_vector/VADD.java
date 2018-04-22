@@ -7,12 +7,13 @@ import com.csci6461.team13.simulator.core.instruction.ExecutionResult;
 import com.csci6461.team13.simulator.core.instruction.Instruction;
 import com.csci6461.team13.simulator.util.Const;
 import com.csci6461.team13.simulator.util.CoreUtil;
+import com.csci6461.team13.simulator.util.MachineFaultException;
 import com.csci6461.team13.simulator.util.Register;
 
 public class VADD extends Instruction {
 
     @Override
-    public ExecutionResult execute(CPU cpu) {
+    public ExecutionResult execute(CPU cpu) throws MachineFaultException {
         Registers registers = cpu.getRegisters();
         MCU mcu = cpu.getMcu();
         int fr = getR();
@@ -52,7 +53,7 @@ public class VADD extends Instruction {
         return ExecutionResult.CONTINUE;
     }
 
-    public static int calculateEA(int ix, int address, int i, MCU mcu, Registers registers){
+    public static int calculateEA(int ix, int address, int i, MCU mcu, Registers registers) throws MachineFaultException {
 		if (i == 0) {
             // NO indirect addressing
             if (ix == 0) {

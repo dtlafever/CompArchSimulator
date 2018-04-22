@@ -134,7 +134,14 @@ public class MainPanelController {
     private TextField mMbr;
 
     @FXML
+    private TextField mFr0;
+
+    @FXML
+    private TextField mFr1;
+
+    @FXML
     private TextField mMsr;
+
     @FXML
     private Label mCc;
 
@@ -442,6 +449,8 @@ public class MainPanelController {
         addRegListener(mIr, regs::setIR);
         addRegListener(mMar, regs::setMAR);
         addRegListener(mMbr, regs::setMBR);
+        addRegListener(mFr0, regs::setFR0);
+        addRegListener(mFr1, regs::setFR1);
         addRegListener(mMsr, regs::setMSR);
         addRegListener(mR0, regs::setR0);
         addRegListener(mR1, regs::setR1);
@@ -459,6 +468,8 @@ public class MainPanelController {
         putRegProperty(mMar, Register.MAR);
         putRegProperty(mMbr, Register.MBR);
         putRegProperty(mMsr, Register.MSR);
+        putRegProperty(mFr0, Register.FR0);
+        putRegProperty(mFr1, Register.FR1);
         putRegProperty(mR0, Register.R0);
         putRegProperty(mR1, Register.R1);
         putRegProperty(mR2, Register.R2);
@@ -519,6 +530,8 @@ public class MainPanelController {
         refreshText(mMar, regs::getMAR);
         refreshText(mMbr, regs::getMBR);
         refreshText(mMsr, regs::getMSR);
+        refreshText(mFr0, regs::getFR0);
+        refreshText(mFr1, regs::getFR1);
         refreshText(mCc, regs::getCC);
         refreshText(mMfr, regs::getMFR);
         refreshText(mR0, regs::getR0);

@@ -479,6 +479,46 @@
                                                             <Insets bottom="5.0" top="5.0" />
                                                         </VBox.margin>
                                                     </HBox>
+                                          <HBox alignment="CENTER_LEFT" layoutX="21.0" layoutY="186.0">
+                                             <children>
+                                                <Label prefWidth="40.0" text="FR0">
+                                                   <HBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="mFr0" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font name="System Bold" size="13.0" />
+                                                   </font>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" layoutX="21.0" layoutY="221.0">
+                                             <children>
+                                                <Label prefWidth="40.0" text="FR1">
+                                                   <HBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="mFr1" alignment="CENTER" editable="false" onMouseClicked="#registerHandler" prefWidth="60.0" promptText="N/A" HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font name="System Bold" size="13.0" />
+                                                   </font>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
                                                     <HBox alignment="CENTER_LEFT">
                                                         <children>
                                                             <Label prefWidth="40.0" text="CC">
