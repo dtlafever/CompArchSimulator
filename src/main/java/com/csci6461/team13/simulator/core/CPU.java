@@ -97,17 +97,23 @@ public class CPU {
 
     /**
      * Decode the current instruction in IR and execute it.
+     *
+     * do both execute and mem stages in one cycle
      */
     public ExecutionResult decodeAndExecute() {
         ExecutionResult executionResult;
-        int word = registers.getIR();
         //DECODE
-        Instruction instruction = Instruction.build(word);
+        Instruction instruction = IFs.poll();
         try {
             if (instruction != null) {
                 //EXECUTE
                 executionResult = instruction.execute(this);
                 executionResult.setMessage(instruction.getMessage());
+                EXs.offer(instruction);
+                instruction = EXs.poll();
+                if(instruction != null){
+                    instruction.mem(this);
+                }
             } else {
                 // illegal instruction, throw illegal operation code machine fault
                 throw new MachineFaultException(Const.FaultCode.ILL_OPRC.getValue(), Const.FaultCode.ILL_OPRC.getMessage());

@@ -1,5 +1,5 @@
 group = "com.csci6461.team13"
-version = "0.3.1"
+version = "0.3.2"
 
 buildscript {
     repositories {
@@ -28,7 +28,6 @@ jar {
 
 
 dependencies {
-//    compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2'
     compile 'de.jensd:fontawesomefx:8.9'
     testCompile 'junit:junit:4.12'
 }

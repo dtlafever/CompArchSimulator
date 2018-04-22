@@ -29,7 +29,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -295,16 +294,19 @@ public class MainPanelController {
 
     @FXML
     void nextHandler(MouseEvent event) {
-        // execute one instruction under debug mode
-        ExecutionResult executionResult = helper.execute(Simulator.getCpu());
-        updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
-                executionResult.getMessage());
-        if (executionResult.equals(ExecutionResult.HALT)) {
-            // if there is no more instructions
-            // flush started signal
-            signals.started.set(false);
-        } else {
-            helper.fetch(Simulator.getCpu());
+        ExecutionResult executionResult = null;
+        try {
+            executionResult = helper.tick(Simulator.getCpu());
+            updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
+                    executionResult.getMessage());
+            if (executionResult.equals(ExecutionResult.HALT)) {
+                // if there is no more instructions
+                // flush started signal
+                signals.started.set(false);
+            }
+        } catch (MachineFaultException e) {
+            FXMLLoadResult result =  helper.showMachineFault(e.getFaultCode(), e.getMessage());
+            result.getStage().show();
         }
         refreshSimulator();
     }
@@ -320,19 +322,24 @@ public class MainPanelController {
                 // run program according to different modes
                 if (!signals.mode.get()) {
                     // debug mode
-                    helper.fetch(Simulator.getCpu());
+                    try {
+                        helper.tick(Simulator.getCpu());
+                    } catch (MachineFaultException e) {
+                        FXMLLoadResult result =  helper.showMachineFault(e.getFaultCode(), e.getMessage());
+                        result.getStage().show();
+                    }
                 } else {
                     // run mode
                     Platform.runLater(() -> {
                         ExecutionResult executionResult = ExecutionResult.CONTINUE;
                         while (executionResult.equals(ExecutionResult.CONTINUE)) {
-//                            helper.fetch(Simulator.getCpu());
                             try {
                                 executionResult = helper.tick(Simulator.getCpu());
                             } catch (MachineFaultException e) {
                                 executionResult = ExecutionResult.HALT;
                                 executionResult.setMessage(e.getMessage());
-                                e.printStackTrace();
+                                FXMLLoadResult result =  helper.showMachineFault(e.getFaultCode(), e.getMessage());
+                                result.getStage().show();
                             }
                             updateHistory(helper.nextWord.get(), helper.nextAddr.get(),
                                     executionResult.getMessage());

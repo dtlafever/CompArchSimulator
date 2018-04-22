@@ -74,7 +74,6 @@ public class MainPanelHelper {
         nextWord.set(word);
         nextAddr.set(addr);
         executedInstCount++;
-        exec.set("");
         // finishing current execution cycle
         return executionResult;
     }
