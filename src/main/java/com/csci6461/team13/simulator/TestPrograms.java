@@ -38,6 +38,48 @@ public final class TestPrograms {
 
     private static final Program one = new Program();
     private static final Program two = new Program();
+    private static final Program three = new Program();
+
+    static{
+        three.setDescription("A program for testing Vector Addition");
+        three.setInitAddrIndex(Const.PROG_ADDR_POINTER);
+        List<String> fun = new ArrayList<>();
+        
+        //the first vector
+        three.putInitData(100, 1);
+		three.putInitData(101, 2);
+		three.putInitData(102, 3);
+
+        //the second vector
+        three.putInitData(200, 80);
+		three.putInitData(201, 100);
+		three.putInitData(202, 120);
+        
+        three.putInitData(28, 200);
+		three.putInitData(27, 100);
+		three.putInitData(26, 101);
+		three.putInitData(25, 102);
+		three.putInitData(31, 10100000);
+		three.putInitData(30, 11);
+		three.putInitData(29, 10);
+		three.putInitData(24, 1);
+		three.putInitData(23, 0);
+        three.putInitData(22, 3);
+        
+        two.putModule(Const.PROG_ADDR_POINTER, fun);
+
+        fun.add("VADD 1,0,1,27");
+        fun.add("FSUB 0,0,0,29");
+        fun.add("LDFR 0,0,0,30");
+        fun.add("FADD 0,0,0,29");
+        fun.add("STFR 0,0,0,30");
+        fun.add("LDR 0,0,0,24");
+        fun.add("CNVRT 0,0,0,30");
+        fun.add("LDR 0,0,0,23");
+        fun.add("CNVRT 0,0,0,22");
+
+    }
+
 
     static {
         two.setDescription("A program that reads a set of a paragraph of 6 sentences from a file into memory. It prints the sentences on the console printer. It then asks the user for a word. It searches the paragraph to see if it contains the word. If so, it prints out the word, the sentence number, and the word number in the sentence.");

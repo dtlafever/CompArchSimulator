@@ -8,6 +8,7 @@ import com.csci6461.team13.simulator.core.instruction.logical.*;
 import com.csci6461.team13.simulator.core.instruction.miscellaneous.HLT;
 import com.csci6461.team13.simulator.core.instruction.miscellaneous.TRAP;
 import com.csci6461.team13.simulator.core.instruction.transfer.*;
+import com.csci6461.team13.simulator.core.instruction.float_vector.*;
 
 public enum Inst {
 
@@ -21,6 +22,14 @@ public enum Inst {
     INST_LDA(3, "LDA", LDA.class),
     INST_LDX(41, "LDX", LDX.class),
     INST_STX(42, "STX", STX.class),
+
+    INST_CNVRT(37, "CNVRT", CNVRT.class),
+    INST_FADD(33, "FADD", FADD.class),
+    INST_FSUB(34, "FSUB", FSUB.class),
+    INST_VADD(35, "VADD", VADD.class),
+    INST_VSUB(36, "VSUB", VSUB.class),
+    INST_LDFR(50, "LDFR", LDFR.class),
+    INST_STFR(51, "STFR", STFR.class),
 
     // IO
     INST_IN(61, "IN", IN.class),
