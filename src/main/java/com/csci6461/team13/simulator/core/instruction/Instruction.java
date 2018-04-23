@@ -55,7 +55,7 @@ public abstract class Instruction {
      * example: LDR 3,1,1,31
      */
     public static Instruction build(String line) {
-        Pattern pattern = Pattern.compile("^(\\w{2,4})\\s(\\d)," +
+        Pattern pattern = Pattern.compile("^(\\w{2,5})\\s(\\d)," +
                 "(\\d),([01]),(\\d{1,2})$");
         Matcher matcher = pattern.matcher(line);
         if (matcher.matches()) {

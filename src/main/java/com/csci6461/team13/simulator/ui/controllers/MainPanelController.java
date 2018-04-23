@@ -377,6 +377,7 @@ public class MainPanelController {
     @FXML
     void exportHandler(MouseEvent event) {
         ProgramUtil.exportToDesktop();
+        updateHistory("Successfully Exported");
     }
 
     @FXML

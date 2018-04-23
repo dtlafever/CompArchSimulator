@@ -70,8 +70,6 @@ public final class TestPrograms {
 		THREE.putInitData(23, 0);
         THREE.putInitData(22, 3);
         
-        THREE.putModule(Const.PROG_ADDR_POINTER, fun);
-
         fun.add("VADD 1,0,1,27");
         fun.add("FSUB 0,0,0,29");
         fun.add("LDFR 0,0,0,30");
@@ -81,28 +79,6 @@ public final class TestPrograms {
         fun.add("CNVRT 0,0,0,30");
         fun.add("LDR 0,0,0,23");
         fun.add("CNVRT 0,0,0,22");
-
-    }
-
-<<<<<<< HEAD
-=======
-=======
-    private static final Program ONE = new Program();
-    private static final Program TWO = new Program();
-    private static final Program THREE = new Program();
->>>>>>> 902b673c11e5138e7ad5a654118537c9665931db
-
-    static {
-        THREE.setDescription("A program for testing floating point and vector operation instructions");
-        THREE.setInitAddrIndex(Const.PROG_ADDR_POINTER);
-        List<String> init = new ArrayList<>();
-
-        THREE.putModule(Const.PROG_ADDR_POINTER, init);
-
-        // init module
-        
-
->>>>>>> 6587bda29c59eb23b90ae8f9970d8e618064b9f3
     }
 
     static {
