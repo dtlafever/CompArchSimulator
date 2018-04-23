@@ -53,6 +53,7 @@ public class ProgramUtil {
     public static void exportToDesktop() {
         Program programOne = TestPrograms.getOne();
         Program programTwo = TestPrograms.getTwo();
+        Program programThree = TestPrograms.getThree();
         try {
             String userHome = System.getProperty("user.home");
             String targetFolder = String.format("%s%s", userHome, "/Desktop/progs");
@@ -62,6 +63,7 @@ public class ProgramUtil {
             }
             String onePath = String.format("%s%s", targetFolder, "/one");
             String twoPath = String.format("%s%s", targetFolder, "/two");
+            String threePath = String.format("%s%s", targetFolder, "/three");
             String twoParaPath = String.format("%s%s", targetFolder,
                     "/paragraph");
             Files.write(Paths.get(onePath + ".bin"), programOne.getBinaryFormat());
@@ -69,6 +71,8 @@ public class ProgramUtil {
             Files.write(Paths.get(twoPath + ".bin"), programTwo.getBinaryFormat());
             Files.write(Paths.get(twoPath + ".txt"), programTwo.getBinaryTextFormat());
             Files.write(Paths.get(twoParaPath + ".txt"), Const.PROG_2_PARAGRAPH.getBytes());
+            Files.write(Paths.get(threePath + ".bin"), programThree.getBinaryFormat());
+            Files.write(Paths.get(threePath + ".txt"), programThree.getBinaryTextFormat());
         } catch (IOException e) {
             e.printStackTrace();
         }
