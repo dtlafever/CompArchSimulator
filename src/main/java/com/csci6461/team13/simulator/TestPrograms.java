@@ -11,7 +11,7 @@ import java.util.List;
  * <p>
  * TestPrograms for test purpose only
  * <p>
- * this file contains two programs that will be used for developing and
+ * this file contains TWO programs that will be used for developing and
  * testing programs, and then you can generate binary format of these programs
  * <p>
  * Note: initial data can only be stored in addresses under 32, any address above
@@ -36,6 +36,7 @@ public final class TestPrograms {
     private static final int CHAR_0 = 48;
     private static final int CHAR_EQUAL = 61;
 
+<<<<<<< HEAD
     private static final Program one = new Program();
     private static final Program two = new Program();
     private static final Program three = new Program();
@@ -80,10 +81,26 @@ public final class TestPrograms {
 
     }
 
+=======
+    private static final Program ONE = new Program();
+    private static final Program TWO = new Program();
+    private static final Program THREE = new Program();
+>>>>>>> 902b673c11e5138e7ad5a654118537c9665931db
 
     static {
-        two.setDescription("A program that reads a set of a paragraph of 6 sentences from a file into memory. It prints the sentences on the console printer. It then asks the user for a word. It searches the paragraph to see if it contains the word. If so, it prints out the word, the sentence number, and the word number in the sentence.");
-        two.setInitAddrIndex(Const.PROG_ADDR_POINTER);
+        THREE.setDescription("A program for testing floating point and vector operation instructions");
+        THREE.setInitAddrIndex(Const.PROG_ADDR_POINTER);
+        List<String> init = new ArrayList<>();
+
+        THREE.putModule(Const.PROG_ADDR_POINTER, init);
+
+        // init module
+
+    }
+
+    static {
+        TWO.setDescription("A program that reads a set of a paragraph of 6 sentences from a file into memory. It prints the sentences on the console printer. It then asks the user for a word. It searches the paragraph to see if it contains the word. If so, it prints out the word, the sentence number, and the word number in the sentence.");
+        TWO.setInitAddrIndex(Const.PROG_ADDR_POINTER);
         List<String> init = new ArrayList<>();
         List<String> loop = new ArrayList<>();
         List<String> sentenceReader = new ArrayList<>();
@@ -97,12 +114,12 @@ public final class TestPrograms {
         List<String> errorPrinter = new ArrayList<>();
         List<String> skipper = new ArrayList<>();
 
-        two.putInitData(30, PROGRAM_2_MAX);
-        two.putInitData(6, WORD_SEPARATOR_BLANK);
-        two.putInitData(7, PROGRAM_2_SEN_SEPARATOR);
-        two.putInitData(8, WORD_SEPARATOR_COMMA);
+        TWO.putInitData(30, PROGRAM_2_MAX);
+        TWO.putInitData(6, WORD_SEPARATOR_BLANK);
+        TWO.putInitData(7, PROGRAM_2_SEN_SEPARATOR);
+        TWO.putInitData(8, WORD_SEPARATOR_COMMA);
         // storage start
-        two.putInitData(31, 500);
+        TWO.putInitData(31, 500);
         // 6 blank separator
         // 7 sentence separator
         // 8 comma separator
@@ -115,18 +132,18 @@ public final class TestPrograms {
         // 30 max sentence count, a constant
         // 31 storage begin address constant
 
-        two.putModule(Const.PROG_ADDR_POINTER, init);
-        two.putModule(18, loop);
-        two.putModule(19, sentenceReader);
-        two.putModule(20, wordReader);
-        two.putModule(21, wordFinder);
-        two.putModule(22, comparator);
-        two.putModule(23, equal);
-        two.putModule(24, printer);
-        two.putModule(25, period);
-        two.putModule(27, blank);
-        two.putModule(28, errorPrinter);
-        two.putModule(29, skipper);
+        TWO.putModule(Const.PROG_ADDR_POINTER, init);
+        TWO.putModule(18, loop);
+        TWO.putModule(19, sentenceReader);
+        TWO.putModule(20, wordReader);
+        TWO.putModule(21, wordFinder);
+        TWO.putModule(22, comparator);
+        TWO.putModule(23, equal);
+        TWO.putModule(24, printer);
+        TWO.putModule(25, period);
+        TWO.putModule(27, blank);
+        TWO.putModule(28, errorPrinter);
+        TWO.putModule(29, skipper);
 
         // set return address of reader to loop start
         init.add("LDR 0,0,0,18");
@@ -148,7 +165,7 @@ public final class TestPrograms {
         // store the word address to 15
         loop.add("LDR 0,0,0,11");
         loop.add("STR 0,0,0,15");
-        // read one word
+        // read ONE word
         loop.add("JSR 0,0,1,20");
         // reset sentence count to 0
         loop.add("LDA 0,0,0,0");
@@ -274,13 +291,13 @@ public final class TestPrograms {
         wordFinder.add("SMR 0,0,0,8");
         // try next char
         wordFinder.add("JZ 0,0,1,21");
-        // found one, return
+        // found ONE, return
         wordFinder.add("JMA 0,0,1,22");
 
         // check the original char is a blank
         equal.add("LDR 0,0,1,10");
         equal.add("SMR 0,0,0,6");
-        // found one, jump to printer
+        // found ONE, jump to printer
         equal.add("JZ 0,0,1,24");
         // else, return to comparator
         // increase storage index by 1
@@ -381,20 +398,19 @@ public final class TestPrograms {
     }
 
     static {
-
-        one.setDescription("Read 21 numbers from keyboard, compare the last " +
-                "one with previous 20 numbers, print the number closest the " +
+        ONE.setDescription("Read 21 numbers from keyboard, compare the last " +
+                "ONE with previous 20 numbers, print the number closest the " +
                 "value of the last number. Input numbers are separated with " +
-                "one ' '(space)");
+                "ONE ' '(space)");
 
         // max count
-        one.putInitData(30, PROGRAM_1_MAX);
+        ONE.putInitData(30, PROGRAM_1_MAX);
         // ' '
-        one.putInitData(17, PROGRAM_1_SEPARATOR);
-        one.putInitData(7, CHAR_0);
-        one.putInitData(8, CHAR_EQUAL);
+        ONE.putInitData(17, PROGRAM_1_SEPARATOR);
+        ONE.putInitData(7, CHAR_0);
+        ONE.putInitData(8, CHAR_EQUAL);
         // number storage start
-        one.putInitData(26, 500);
+        ONE.putInitData(26, 500);
         // 11 storage index
         // 12 write count
         // 13 return address for reader
@@ -410,18 +426,18 @@ public final class TestPrograms {
         List<String> replace = new ArrayList<>();
         List<String> printer = new ArrayList<>();
 
-        one.putModule(Const.PROG_ADDR_POINTER, init);
-        one.putModule(18, loop);
-        one.putModule(19, reader);
-        one.putModule(27, assembler);
-        one.putModule(25, comparator);
-        one.putModule(29, replace);
-        one.putModule(28, printer);
+        ONE.putModule(Const.PROG_ADDR_POINTER, init);
+        ONE.putModule(18, loop);
+        ONE.putModule(19, reader);
+        ONE.putModule(27, assembler);
+        ONE.putModule(25, comparator);
+        ONE.putModule(29, replace);
+        ONE.putModule(28, printer);
 
         // set return address of reader to loop start
         init.add("LDR 0,0,0,18");
         init.add("STR 0,0,0,13");
-        // add one more to max
+        // add ONE more to max
         init.add("LDR 0,0,0,30");
         init.add("AIR 0,0,0,1");
         init.add("STR 0,0,0,30");
@@ -436,10 +452,10 @@ public final class TestPrograms {
         // not zero, jump to reader
         loop.add("JNE 0,0,1,19");
         // count reached max
-        // put last one into 14
+        // put last ONE into 14
         loop.add("LDR 0,0,1,11");
         loop.add("STR 0,0,0,14");
-        // decrease storage index by one
+        // decrease storage index by ONE
         loop.add("LDR 0,0,0,11");
         loop.add("SIR 0,0,0,1");
         loop.add("STR 0,0,0,11");
@@ -498,7 +514,7 @@ public final class TestPrograms {
         comparator.add("SMR 0,0,0,26");
         // if zero, jump to printer
         comparator.add("JZ 0,0,1,28");
-        // decrease number storage index by one
+        // decrease number storage index by ONE
         comparator.add("LDR 0,0,0,11");
         comparator.add("SIR 0,0,0,1");
         comparator.add("STR 0,0,0,11");
@@ -534,18 +550,21 @@ public final class TestPrograms {
         // print the final number as integer
         printer.add("OUT 0,0,1,1");
         printer.add("HLT 0,0,0,0");
-
     }
 
     private TestPrograms() {
     }
 
     public static Program getOne() {
-        return one;
+        return ONE;
     }
 
     public static Program getTwo() {
-        return two;
+        return TWO;
+    }
+
+    public static Program getThree() {
+        return THREE;
     }
 
 }
